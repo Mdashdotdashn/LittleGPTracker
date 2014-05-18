@@ -13,7 +13,9 @@ GP2XAudio::~GP2XAudio()
 void GP2XAudio::Init() 
 {
 	AudioSettings settings ;
+  Trace::Log("RANDOM", "Creating audio driver");
      GP2XAudioDriver *drv=new GP2XAudioDriver(settings) ;
+  Trace::Log("RANDOM", "Creating audio out");
      AudioOutDriver *out=new AudioOutDriver(*drv) ;
      Insert(out) ;
 }

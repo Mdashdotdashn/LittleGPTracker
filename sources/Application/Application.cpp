@@ -40,18 +40,28 @@ void Application::initMidiInput()
   }
 }
 
-bool Application::Init(GUICreateWindowParams &params) {
+bool Application::Init(GUICreateWindowParams &params) 
+{
+  Trace::Log("RANDOM", "reading root");
+  
 	const char* root=Config::GetInstance()->GetValue("ROOTFOLDER") ;
 	if (root) {
 		Path::SetAlias("root",root) ;
 	} ;
+  Trace::Log("RANDOM", "creating window");
 	window_=AppWindow::Create(params) ;
+  Trace::Log("RANDOM", "init persistency");
 	PersistencyService::GetInstance() ;
+  Trace::Log("RANDOM", "init audio");  
   Audio *audio=Audio::GetInstance() ;
   audio->Init() ;
+  Trace::Log("RANDOM", "init command dispatcher");
 	CommandDispatcher::GetInstance()->Init() ;
+  Trace::Log("RANDOM", "init midi input");
   initMidiInput();
+  Trace::Log("RANDOM", "init mapping");
 	ControlRoom::GetInstance()->LoadMapping("bin:mapping.xml") ;
+  Trace::Log("RANDOM", "init done");
 	return true ;
 } ;
 

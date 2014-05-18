@@ -98,17 +98,22 @@ GP2XAudioDriver::GP2XAudioDriver(AudioSettings &settings):AudioDriver(settings) 
 
   Config *config=Config::GetInstance() ;
     
+   Trace::Log("RANDOM", "reading audio config/mixer");
+   
   const char *dspDevice=config->GetValue("GP2X_DSP") ;
   const char *mixDevice=config->GetValue("GP2X_MIXER") ;
 
   if (dspDevice==0) dspDevice="/dev/dsp" ;
   if (mixDevice==0) mixDevice="/dev/mixer" ;
   
+   Trace::Log("RANDOM", "opening gp2x audio devices");
   gp2x_dev[DEV_DSP] = open(dspDevice,   O_WRONLY );
   gp2x_dev[DEV_MIXER] = open(mixDevice, O_RDWR);
   gp2x_exit=0 ;
 
   //set sound
+
+   Trace::Log("RANDOM", "setting audio properties");
 
   int rate=44100 ;
   int bits=16 ;
@@ -125,10 +130,12 @@ GP2XAudioDriver::GP2XAudioDriver(AudioSettings &settings):AudioDriver(settings) 
   ioctl(gp2x_dev[DEV_DSP], SNDCTL_DSP_GETOSPACE, &abi);
   fragSize_=abi.fragsize ;
 
-  printf("Using frag size=%d",fragSize_) ;
+  Trace::Log("RANDOM", "Using frag size=%d",fragSize_) ;
 	
+  Trace::Log("RANDOM", "creating engine thread") ;
   pthread_create( &gp2x_engine_thread, NULL, gp2x_engine_loop, this);
  
+  Trace::Log("RANDOM", "creating sound thread") ;
   pthread_create( &gp2x_sound_thread, NULL, gp2x_sound_play, this);
 
 }
@@ -143,9 +150,12 @@ GP2XAudioDriver::~GP2XAudioDriver() {
 
 bool GP2XAudioDriver::InitDriver() {
 
+  Trace::Log("RANDOM", "creating audio buffers") ;
+
    unalignedMain_=(char *)SYS_MALLOC(fragSize_+SOUND_BUFFER_MAX) ;
    mainBuffer_=(char *)((((int)unalignedMain_)+1)&(0xFFFFFFFC)) ;
 
+  Trace::Log("RANDOM", "setting volume") ;
    volume_=65;
    Config *config=Config::GetInstance() ;
    const char *volume=config->GetValue("VOLUME") ;
@@ -183,6 +193,8 @@ void GP2XAudioDriver::CloseDriver() {
 
 bool GP2XAudioDriver::StartDriver() {
  
+   Trace::Log("RANDOM", "driver start") ;
+
   isPlaying_=true ;
   
   short blank[1000] ;
