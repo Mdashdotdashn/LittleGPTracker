@@ -350,13 +350,13 @@ void SongView::cutSelection() {
 
 void SongView::unMuteAll() {
 
-	UIController *controller=UIController::GetInstance() ;
+	UIController *controller=UIController::Instance() ;
 	controller->UnMuteAll() ;
 } ;
 
 void SongView::toggleMute() {
 
-	UIController *controller=UIController::GetInstance() ;
+	UIController *controller=UIController::Instance() ;
 
 	int from=viewData_->songX_ ;
 	int to=from ;
@@ -371,7 +371,7 @@ void SongView::toggleMute() {
 
 void SongView::switchSoloMode() {
 
-	UIController *controller=UIController::GetInstance() ;
+	UIController *controller=UIController::Instance() ;
 	int from=viewData_->songX_ ;
 	int to=from ;
 	if (clipboard_.active_) {
@@ -385,7 +385,7 @@ void SongView::switchSoloMode() {
 } ;
 
 void SongView::onStart() {
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 	unsigned char from=viewData_->songX_ ;
 	unsigned char to=from ;
 	if (clipboard_.active_) {
@@ -397,13 +397,13 @@ void SongView::onStart() {
 } ;
 
 void SongView::startCurrentRow() {
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
    player->SetSequencerMode(SM_LIVE) ;
 	player->OnSongStartButton(0,7,false,false) ;
 }
 
 void SongView::startImmediate() {
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 
 	unsigned char from=viewData_->songX_ ;
 	unsigned char to=from ;	
@@ -411,7 +411,7 @@ void SongView::startImmediate() {
 }
 
 void SongView::onStop() {
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 	unsigned char from=viewData_->songX_ ;
 	unsigned char to=from ;
 	if (clipboard_.active_) {
@@ -549,7 +549,7 @@ void SongView::processNormalButtonMask(unsigned int mask) {
 		if (mask&EPBM_DOWN) updateSongOffset(View::songRowCount_) ;
 		if (mask&EPBM_UP) updateSongOffset(-View::songRowCount_);
 		if (mask&(EPBM_RIGHT|EPBM_LEFT)) {
-		   Player *player=Player::GetInstance() ;
+		   Player *player=Player::Instance() ;
            switch(player->GetSequencerMode()) {
               case SM_SONG:
 				   player->SetSequencerMode(SM_LIVE) ;
@@ -772,7 +772,7 @@ void SongView::DrawView() {
 
 	SetColor(CD_NORMAL) ;
 
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 	
 	std::ostringstream os;
 
@@ -876,10 +876,10 @@ void SongView::DrawView() {
  
 void SongView::OnPlayerUpdate(PlayerEventType eventType,unsigned int tick) {
 
-	SyncMaster *sync=SyncMaster::GetInstance() ;
+	SyncMaster *sync=SyncMaster::Instance() ;
 	if ((eventType==PET_UPDATE)&&(!sync->MajorSlice())) return ;
 
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 
 	GUIPoint anchor=GetAnchor() ;
 	GUIPoint pos=anchor ;
@@ -969,7 +969,7 @@ void SongView::OnPlayerUpdate(PlayerEventType eventType,unsigned int tick) {
 	sprintf(strbuffer,"%3.3d%%",player->GetPlayedBufferPercentage()) ; 
 	DrawString(pos._x,pos._y,strbuffer,props) ;
 
-    System *sys=System::GetInstance() ;
+    System *sys=System::Instance() ;
     int batt=sys->GetBatteryLevel() ;
     if (batt>=0) {
 		if (batt<90) {

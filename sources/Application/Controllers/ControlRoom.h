@@ -2,7 +2,7 @@
 #ifndef _CONTROLROOM_H_
 #define _CONTROLROOM_H_
 
-#include "Foundation/T_Singleton.h"
+#include "Framework/Instances/T_Singleton.h"
 #include "Services/Controllers/ControlNode.h"
 
 

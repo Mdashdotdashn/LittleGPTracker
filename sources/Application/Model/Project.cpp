@@ -44,9 +44,9 @@ tempoNudge_(0)
 
 	// Makes sure the tables exists for restoring
 
-	TableHolder::GetInstance() ;
+	TableHolder::Instance() ;
 
-	Groove::GetInstance()->Clear() ;
+	Groove::Instance()->Clear() ;
 
 	tempoTapCount_=0 ;
 
@@ -112,13 +112,13 @@ InstrumentBank* Project::GetInstrumentBank() {
 //	return v->GetBool() ;
 //}
 
-void Project::Update(Observable &o,I_ObservableData *d) {
+void Project::ObserverUpdate(Observable &o,ObservableData *d) {
 	WatchedVariable &v=(WatchedVariable &)o ;
 	switch(v.GetID()) {
 		case VAR_MIDIDEVICE:
-			MidiService::GetInstance()->SelectDevice(std::string(v.GetString())) ;
+			MidiService::Instance()->SelectDevice(std::string(v.GetString())) ;
  /*           bool enabled=v.GetBool() ;
-            Midi *midi=Midi::GetInstance() ;
+            Midi *midi=Midi::Instance() ;
             if (enabled) {
                 midi->Init() ;
             } else {
@@ -246,7 +246,7 @@ void Project::PurgeInstruments(bool removeFromDisk) {
 		// Now effectively purge all unused sample from disk
 
 		int purged=0 ;
-		SamplePool *sp=SamplePool::GetInstance() ;
+		SamplePool *sp=SamplePool::Instance() ;
 		for (int i=0;i<MAX_PIG_SAMPLES;i++) {
 			if ((!iUsed[i])&&(sp->GetSource(i-purged))) {
 				sp->PurgeSample(i-purged) ;
@@ -274,7 +274,7 @@ void Project::RestoreContent(TiXmlElement *element) {
 	if (!element->Attribute("TABLERATIO",&tableRatio)) {
 		tableRatio=(doc->version_<=32)?2:1 ;
 	}
-	SyncMaster::GetInstance()->SetTableRatio(tableRatio) ;
+	SyncMaster::Instance()->SetTableRatio(tableRatio) ;
 
 	// Now loop on all variables
 
@@ -300,7 +300,7 @@ void Project::SaveContent(TiXmlNode *node) {
 
 	// store table ratio if not one
 
-	int tableRatio=SyncMaster::GetInstance()->GetTableRatio() ;
+	int tableRatio=SyncMaster::Instance()->GetTableRatio() ;
 	if (tableRatio!=1) {
 		element->SetAttribute("TABLERATIO",tableRatio) ;
 	}
@@ -322,13 +322,13 @@ void Project::LoadFirstGen(const char *root) {
 	char filename[1024] ;
 	sprintf(filename,"%s/lgptsav.dat",root) ;
 
-	FileSystem *fs=FileSystem::GetInstance() ;
+	FileSystem *fs=FileSystem::Instance() ;
 	I_File *file=fs->Open(filename,"r") ;
 
 	if (file) {
 		// Read file
 		int tempo ;
-		SyncMaster::GetInstance()->SetTableRatio(2) ;
+		SyncMaster::Instance()->SetTableRatio(2) ;
 		file->Read(&tempo,sizeof(int),1) ;
 		Variable *v=FindVariable(VAR_TEMPO) ;
 		v->SetInt(tempo);
@@ -429,9 +429,9 @@ void Project::buildMidiDeviceList() {
 		}
 		SAFE_FREE(midiDeviceList_) ;
 	} 
-	midiDeviceListSize_=MidiService::GetInstance()->Size() ;
+	midiDeviceListSize_=MidiService::Instance()->Size() ;
 	midiDeviceList_=(char **)SYS_MALLOC(midiDeviceListSize_*sizeof(char *)) ;
-	IteratorPtr<MidiOutDevice> it(MidiService::GetInstance()->GetIterator()) ;
+	IteratorPtr<MidiOutDevice> it(MidiService::Instance()->GetIterator()) ;
 	it->Begin() ;
 	for (int i=0;i<midiDeviceListSize_;i++) {
 		std::string deviceName=it->CurrentItem().GetName() ;
@@ -443,7 +443,7 @@ void Project::buildMidiDeviceList() {
 
 void Project::OnTempoTap() {
 
-	unsigned long now=System::GetInstance()->GetClock() ;
+	unsigned long now=System::Instance()->GetClock() ;
 
   if (tempoTapCount_!=0) {
 		// count last tick tempo and see if in range

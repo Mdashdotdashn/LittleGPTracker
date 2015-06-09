@@ -30,14 +30,14 @@ bool Date::IsEarlierThan(const Date &other) {
 
 
 TimeService::TimeService() {
-	startTick_=System::GetInstance()->GetClock() ;
+	startTick_=System::Instance()->GetClock() ;
 } ;
 
 TimeService::~TimeService() {
 } ;
 
 Time TimeService::GetTime() {
-	unsigned long currentTick=System::GetInstance()->GetClock()  ;
+	unsigned long currentTick=System::Instance()->GetClock()  ;
 	return (currentTick-startTick_)/1000.0 ;
 } ;
 

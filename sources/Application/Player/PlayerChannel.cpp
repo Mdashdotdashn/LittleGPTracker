@@ -35,7 +35,7 @@ void PlayerChannel::StopInstrument() {
 
 bool PlayerChannel::Render(fixed *buffer,int samplecount) {
    if (instr_) {
-     bool tableSlice=SyncMaster::GetInstance()->TableSlice() ;
+     bool tableSlice=SyncMaster::Instance()->TableSlice() ;
      bool status=instr_->Render(index_,buffer,samplecount,tableSlice) ;
      return ((status)&&(!muted_)) ;
    } else {
@@ -62,7 +62,7 @@ void PlayerChannel::SetMixBus(int i) {
 	if (mixBus_) {
 		mixBus_->Remove(*this) ;
 	}
-	mixBus_=MixerService::GetInstance()->GetMixBus(i) ;
+	mixBus_=MixerService::Instance()->GetMixBus(i) ;
 	if (mixBus_) {
 		mixBus_->Insert(*this) ;
 	}

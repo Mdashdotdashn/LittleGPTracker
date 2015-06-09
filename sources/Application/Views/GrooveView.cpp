@@ -19,7 +19,7 @@ void GrooveView::updateCursor(int dir) {
 } ;
 
 void GrooveView::updateCursorValue(int val,bool sync) {
-	unsigned char *grooveData=Groove::GetInstance()->GetGrooveData(viewData_->currentGroove_) ;
+	unsigned char *grooveData=Groove::Instance()->GetGrooveData(viewData_->currentGroove_) ;
 	int value=grooveData[position_] ;
 	val+=value ;
 	if (val<1) val=1 ;
@@ -42,7 +42,7 @@ void GrooveView::warpGroove(int dir) {
 } ;
 
 void GrooveView::initCursorValue() {
-	unsigned char *grooveData=Groove::GetInstance()->GetGrooveData(viewData_->currentGroove_) ;
+	unsigned char *grooveData=Groove::Instance()->GetGrooveData(viewData_->currentGroove_) ;
 	if (grooveData[position_]==NO_GROOVE_DATA) {
 		grooveData[position_]=1 ;
 	} ;
@@ -50,7 +50,7 @@ void GrooveView::initCursorValue() {
 } ;
 
 void GrooveView::clearCursorValue() {
-	unsigned char *grooveData=Groove::GetInstance()->GetGrooveData(viewData_->currentGroove_) ;
+	unsigned char *grooveData=Groove::Instance()->GetGrooveData(viewData_->currentGroove_) ;
 	grooveData[position_]=NO_GROOVE_DATA ;
 	isDirty_=true ;
 }	
@@ -59,7 +59,7 @@ void GrooveView::ProcessButtonMask(unsigned short mask,bool pressed) {
 
 	if (!pressed) return ;
 	
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 
 	if (mask&EPBM_B) {         
 			if (mask&EPBM_LEFT) {
@@ -162,7 +162,7 @@ void GrooveView::DrawView() {
 
 	SetColor(CD_NORMAL) ;
 
-	unsigned char *grooveData=Groove::GetInstance()->GetGrooveData(viewData_->currentGroove_) ;
+	unsigned char *grooveData=Groove::Instance()->GetGrooveData(viewData_->currentGroove_) ;
 	for (int j=0;j<16;j++) {
 		if (grooveData[j]!=NO_GROOVE_DATA) {
 			hex2char(grooveData[j],buffer) ;
@@ -189,7 +189,7 @@ void GrooveView::OnPlayerUpdate(PlayerEventType ,unsigned int tick) {
 	pos._y=anchor._y+lastPosition_ ;
 	DrawString(pos._x,pos._y," ",props) ;
 		
-	Groove *gr=Groove::GetInstance() ;
+	Groove *gr=Groove::Instance() ;
 	// Get current channel
 	int channel=viewData_->songX_ ;
 

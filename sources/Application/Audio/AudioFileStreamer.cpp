@@ -17,7 +17,7 @@ AudioFileStreamer::~AudioFileStreamer() {
 bool AudioFileStreamer::Start(const Path &path) {
   Trace::Debug("Starting to stream %s",path.GetPath().c_str());
 	path_=path ;
-	const char *shift=Config::GetInstance()->GetValue("PRELISTENATTENUATION") ;
+	const char *shift=Config::Instance()->GetValue("PRELISTENATTENUATION") ;
 	shift_=(shift)?atoi(shift):1 ;
   Trace::Debug("Streaming shift is %d",shift_);
 	newPath_=true ;

@@ -47,7 +47,7 @@ bool AudioOutDriver::Clipped() {
 
 void AudioOutDriver::Trigger() {
 
-	TimeService *ts=TimeService::GetInstance() ;
+	TimeService *ts=TimeService::Instance() ;
 
   prepareMixBuffers() ;
   hasSound_=AudioMixer::Render(primarySoundBuffer_,sampleCount_) ;
@@ -55,7 +55,7 @@ void AudioOutDriver::Trigger() {
   driver_->AddBuffer(mixBuffer_,sampleCount_) ;
 }
 
-void AudioOutDriver::Update(Observable &o,I_ObservableData *d) 
+void AudioOutDriver::ObserverUpdate(Observable &o,ObservableData *d) 
 {
   SetChanged() ;
   NotifyObservers(d) ;    

@@ -14,7 +14,7 @@ bool DummyOutThread::Execute() {
 	while(!this->shouldTerminate()) {
 		out_->SendPulse() ;
 		// let it breathe a bit
-		TimeService::GetInstance()->Sleep(1) ;
+		TimeService::Instance()->Sleep(1) ;
 	}
 	return false ;
 

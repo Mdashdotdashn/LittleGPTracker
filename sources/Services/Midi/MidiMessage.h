@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Foundation/Types/Types.h"
-#include "Foundation/Observable.h"
+#include "Framework/Notifications/Observable.h"
 #include "MidiMessage.h"
 
-struct MidiMessage:public I_ObservableData
+struct MidiMessage:public ObservableData
 {
   enum Type
   {

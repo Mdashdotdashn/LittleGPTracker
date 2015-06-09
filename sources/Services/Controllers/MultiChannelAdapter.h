@@ -3,10 +3,10 @@
 #define _MULTI_CHANNEL_ADAPTER_H_
 
 #include "Services/Controllers/Channel.h"
-#include "Foundation/T_SimpleList.h"
-#include "Foundation/Observable.h"
+#include "Framework/Containers/T_SimpleList.h"
+#include "Framework/Notifications/Observable.h"
 
-class MultiChannelAdapter: T_SimpleList<Channel>,public I_Observer, public Channel {
+class MultiChannelAdapter: T_SimpleList<Channel>,public Observer, public Channel {
 public:
 	MultiChannelAdapter(const char *name, bool owner=false) ;
 	virtual ~MultiChannelAdapter() ;
@@ -15,7 +15,7 @@ public:
 	virtual void SetValue(float value,bool notify=true) ;
 
 private:
-    virtual void Update(Observable &o,I_ObservableData *d) ;
+    virtual void ObserverUpdate(Observable &o,ObservableData *d) ;
 } ;
 #endif
 

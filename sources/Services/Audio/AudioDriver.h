@@ -1,7 +1,7 @@
 #ifndef _AUDIO_DRIVER_H_
 #define _AUDIO_DRIVER_H_
 
-#include "Foundation/Observable.h"
+#include "Framework/Notifications/Observable.h"
 #include "AudioSettings.h"
 
 #define SOUND_BUFFER_COUNT 50
@@ -16,7 +16,7 @@ struct AudioBufferData {
 class AudioDriver: public Observable {
 
 public:
-  class Event: public I_ObservableData
+  class Event: public ObservableData
   {
   public:
     enum Type 

@@ -2,7 +2,7 @@
 #define _PERSISTENCY_SERVICE_H_
 
 #include "Foundation/Services/Service.h"
-#include "Foundation/T_Singleton.h"
+#include "Framework/Instances/T_Singleton.h"
  #include "Externals/TinyXML/tinyxml.h"
 
 class PersistencyService: public Service,public T_Singleton<PersistencyService> {

@@ -2,8 +2,8 @@
 #define _MIDIIN_DEVICE_H_
 
 #include "Services/Controllers/ControllerSource.h"
-#include "Foundation/T_Stack.h"
-#include "Foundation/Observable.h"
+#include "Framework/Containers/T_Stack.h"
+#include "Framework/Notifications/Observable.h"
 #include "MidiMessage.h"
 #include "MidiChannel.h"
 
@@ -13,7 +13,7 @@ enum MidiSyncMessage {
 	MSM_TEMPOTICK
 } ;
 
-struct MidiSyncData:public I_ObservableData {
+struct MidiSyncData:public ObservableData {
 	MidiSyncMessage message_ ;
 	MidiSyncData(MidiSyncMessage msg):message_(msg) {} ;
 } ;

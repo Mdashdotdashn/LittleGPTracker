@@ -1,7 +1,7 @@
 #ifndef _SYNC_MASTER_H_
 #define _SYNC_MASTER_H_
 
-#include "Foundation/T_Singleton.h"
+#include "Framework/Instances/T_Singleton.h"
 
 // Provide basic functionalities to compute various
 // setting regarding tempo, buffer sizes, ticks

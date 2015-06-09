@@ -35,7 +35,7 @@ bool SDLTimer::Start() {
 		Uint32 newcb=int(offset_) ;
 		offset_-=newcb ;
 		timer_=SDL_AddTimer(newcb,SDLTimerCallback,this);
-		lastTick_=System::GetInstance()->GetClock() ;
+		lastTick_=System::Instance()->GetClock() ;
 		running_=true ;
 	}
 	return (timer_!=0) ;

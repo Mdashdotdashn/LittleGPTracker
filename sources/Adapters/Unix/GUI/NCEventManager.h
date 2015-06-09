@@ -10,7 +10,7 @@
 #ifndef _NC_EVENT_MANAGER_
 #define _NC_EVENT_MANAGER_
 
-#include "Foundation/T_Singleton.h"
+#include "Framework/Instances/T_Singleton.h"
 #include "UIFramework/SimpleBaseClasses/EventManager.h"
 
 #include <string>

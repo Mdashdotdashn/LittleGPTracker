@@ -24,9 +24,9 @@ RTAudioDriverThread::RTAudioDriverThread(RTAudioDriver *driver) {
 
 bool RTAudioDriverThread::Execute() {
 
-	int bufferSize=Audio::GetInstance()->GetAudioBufferSize() ;
+	int bufferSize=Audio::Instance()->GetAudioBufferSize() ;
 	float cycleTime=bufferSize/44100.0f ;
-	TimeService *ts=TimeService::GetInstance();
+	TimeService *ts=TimeService::Instance();
 	while (!shouldTerminate()) {
 		semaphore_->Wait() ;
 		float before=float(ts->GetTime()) ;
@@ -143,7 +143,7 @@ bool RTAudioDriver::StartDriver()
 	for (int i=0;i<settings_.preBufferCount_;i++)
   {
 		AddBuffer((short *)miniBlank_,fragSize_/4);
-		MidiService::GetInstance()->AdvancePlayQueue();
+		MidiService::Instance()->AdvancePlayQueue();
 	}
 
 	if (settings_.preBufferCount_==0)
@@ -194,7 +194,7 @@ void RTAudioDriver::fillBuffer(short *stream,int frameCount)
       memcpy(mainBuffer_,mainBuffer_+bufferPos_,bufferSize_-bufferPos_) ;
 		  memcpy(mainBuffer_+bufferSize_-bufferPos_, pool_[poolPlayPosition_].buffer_,pool_[poolPlayPosition_].size_);
     
-			MidiService::GetInstance()->Flush() ;
+			MidiService::Instance()->Flush() ;
 
 			 // Adapt buffer variables
     

@@ -13,6 +13,6 @@ I_GUIWindowImp &GUIFactory::CreateWindowImp(GUICreateWindowParams &p) {
 }
 
 EventManager *GUIFactory::GetEventManager() {
-	return NCEventManager::GetInstance() ;
+	return NCEventManager::Instance() ;
 }
 #endif

@@ -1,3 +1,4 @@
+#include <assert.h>
 
 //
 // T_SimpleList implementation
@@ -5,26 +6,29 @@
 
 // Constructor
 
+
 template <class Item>
-T_SimpleList<Item>::T_SimpleList(bool isOwner):I_List<Item>() {
+T_SimpleList<Item>::T_SimpleList(bool isOwner):I_List<Item>()
+{
 	_isOwner=isOwner ;
 	_first = NULL ;
 	_last=NULL ;
 	_size=0 ;
-
 } 
 
 // Destructor
 
 template <class Item>
-T_SimpleList<Item>::~T_SimpleList() {
+T_SimpleList<Item>::~T_SimpleList()
+{
 	Empty() ;
 }
 
 // Inserts a new element at the end of the list
 
 template <class Item>
-void T_SimpleList<Item>::Insert(Item& item) {
+void T_SimpleList<Item>::Insert(Item& item)
+{
 	NAssert(!Contains(item)) ;
 	Node<Item> *n=new Node<Item>(item); 
 	n->prev=NULL ;
@@ -43,15 +47,26 @@ void T_SimpleList<Item>::Insert(Item& item) {
 // Inserts a new element at the end of the list (assumes the pointer is not NULL)
 
 template <class Item>
-void T_SimpleList<Item>::Insert(Item* item) {
+void T_SimpleList<Item>::Insert(Item* item) 
+{
 	NAssert(item!=NULL) ;
 	this->Insert(*item) ;
+}
+
+template <class Item>
+template <typename C, class... U>
+C* T_SimpleList<Item>::Add(U&&... u) 
+{
+	C* concrete = new C(std::forward<U>(u)...);
+	this->Insert(concrete) ;
+	return concrete;
 }
 
 // Returns true if the list contains the specified item
 
 template <class Item>
-bool T_SimpleList<Item>::Contains(Item &item) {
+bool T_SimpleList<Item>::Contains(Item &item)
+{
 	Node<Item> *node=findNode(item) ;
 	return (node==NULL)?false:true ;
 }
@@ -59,27 +74,51 @@ bool T_SimpleList<Item>::Contains(Item &item) {
 // Returns a standard iterator for the list
 
 template <class Item>
-I_Iterator<Item> *T_SimpleList<Item>::GetIterator() {
+I_Iterator<Item> *T_SimpleList<Item>::GetIterator()
+{
 	return new T_SimpleListIterator<Item>(*this) ;
+}
+
+template <class Item>
+void T_SimpleList<Item>::Foreach(std::function<void(Item&)> func)
+{
+	IteratorPtr<Item> it(GetIterator()) ;
+	for (it->Begin();!it->IsDone();it->Next()) {
+		func(it->CurrentItem()) ;
+	}
+}
+
+template <class Item>
+Result T_SimpleList<Item>::Tryeach(std::function<Result(Item&)> func)
+{
+	IteratorPtr<Item> it(GetIterator()) ;
+	for (it->Begin();!it->IsDone();it->Next())
+  {
+		Result result = func(it->CurrentItem());
+		RETURN_IF_FAILED(result);
+	}
+	return Result::NoError;
 }
 
 // Returns a standard iterator for the list
 
 template <class Item>
-I_Iterator<Item> *T_SimpleList<Item>::GetIterator(bool reverse) {
+I_Iterator<Item> *T_SimpleList<Item>::GetIterator(bool reverse)
+{
 	return new T_SimpleListIterator<Item>(*this,reverse) ;
 }
 
 // Empties the list's content
 
 template <class Item>
-void T_SimpleList<Item>::Empty() {
+void T_SimpleList<Item>::Empty()
+{
 	Empty(false) ;
 }
 
 template <class Item>
-void T_SimpleList<Item>::Empty(bool reverse) {
-
+void T_SimpleList<Item>::Empty(bool reverse)
+{
 	if (!reverse) {
 		Node<Item> *current=_first ;
 		while (current!=NULL) {
@@ -103,7 +142,8 @@ void T_SimpleList<Item>::Empty(bool reverse) {
 // Removes the element associated to the specified item
 
 template <class Item>
-void T_SimpleList<Item>::Remove(Item &i) {
+void T_SimpleList<Item>::Remove(Item &i)
+{
 	Node<Item> *n=findNode(i) ;
 	if (n!=NULL) {
 		deleteNode(n,_isOwner) ;
@@ -111,7 +151,8 @@ void T_SimpleList<Item>::Remove(Item &i) {
 }
 
 template <class Item>
-void T_SimpleList<Item>::Remove(Item &i,bool delContent) {
+void T_SimpleList<Item>::Remove(Item &i,bool delContent)
+{
 	Node<Item> *n=findNode(i) ;
 	if (n!=NULL) {
 		deleteNode(n,delContent) ;
@@ -121,7 +162,8 @@ void T_SimpleList<Item>::Remove(Item &i,bool delContent) {
 // Finds if a node contains the specified item
 
 template <typename Item>
-Node<Item> *T_SimpleList<Item>::findNode(Item &item) {
+Node<Item> *T_SimpleList<Item>::findNode(Item &item)
+{
 	Node<Item> *current=_first ;
 	while (current!=NULL) {
 		if (&current->data==&item) {
@@ -135,8 +177,8 @@ Node<Item> *T_SimpleList<Item>::findNode(Item &item) {
 // Deletes a node and its content if the list has ownership
 
 template <class Item>
-void T_SimpleList<Item>::deleteNode(Node<Item> *n,bool isOwner) {
-
+void T_SimpleList<Item>::deleteNode(Node<Item> *n,bool isOwner)
+{
 	// Rewire list
 
 	if (n->prev!=NULL) {
@@ -161,25 +203,28 @@ void T_SimpleList<Item>::deleteNode(Node<Item> *n,bool isOwner) {
 }
 
 template <class Item>
-Item *T_SimpleList<Item>::GetLast() {
+Item *T_SimpleList<Item>::GetLast()
+{
+	Item *item=NULL ;
 	if (_last!=NULL) {
-		return &_last->data ;
-	} else {
-		return NULL;
+		item=&_last->data ;
 	}
+	return item ;
 }
 
 template <class Item>
-Item *T_SimpleList<Item>::GetFirst() {
+Item *T_SimpleList<Item>::GetFirst()
+{
+	Item *item=NULL ;
 	if (_last!=NULL) {
-		return &_first->data ;
-	} else {
-		return NULL;
+		item=&_first->data ;
 	}
+	return item ;
 }
 
 template <class Item>
-void T_SimpleList<Item>::SetContent(T_SimpleList<Item>&content) {
+void T_SimpleList<Item>::SetContent(T_SimpleList<Item>&content)
+{
 	Empty() ;
 	IteratorPtr<Item> it(content.GetIterator()) ;
 	for (it->Begin();!it->IsDone();it->Next()) {
@@ -187,34 +232,38 @@ void T_SimpleList<Item>::SetContent(T_SimpleList<Item>&content) {
 	}
 }
 
-/*
 template <class Item>
-void T_SimpleList<Item>::GetContent(T_SimpleList<Item>&content) {
-	content.Empty() ;
-	IteratorPtr<USQEventControl> it(GetIterator()) ;
-	for (it->Begin();!it->IsDone();it->Next()) {
-		content.Insert(it->CurrentItem()) ;
-	}
-} */
-
-template <class Item>
-bool T_SimpleList<Item>::GetOwnership() {
+bool T_SimpleList<Item>::GetOwnership()
+{
 	return _isOwner ;
 }
 
 template <class Item>
-void T_SimpleList<Item>::SetOwnership(bool isOwner) {
+void T_SimpleList<Item>::SetOwnership(bool isOwner)
+{
 	_isOwner=isOwner ;
 }
 
 template <class Item>
-void T_SimpleList<Item>::Sort() {
+Item *T_SimpleList<Item>::operator[](int index) const
+{
+	Node<Item> *current=_first ;
+	while ((index-->0)&&(current)) {
+		current=current->next ;
+	} ;
+	return current?&(current->data):0 ;
+} ;
+
+template <class Item>
+void T_SimpleList<Item>::Sort()
+{
 	if (_first==_last) return ;
 	Node<Item>* current=_first ;
 	Node<Item>* next=current->next ;
 	while (next!=0) {
 		int result=current->data.Compare(next->data) ;
 		if (result>0) {
+//			Trace::Debug("Swapping %s and %s",current->data.GetPath(),next->data.GetPath()) ;
 			exchange(current,next) ;
 			Node<Item> *temp=next ;
 			Node<Item> *prev=next->prev ;
@@ -234,14 +283,15 @@ void T_SimpleList<Item>::Sort() {
 }
 
 template <class Item>
-void T_SimpleList<Item>::rewire(Node<Item>*n) {
+void T_SimpleList<Item>::rewire(Node<Item>*n)
+{
 	if (n->prev) n->prev->next=n ;
 	if (n->next) n->next->prev=n ;
 } ;
 
 template <class Item>
-void T_SimpleList<Item>::exchange(Node<Item>*n1,Node<Item>*n2) {
-
+void T_SimpleList<Item>::exchange(Node<Item>*n1,Node<Item>*n2)
+{
 	Node<Item>*temp ;
 
 	if (n1->prev==n2) {
@@ -282,4 +332,10 @@ void T_SimpleList<Item>::exchange(Node<Item>*n1,Node<Item>*n2) {
 			_last=n1 ;
 		} ;
 	}
-} ;
+/*	temp=_first ;
+	Trace::Debug("Dumping list") ;
+	while (temp!=0) {
+		Trace::Debug("%s",temp->data.GetPath()) ;
+		temp=temp->next ;
+	} ;
+*/} ;

@@ -2,7 +2,7 @@
 #define _VARIABLE_CONTAINER_H_
 
 #include "Variable.h"
-#include "Foundation/T_SimpleList.h"
+#include "Framework/Containers/T_SimpleList.h"
 
 class VariableContainer: public T_SimpleList<Variable> {
 public:

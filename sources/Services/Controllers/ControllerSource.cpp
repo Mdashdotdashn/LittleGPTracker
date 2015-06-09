@@ -8,11 +8,11 @@ ControllerSource::ControllerSource(const char *devclass,const char *name) {
 
 	name_=name;
 	class_=devclass ;
-	ControllerService::GetInstance()->Insert(*this) ;
+	ControllerService::Instance()->Insert(*this) ;
 } ;
 
 ControllerSource::~ControllerSource() {
-	ControllerService::GetInstance()->Remove(*this) ;
+	ControllerService::Instance()->Remove(*this) ;
 } ;
 
 const char *ControllerSource::GetClass() {

@@ -2,7 +2,7 @@
 #define _UI_ACTION_FIELD_
 
 #include "UIField.h"
-#include "Foundation/Observable.h"
+#include "Framework/Notifications/Observable.h"
 
 class UIActionField: public UIField,public Observable {
 public:

@@ -2,11 +2,11 @@
 #define _PROJECT_VIEW_H_
 
 #include "BaseClasses/FieldView.h"
-#include "Foundation/Observable.h"
+#include "Framework/Notifications/Observable.h"
 #include "ViewData.h"
 
 
-class ProjectView: public FieldView,public I_Observer {
+class ProjectView: public FieldView,public Observer {
 public:
 	ProjectView(GUIWindow &w,ViewData *data) ;
 	virtual ~ProjectView() ;
@@ -18,7 +18,7 @@ public:
 
 	// Observer for action callback
 
-	void Update(Observable &,I_ObservableData *) ;
+	virtual void ObserverUpdate(Observable &,ObservableData *) ;
 
 	void OnLoadProject() ;
 	void OnPurgeInstruments(bool removeFromDisk) ;

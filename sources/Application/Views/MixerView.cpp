@@ -16,7 +16,7 @@ MixerView::~MixerView() {
 
 
 void MixerView::onStart() {
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 	unsigned char from=viewData_->songX_ ;
 	unsigned char to=from ;
 	//if (clipboard_.active_) {
@@ -28,7 +28,7 @@ void MixerView::onStart() {
 } ;
 
 void MixerView::onStop() {
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 	unsigned char from=viewData_->songX_ ;
 	unsigned char to=from ;
 	player->OnStartButton(PM_SONG,from,true,to) ;
@@ -188,7 +188,7 @@ void MixerView::DrawView() {
 
 	SetColor(CD_NORMAL) ;
 
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 	
 	std::ostringstream os;
 
@@ -208,7 +208,7 @@ void MixerView::DrawView() {
 			 props.invert_=true;
 			 SetColor(CD_HILITE2) ;
 		}
-		int bus=Mixer::GetInstance()->GetBus(i) ;
+		int bus=Mixer::Instance()->GetBus(i) ;
 		hex2char(bus,hex) ;
 		DrawString(pos._x,pos._y,hex,props) ;
 		pos._x+=dx ;	
@@ -228,7 +228,7 @@ void MixerView::DrawView() {
 
 void MixerView::OnPlayerUpdate(PlayerEventType ,unsigned int tick) {
 
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 
 	// Draw clipping indicator & CPU usage
 
@@ -257,7 +257,7 @@ void MixerView::OnPlayerUpdate(PlayerEventType ,unsigned int tick) {
 	sprintf(strbuffer,"%3.3d%%",player->GetPlayedBufferPercentage()) ; 
 	DrawString(pos._x,pos._y,strbuffer,props) ;
 
-    System *sys=System::GetInstance() ;
+    System *sys=System::Instance() ;
     int batt=sys->GetBatteryLevel() ;
     if (batt>=0) {
 		if (batt<90) {

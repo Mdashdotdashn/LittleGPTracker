@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Trace.h"
-#include "System/Errors/Result.h"
+#include "Framework/Errors/Result.h"
 #include "System/FileSystem/FileSystem.h"
 
 #include <stdio.h>

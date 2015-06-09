@@ -6,7 +6,7 @@
 #include "UIFramework/SimpleBaseClasses/EventManager.h"
 
 #include "UIFramework/BasicDatas/GUICreateWindowParams.h"
-#include "Foundation/T_Factory.h"
+#include "Framework/Instances/T_Installable.h"
 
 // The GUI factory. This object is responsible for the creation of all
 // system implementations like WindowImps, BitmapImps etc. When the user
@@ -14,7 +14,7 @@
 // system, a subclass must be created, returning imp objects derived from the
 // specified interfaces. The factory to be used can be installed at run time.
 
-class I_GUIWindowFactory: public T_Factory<I_GUIWindowFactory> {
+class I_GUIWindowFactory: public T_Installable<I_GUIWindowFactory> {
 
 protected:
 

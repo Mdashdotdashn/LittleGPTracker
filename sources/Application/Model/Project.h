@@ -6,7 +6,7 @@
 #include "Application/Persistency/Persistent.h"
 #include "Foundation/Variables/VariableContainer.h"
 #include "Foundation/Types/Types.h"
-#include "Foundation/Observable.h"
+#include "Framework/Notifications/Observable.h"
 
 
 #define VAR_TEMPO       MAKE_FOURCC('T','M','P','O')
@@ -21,7 +21,7 @@
 
 #define MAX_TAP 3
 
-class Project: public Persistent,public VariableContainer,I_Observer  {
+class Project: public Persistent,public VariableContainer,Observer  {
 public:
 	Project() ;
 	~Project() ;
@@ -39,8 +39,8 @@ public:
 
 	void Trigger() ;
 
-	// I_Observer
-    virtual void Update(Observable &o,I_ObservableData *d);
+	// Observer
+    virtual void ObserverUpdate(Observable &o,ObservableData *d);
  
 	InstrumentBank* GetInstrumentBank() ;
 	virtual void SaveContent(TiXmlNode *node) ;

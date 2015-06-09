@@ -2,7 +2,7 @@
 #define _IMPORT_SAMPLE_DIALOG_H_
 
 #include "Application/Views/BaseClasses/ModalView.h"
-#include "Foundation/T_SimpleList.h"
+#include "Framework/Containers/T_SimpleList.h"
 #include "System/FileSystem/FileSystem.h"
 #include <string>
 

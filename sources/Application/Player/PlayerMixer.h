@@ -2,18 +2,18 @@
 #ifndef _APPLICATION_MIXER_H_
 #define _APPLICATION_MIXER_H_
 
-#include "Foundation/T_Singleton.h"
+#include "Framework/Instances/T_Singleton.h"
 #include "Application/Model/Project.h"
 #include "Application/Views/ViewData.h"
 #include "Application/Utils/fixed.h"
 #include "Application/Audio/AudioFileStreamer.h"
 #include "PlayerChannel.h"
-#include "Foundation/Observable.h"
+#include "Framework/Notifications/Observable.h"
 #include "Services/Audio/AudioOut.h"
 
 #define STREAM_MIX_BUS 8
 
-class PlayerMixer: public T_Singleton<PlayerMixer>,public Observable,public I_Observer {
+class PlayerMixer: public T_Singleton<PlayerMixer>,public Observable,public Observer {
 public:
 	PlayerMixer() ;
 	virtual ~PlayerMixer() {} ;
@@ -45,7 +45,7 @@ public:
 
 	bool Clipped() ;
 
-	void Update(Observable &o,I_ObservableData *d) ;
+	virtual void ObserverUpdate(Observable &o,ObservableData *d) ;
 	int GetPlayedBufferPercentage() ;   
 
 	void SetChannelMute(int channel,bool mute) ;

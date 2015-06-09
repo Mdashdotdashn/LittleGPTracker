@@ -2,7 +2,7 @@
 #ifndef _MIXER_H_
 #define _MIXER_H_
 
-#include "Foundation/T_Singleton.h"
+#include "Framework/Instances/T_Singleton.h"
 #include "Application/Persistency/Persistent.h"
 
 #include "Song.h"

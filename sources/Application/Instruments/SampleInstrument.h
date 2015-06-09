@@ -7,7 +7,7 @@
 
 #include "SoundSource.h"
 #include "Application/Model/Song.h" 
-#include "Foundation/Observable.h"
+#include "Framework/Notifications/Observable.h"
 #include "Foundation/Types/Types.h"
 #include "Foundation/Variables/WatchedVariable.h"
 
@@ -47,7 +47,7 @@ enum SampleInstrumentLoopMode {
 
 #define FB_BUFFER_LENGTH 3500 // (in samples)
 
-class SampleInstrument: public I_Instrument,I_Observer {
+class SampleInstrument: public I_Instrument,Observer {
 
 public:
        SampleInstrument() ;
@@ -74,8 +74,8 @@ public:
 
 	  virtual void OnStart() ;
 
-	   // I_Observer
-       virtual void Update(Observable &o,I_ObservableData *d);
+	   // Observer
+       virtual void ObserverUpdate(Observable &o,ObservableData *d);
        // Additional
        void AssignSample(int i) ;
 	   int GetSampleIndex() ;

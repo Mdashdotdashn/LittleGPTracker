@@ -14,7 +14,7 @@ MultiChannelAdapter::~MultiChannelAdapter() {
 } ;
 
 bool MultiChannelAdapter::AddChannel(const char *path) {
-	Channel *channel=ControllerService::GetInstance()->GetChannel(path) ;
+	Channel *channel=ControllerService::Instance()->GetChannel(path) ;
 	if (channel) {
 		Insert(channel) ;
 		channel->AddObserver(*this) ;
@@ -27,7 +27,7 @@ void MultiChannelAdapter::AddChannel(Channel &channel) {
 	channel.AddObserver(*this) ;
 } ;
 
-void MultiChannelAdapter::Update(Observable &o,I_ObservableData *d) {
+void MultiChannelAdapter::ObserverUpdate(Observable &o,ObservableData *d) {
 	Channel &source=(Channel &)o ;
 
 	value_=source.GetValue() ;

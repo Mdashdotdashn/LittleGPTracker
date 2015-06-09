@@ -4,9 +4,9 @@
 
 SubService::SubService(int fourCC) {
 	fourCC_=fourCC ;
-	ServiceRegistry::GetInstance()->Register(this) ;
+	ServiceRegistry::Instance()->Register(this) ;
 } ;
 
 SubService::~SubService() {
-	ServiceRegistry::GetInstance()->Unregister(this) ;
+	ServiceRegistry::Instance()->Unregister(this) ;
 } ;

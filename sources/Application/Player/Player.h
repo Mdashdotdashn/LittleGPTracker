@@ -1,7 +1,7 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
-#include "Foundation/T_Singleton.h"
-#include "Foundation/Observable.h"
+#include "Framework/Instances/T_Singleton.h"
+#include "Framework/Notifications/Observable.h"
 #include "System/Timer/Timer.h"
 #include "Application/Views/ViewData.h"
 #include "Application/Views/BaseClasses/ViewEvent.h"
@@ -38,19 +38,19 @@ private:
 	unsigned int tickCount_ ;
 } ;
 
-class Player: public I_Observer,public Observable,public T_Singleton<Player> {
+class Player: public Observer,public Observable,public T_Singleton<Player> {
 private: // Singleton
 	Player() ;
 public:
 
 
-	static Player *GetInstance() ;
+	static Player *Instance() ;
 	bool Init(Project*,ViewData *) ;
 	void Reset() ;
 	void Close() ;
 	
 	
-	virtual void Update(Observable &o,I_ObservableData *d) ;
+	virtual void ObserverUpdate(Observable &o,ObservableData *d) ;
 
 	// basic interface
 

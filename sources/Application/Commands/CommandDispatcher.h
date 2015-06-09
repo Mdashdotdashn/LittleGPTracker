@@ -1,9 +1,9 @@
 #ifndef _COMMAND_DISPATCHER_H_
 #define _COMMAND_DISPATCHER_H_
 
-#include "Foundation/T_Singleton.h"
-#include "Foundation/Observable.h"
-#include "Foundation/T_SimpleList.h"
+#include "Framework/Instances/T_Singleton.h"
+#include "Framework/Notifications/Observable.h"
+#include "Framework/Containers/T_SimpleList.h"
 #include "Foundation/Types/Types.h"
 #include "Services/Controllers/ControlNode.h"
 #include "NodeList.h"
@@ -15,14 +15,14 @@ public:
 	virtual void Execute(FourCC id,float value)=0 ;
 } ;
 
-class CommandTrigger:I_Observer {
+class CommandTrigger:Observer {
 public:
 	CommandTrigger(FourCC id,CommandExecuter &executer) ;
 	~CommandTrigger() ;
 	void Attach(AssignableControlNode &node) ;
 	void Detach() ;
 protected:
-	virtual void Update(Observable &o,I_ObservableData *d) ;	
+	virtual void ObserverUpdate(Observable &o,ObservableData *d) ;	
 private:
 	AssignableControlNode *node_ ;
 	int id_ ;

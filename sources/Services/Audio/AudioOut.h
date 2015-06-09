@@ -2,7 +2,7 @@
 #define _AUDIO_OUT_H_
 
 #include "AudioMixer.h"
-#include "Foundation/Observable.h"
+#include "Framework/Notifications/Observable.h"
 #include "Application/Instruments/WavFileWriter.h"
 
 class AudioDriver ;

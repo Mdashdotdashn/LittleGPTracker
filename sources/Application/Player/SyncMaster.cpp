@@ -22,7 +22,7 @@ void SyncMaster::Stop() {
 
 void SyncMaster::SetTempo(int tempo) {
 	tempo_=tempo ;
-	int driverRate=Audio::GetInstance()->GetSampleRate() ;
+	int driverRate=Audio::Instance()->GetSampleRate() ;
     playSampleCount_=60.0f*driverRate*2.0f/tempo_/8.0f/float(AUDIO_SLICES_PER_STEP)  ;
 	tickSampleCount_=60.0f*driverRate*2.0f/tempo_/8.0f/float(AUDIO_SLICES_PER_STEP)*tableRatio_  ;
 }  ;

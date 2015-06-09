@@ -34,7 +34,7 @@ void ApplicationCommandDispatcher::OnTempoTap() {
 
 void ApplicationCommandDispatcher::OnQueueRow() {
 	if (!project_) return ;
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
     player->SetSequencerMode(SM_LIVE) ;
 	player->OnSongStartButton(0,7,false,false) ;
 } ;

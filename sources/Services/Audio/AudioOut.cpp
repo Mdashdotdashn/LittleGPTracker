@@ -9,7 +9,7 @@ AudioOut::~AudioOut() {
 
 
 int AudioOut::getPlaySampleCount() {
-	sampleOffset_+=SyncMaster::GetInstance()->GetPlaySampleCount() ;
+	sampleOffset_+=SyncMaster::Instance()->GetPlaySampleCount() ;
 	int count=int(sampleOffset_) ;
 	sampleOffset_-=count ;
 	return count ;

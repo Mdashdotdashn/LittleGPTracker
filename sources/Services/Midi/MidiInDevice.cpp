@@ -9,7 +9,7 @@ bool MidiInDevice::dumpEvents_ = false;
 
 MidiInDevice::MidiInDevice(const char *name):ControllerSource("midi",name),T_Stack<MidiMessage>(true) {
 
-  const char *dumpIt=Config::GetInstance()->GetValue("DUMPEVENT") ;
+  const char *dumpIt=Config::Instance()->GetValue("DUMPEVENT") ;
   dumpEvents_ = (dumpIt!=0);
 
 	for (int channel = 0; channel < 16; channel++) {

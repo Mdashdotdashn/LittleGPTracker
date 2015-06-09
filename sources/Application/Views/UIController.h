@@ -1,14 +1,14 @@
 #ifndef _UI_CONTROLLER_H
 #define _UI_CONTROLLER_H
 
-#include "Foundation/T_Singleton.h"
+#include "Framework/Instances/T_Singleton.h"
 #include "ViewData.h"
 
 class UIController: public T_Singleton<UIController>  {
 private: // Singleton
 	UIController() ;
 public:
-	static UIController *GetInstance() ;
+	static UIController *Instance() ;
 	void Init(Project*,ViewData *) ;
 	void Reset() ;
 

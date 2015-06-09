@@ -37,7 +37,7 @@ InstrumentBank::InstrumentBank():Persistent("INSTRUMENTBANK") {
 
 void InstrumentBank::AssignDefaults() {
 
-	SamplePool *pool=SamplePool::GetInstance() ;
+	SamplePool *pool=SamplePool::Instance() ;
    	for (int i=0;i<MAX_SAMPLEINSTRUMENT_COUNT;i++) {
 		SampleInstrument *s=(SampleInstrument*)instrument_[i] ;
 		if (i<pool->GetNameListSize()) {
@@ -91,7 +91,7 @@ void InstrumentBank::RestoreContent(TiXmlElement *element) {
 	PersistencyDocument *doc=(PersistencyDocument *)element->GetDocument() ;
   if (doc->version_ < 130)
   {
-    if (Config::GetInstance()->GetValue("LEGACYDOWNSAMPLING") != NULL)
+    if (Config::Instance()->GetValue("LEGACYDOWNSAMPLING") != NULL)
     {
       SampleInstrument::EnableDownsamplingLegacy();
     }

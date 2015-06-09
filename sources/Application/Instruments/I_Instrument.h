@@ -2,7 +2,7 @@
 #define _I_INSTRUMENT_H_
 
 #include "Foundation/Variables/VariableContainer.h"
-#include "Foundation/Observable.h"
+#include "Framework/Notifications/Observable.h"
 #include "Application/Utils/fixed.h"
 
 #include "Application/Player/TablePlayback.h"

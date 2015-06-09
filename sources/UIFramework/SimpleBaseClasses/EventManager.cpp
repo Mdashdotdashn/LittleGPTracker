@@ -28,7 +28,7 @@ void EventManager::MapAppButton(const char *mapping,AppButton button) {
 
 void EventManager::mapConfigKey(AppButton button,const char *keyname) {
 	
-	Config *config=Config::GetInstance() ;
+	Config *config=Config::Instance() ;
 	
 	// Read the configuration file and look if we got a definition 
 	const char *key=config->GetValue(keyname) ;
@@ -54,7 +54,7 @@ void EventManager::InstallMappings() {
 	mapConfigKey(APP_BUTTON_VOLINC,"KEY_VOLINC") ;
 	mapConfigKey(APP_BUTTON_VOLDEC,"KEY_VOLDEC") ;
 	
-	ControlRoom *cr=ControlRoom::GetInstance() ;
+	ControlRoom *cr=ControlRoom::Instance() ;
 	
 	cr->Attach(URL_EVENT_A,mapping_[APP_BUTTON_A].c_str()) ;
 	cr->Attach(URL_EVENT_B,mapping_[APP_BUTTON_B].c_str()) ;

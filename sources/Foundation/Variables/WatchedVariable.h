@@ -3,7 +3,7 @@
 #define _WATCHED_VARIABLE_H_
 
 #include "Variable.h"
-#include "Foundation/Observable.h"
+#include "Framework/Notifications/Observable.h"
 
 class WatchedVariable : public Variable,public Observable {
 public:

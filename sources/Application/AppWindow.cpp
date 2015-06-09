@@ -37,13 +37,13 @@ static void ProjectSelectCallback(View &v,ModalView &dialog) {
 		Path selected=spd.GetSelection() ;
 		instance->LoadProject(selected.GetPath().c_str()) ;
 	} else {
-		System::GetInstance()->PostQuitMessage() ;
+		System::Instance()->PostQuitMessage() ;
 	}
 } ;
 
 void AppWindow::defineColor(const char *colorName,GUIColor &color) {
 
-       Config *config=Config::GetInstance() ;
+       Config *config=Config::Instance() ;
        const char *value=config->GetValue(colorName) ;
        if (value) {
           unsigned char r ;
@@ -82,13 +82,13 @@ AppWindow::AppWindow(I_GUIWindowImp &imp):GUIWindow(imp)  {
 	_mask=0 ;
 	colorIndex_=CD_NORMAL;
 
-	EventDispatcher *ed=EventDispatcher::GetInstance() ;
+	EventDispatcher *ed=EventDispatcher::Instance() ;
 	ed->SetWindow(this) ;
 
 	Status::Install(this) ;
 
 	// Init midi services
-	MidiService::GetInstance()->Init() ;
+	MidiService::Instance()->Init() ;
 
     defineColor("BACKGROUND",backgroundColor_) ;
     defineColor("FOREGROUND",normalColor_) ;
@@ -116,7 +116,7 @@ AppWindow::AppWindow(I_GUIWindowImp &imp):GUIWindow(imp)  {
 } ;
 
 AppWindow::~AppWindow() {
-	MidiService::GetInstance()->Close() ;
+	MidiService::Instance()->Close() ;
 }
 
 
@@ -192,7 +192,7 @@ void AppWindow::Flush() {
 	SysMutexLocker locker(drawMutex_) ;
 
 	Lock() ;
-	long flushStart=System::GetInstance()->GetClock() ;
+	long flushStart=System::Instance()->GetClock() ;
 
 	GUITextProperties props ;
 	GUIPoint pos ;
@@ -255,7 +255,7 @@ void AppWindow::Flush() {
 		pos._y+=AppWindow::charHeight_ ;
 		pos._x=0 ;
 	}
-	long flushEnd=System::GetInstance()->GetClock() ;
+	long flushEnd=System::Instance()->GetClock() ;
   GUIWindow::Flush() ;
 	Unlock() ;
 	memcpy(_preScreen,_charScreen,1200) ;
@@ -269,7 +269,7 @@ void AppWindow::LoadProject(const Path &p)  {
 
 	_closeProject=false ;
 
-	PersistencyService *persist=PersistencyService::GetInstance() ;
+	PersistencyService *persist=PersistencyService::Instance() ;
 
 	TablePlayback::Reset() ;
 
@@ -278,7 +278,7 @@ void AppWindow::LoadProject(const Path &p)  {
 	
 	// Load the sample pool
 	
-	SamplePool *pool=SamplePool::GetInstance() ;
+	SamplePool *pool=SamplePool::Instance() ;
 	
 	pool->Load() ;
 
@@ -297,19 +297,19 @@ void AppWindow::LoadProject(const Path &p)  {
 
 	WatchedVariable::Enable() ;
 
-	ApplicationCommandDispatcher::GetInstance()->Init(project) ;
+	ApplicationCommandDispatcher::Instance()->Init(project) ;
 
 	// Create view data
 	
 	_viewData=new ViewData(project) ;
 
 	// Create & observe the player
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 	bool playerOK=player->Init(project,_viewData) ;
 	player->AddObserver(*this) ;
 
 	// Create the controller
-	UIController *controller=UIController::GetInstance() ;
+	UIController *controller=UIController::Instance() ;
 	controller->Init(project,_viewData) ;
 
 	// Create & observe all views
@@ -351,19 +351,19 @@ void AppWindow::LoadProject(const Path &p)  {
 void AppWindow::CloseProject() {
 
 	_closeProject=false ;
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 	player->Stop() ;
 	player->RemoveObserver(*this) ;
 	
 	player->Reset() ;
 
-	SamplePool *pool=SamplePool::GetInstance() ;
+	SamplePool *pool=SamplePool::Instance() ;
 	pool->Reset() ;
 
-	TableHolder::GetInstance()->Reset() ;
+	TableHolder::Instance()->Reset() ;
 	TablePlayback::Reset() ;
 
-	ApplicationCommandDispatcher::GetInstance()->Close() ;
+	ApplicationCommandDispatcher::Instance()->Close() ;
 
 	SAFE_DELETE(_songView) ;
 	SAFE_DELETE(_chainView) ;
@@ -372,7 +372,7 @@ void AppWindow::CloseProject() {
 	SAFE_DELETE(_instrumentView) ;
 	SAFE_DELETE(_tableView);
 
-	UIController *controller=UIController::GetInstance() ;
+	UIController *controller=UIController::Instance() ;
 	controller->Reset() ;
 
 	SAFE_DELETE(_viewData) ;
@@ -387,7 +387,7 @@ void AppWindow::CloseProject() {
 } ;
 
 AppWindow *AppWindow::Create(GUICreateWindowParams &params) {
-	I_GUIWindowImp &imp=I_GUIWindowFactory::GetInstance()->CreateWindowImp(params) ;
+	I_GUIWindowImp &imp=I_GUIWindowFactory::Instance()->CreateWindowImp(params) ;
 	AppWindow *w=new AppWindow(imp) ;
 	return w ;
 } ;
@@ -407,7 +407,7 @@ bool AppWindow::onEvent(GUIEvent &event) {
 		
 	unsigned short v=1<<event.GetValue();
 
-	MixerService *sm=MixerService::GetInstance() ;
+	MixerService *sm=MixerService::Instance() ;
 	sm->Lock() ;
 
 	switch(event.GetType())  {
@@ -429,12 +429,12 @@ bool AppWindow::onEvent(GUIEvent &event) {
 			break ;
 
 		/*		case ET_KEYDOWN:
-			if (event.GetValue()==EKT_ESCAPE&&!Player::GetInstance()->IsRunning()) {
+			if (event.GetValue()==EKT_ESCAPE&&!Player::Instance()->IsRunning()) {
 				if (_currentView!=_listView) {
 					CloseProject() ;
 					_isDirty=true ;
 				} else {
-					System::GetInstance()->PostQuitMessage() ;
+					System::Instance()->PostQuitMessage() ;
 				};
 			} ;*/
 
@@ -466,7 +466,7 @@ void AppWindow::onUpdate() {
 void AppWindow::LayoutChildren() {
 } ;
 
-void AppWindow::Update(Observable &o,I_ObservableData *d) {
+void AppWindow::ObserverUpdate(Observable &o,ObservableData *d) {
 
 	ViewEvent *ve=(ViewEvent *)d ;
 
@@ -549,12 +549,12 @@ void AppWindow::Update(Observable &o,I_ObservableData *d) {
 }
 
 void AppWindow::onQuitApp() {
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 	player->Stop() ;
 	player->RemoveObserver(*this) ;
 	
 	player->Reset() ;
-	System::GetInstance()->PostQuitMessage() ;
+	System::Instance()->PostQuitMessage() ;
 }
 void AppWindow::Print(char *line) {
 

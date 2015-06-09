@@ -1,8 +1,8 @@
 #ifndef _MIXER_SERVICE_H_
 #define _MIXER_SERVICE_H_
 
-#include "Foundation/T_Singleton.h"
-#include "Foundation/Observable.h"
+#include "Framework/Instances/T_Singleton.h"
+#include "Framework/Notifications/Observable.h"
 #include "Services/Audio/AudioMixer.h"
 #include "Services/Audio/AudioOut.h"
 #include "Application/Commands/CommandDispatcher.h" // Would be better done externally and call an API here
@@ -22,7 +22,7 @@ enum MixerServiceMode {
 class MixerService: 
       public T_Singleton<MixerService>,
       public Observable,
-      public I_Observer,
+      public Observer,
       public CommandExecuter      
 {
 
@@ -38,7 +38,7 @@ public:
 
 	MixBus *GetMixBus(int i) ;	
 
-	virtual void Update(Observable &o,I_ObservableData *d) ;	
+	virtual void ObserverUpdate(Observable &o,ObservableData *d) ;	
 
 	void OnPlayerStart() ;
 	void OnPlayerStop() ;

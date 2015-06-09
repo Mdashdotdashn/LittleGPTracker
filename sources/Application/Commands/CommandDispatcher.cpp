@@ -29,7 +29,7 @@ void CommandTrigger::Detach() {
 	}
 } ;
 
-void CommandTrigger::Update(Observable &o,I_ObservableData *d) {
+void CommandTrigger::ObserverUpdate(Observable &o,ObservableData *d) {
 	executer_.Execute(id_,node_->GetValue()) ;
 } ;
 
@@ -41,11 +41,11 @@ CommandDispatcher::~CommandDispatcher() {
 
 bool CommandDispatcher::Init() {
 
-    MixerService* ms=MixerService::GetInstance() ;
+    MixerService* ms=MixerService::Instance() ;
 	mapTrigger(TRIG_VOLUME_INCREASE,URL_VOLUME_INCREASE,*ms) ;
 	mapTrigger(TRIG_VOLUME_DECREASE,URL_VOLUME_DECREASE,*ms) ;
 
-	EventDispatcher *ed=EventDispatcher::GetInstance() ;
+	EventDispatcher *ed=EventDispatcher::Instance() ;
 	mapTrigger(TRIG_EVENT_A,URL_EVENT_A,*ed) ;
 	mapTrigger(TRIG_EVENT_B,URL_EVENT_B,*ed) ;
 	mapTrigger(TRIG_EVENT_UP,URL_EVENT_UP,*ed) ;
@@ -56,11 +56,11 @@ bool CommandDispatcher::Init() {
 	mapTrigger(TRIG_EVENT_RSHOULDER,URL_EVENT_RSHOULDER,*ed) ;
 	mapTrigger(TRIG_EVENT_START,URL_EVENT_START,*ed) ;
 
-	ApplicationCommandDispatcher *acd=ApplicationCommandDispatcher::GetInstance() ;
+	ApplicationCommandDispatcher *acd=ApplicationCommandDispatcher::Instance() ;
 	mapTrigger(TRIG_TEMPO_TAP,URL_TEMPO_TAP,*acd) ;
 	mapTrigger(TRIG_SEQ_QUEUE_ROW,URL_QUEUE_ROW,*acd) ;
 
-	//	ControlRoom::GetInstance()->Dump() ;
+	//	ControlRoom::Instance()->Dump() ;
 	return true ;
 }  ;
 
@@ -69,7 +69,7 @@ void CommandDispatcher::Close() {
 
 void CommandDispatcher::mapTrigger(FourCC trigger,const char *nodeUrl,CommandExecuter &executer) {
 
-	ControlRoom *cr=ControlRoom::GetInstance() ;
+	ControlRoom *cr=ControlRoom::Instance() ;
 	AssignableControlNode *acn=cr->GetControlNode(nodeUrl) ; 
 	if (acn) {
 		CommandTrigger *ct=new CommandTrigger(trigger,executer) ;

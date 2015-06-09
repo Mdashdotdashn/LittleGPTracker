@@ -83,7 +83,7 @@ SDLGUIWindowImp::SDLGUIWindowImp(GUICreateWindowParams &p)
   
   bool fullscreen=false ;
   
-  const char *fullscreenValue=Config::GetInstance()->GetValue("FULLSCREEN") ;
+  const char *fullscreenValue=Config::Instance()->GetValue("FULLSCREEN") ;
   if ((fullscreenValue)&&(!strcmp(fullscreenValue,"YES")))
   {
   	fullscreen=true ;
@@ -99,7 +99,7 @@ SDLGUIWindowImp::SDLGUIWindowImp(GUICreateWindowParams &p)
  
   int multFromSize=MIN(screenHeight/appHeight,screenWidth/appWidth);
  
-  const char *mult=Config::GetInstance()->GetValue("SCREENMULT") ;
+  const char *mult=Config::Instance()->GetValue("SCREENMULT") ;
   if (mult)
   {
     mult_=atoi(mult);
@@ -343,7 +343,7 @@ void SDLGUIWindowImp::prepareFonts()
 {
 
   Trace::Log("DISPLAY","Preparing font cache") ;
-  Config *config=Config::GetInstance() ;
+  Config *config=Config::Instance() ;
   
   unsigned char r,g,b ;
   const char *value=config->GetValue("BACKGROUND") ;
@@ -694,7 +694,7 @@ void SDLGUIWindowImp::drawGP2X()
 
 void SDLGUIWindowImp::drawGP2XOverlay()
 {
-	int mask=EventDispatcher::GetInstance()->GetEventMask() ;
+	int mask=EventDispatcher::Instance()->GetEventMask() ;
 	Trace::Debug("got mask=%d",mask) ;
 	drawSub(BM_OVERLAY) ;
 	if (mask&(1<<EPBT_L)) drawSub(BM_LS) ;

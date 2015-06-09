@@ -78,7 +78,7 @@ ProjectView::ProjectView(GUIWindow &w,ViewData *data):FieldView(w,data) {
 	v=project_->FindVariable(VAR_MIDIDEVICE) ;
 	NAssert(v) ;
 	position._y+=2 ;
-	UIIntVarField *f3=new UIIntVarField(position,*v,"midi: %s",0,MidiService::GetInstance()->Size(),1,1) ;
+	UIIntVarField *f3=new UIIntVarField(position,*v,"midi: %s",0,MidiService::Instance()->Size(),1,1) ;
 	T_SimpleList<UIField>::Insert(f3) ;
 
 	position._y+=2 ;
@@ -106,7 +106,7 @@ void ProjectView::ProcessButtonMask(unsigned short mask,bool pressed) {
 		}
 	} else {
 		if (mask&EPBM_START) {
-   			Player *player=Player::GetInstance() ;
+   			Player *player=Player::Instance() ;
 			player->OnStartButton(PM_SONG,viewData_->songX_,false,viewData_->songX_) ;
 		}
 	} ;
@@ -131,7 +131,7 @@ void ProjectView::DrawView() {
 	drawMap() ;
 } ;
 
-void ProjectView::Update(Observable &,I_ObservableData *data) {
+void ProjectView::ObserverUpdate(Observable &,ObservableData *data) {
 
 	if (!hasFocus_) {
 		return ;
@@ -148,7 +148,7 @@ void ProjectView::Update(Observable &,I_ObservableData *data) {
 	} else {
 		focus=tempoField_ ;
 	}
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 
 	switch (fourcc) {
 		case ACTION_PURGE:
@@ -162,7 +162,7 @@ void ProjectView::Update(Observable &,I_ObservableData *data) {
 		}
 		case ACTION_SAVE:
 			if (!player->IsRunning()) {
-				PersistencyService *service=PersistencyService::GetInstance() ;
+				PersistencyService *service=PersistencyService::Instance() ;
 				service->Save() ;
 			} else {
 				MessageBox *mb=new MessageBox(*this,"Not while playing",MBBF_OK) ;

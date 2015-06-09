@@ -2,9 +2,9 @@
 #ifndef _CONTROL_NODE_H_
 #define _CONTROL_NODE_H_
 
-#include "Foundation/T_SimpleList.h"
+#include "Framework/Containers/T_SimpleList.h"
 #include "Services/Controllers/Channel.h"
-#include "Foundation/Observable.h"
+#include "Framework/Notifications/Observable.h"
 #include "Services/Controllers/ControllerService.h"
 
 enum ControlNodeType {
@@ -33,14 +33,14 @@ protected:
 // They implement observable so that a we can watch a change in
 // channel assignment
 
-class AssignableControlNode: public ControlNode,public Channel,public I_Observer {
+class AssignableControlNode: public ControlNode,public Channel,public Observer {
 public:
 	AssignableControlNode(const char *name,ControlNode *parent) ;
 	virtual ~AssignableControlNode() ;
 	bool SetSourceChannel(Channel *) ;
 	Channel *GetSourceChannel() ;
 protected:
-	virtual void Update(Observable &o,I_ObservableData *d) ;
+	virtual void ObserverUpdate(Observable &o,ObservableData *d) ;
 public:
 	Channel *channel_ ;
 } ;

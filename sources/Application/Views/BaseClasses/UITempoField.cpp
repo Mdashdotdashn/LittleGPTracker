@@ -12,19 +12,19 @@ UITempoField::UITempoField(FourCC action,GUIPoint &position,Variable &v,const ch
 	int oldVal=*src_ ;
 	UIIntField::OffsetValue(offset) ;
 	if (*src_!=oldVal) {
-		Player *player=Player::GetInstance() ;
+		Player *player=Player::Instance() ;
 		player->SetTempo(*src_) ;
 	} ;
 } ;
 */
 
 void UITempoField::OnBClick() {
-	ApplicationCommandDispatcher::GetInstance()->OnTempoTap() ;
+	ApplicationCommandDispatcher::Instance()->OnTempoTap() ;
 } ;
 
-void UITempoField::Update(Observable &,I_ObservableData *data) {
+void UITempoField::ObserverUpdate(Observable &,ObservableData *data) {
 	SetChanged() ;
-	NotifyObservers((I_ObservableData *)action_) ;
+	NotifyObservers((ObservableData *)action_) ;
 }
 
 void UITempoField::ProcessArrow(unsigned short mask) {
@@ -56,7 +56,7 @@ void UITempoField::ProcessArrow(unsigned short mask) {
 
 void UITempoField::ProcessBArrow(unsigned short mask) {
 
-	ApplicationCommandDispatcher *dispatcher=ApplicationCommandDispatcher::GetInstance() ;
+	ApplicationCommandDispatcher *dispatcher=ApplicationCommandDispatcher::Instance() ;
 	switch(mask) {
 		case EPBM_UP:
 			break ;

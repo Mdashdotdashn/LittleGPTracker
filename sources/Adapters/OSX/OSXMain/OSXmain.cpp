@@ -12,7 +12,7 @@ int main(int argc,char *argv[])
 	params.title="littlegptracker" ;
 	params.cacheFonts_=false ;
 
-	Application::GetInstance()->Init(params) ;
+	Application::Instance()->Init(params) ;
 
 	int retval=OSXSystem::MainLoop() ;
 

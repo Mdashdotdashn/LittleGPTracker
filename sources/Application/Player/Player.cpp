@@ -34,7 +34,7 @@ Player::Player() {
 
 } ;
 
-Player *Player::GetInstance() {
+Player *Player::Instance() {
 	if (instance_==0) {
 		instance_=new Player() ;
 	}
@@ -51,7 +51,7 @@ bool Player::Init(Project *project,ViewData *viewData) {
 	}
 
 	mixer_->AddObserver((*this)) ;
-	SyncMaster *sync=SyncMaster::GetInstance() ;
+	SyncMaster *sync=SyncMaster::Instance() ;
 	sync->SetTempo(project_->GetTempo()) ;
 	return mixer_->Start() ;
 }
@@ -84,7 +84,7 @@ void Player::Start(PlayMode mode,bool forceSongMode) {
     
 	// Get start time for clock
 	
-	System *system=System::GetInstance() ;
+	System *system=System::Instance() ;
 	now_=startClock_=system->GetClock() ;
   
   // Sets play mode.
@@ -122,18 +122,18 @@ void Player::Start(PlayMode mode,bool forceSongMode) {
 
 	project_->GetInstrumentBank()->OnStart() ;
 
-	Groove::GetInstance()->Reset() ;
+	Groove::Instance()->Reset() ;
 
     // Let's get started !
 
-	SyncMaster::GetInstance()->Start() ;
+	SyncMaster::Instance()->Start() ;
 
 	firstPlayCycle_=true ;
 	mode_=viewData_->playMode_ ;
 	
 	mixer_->OnPlayerStart() ;
 
-	MidiService *ms=MidiService::GetInstance() ;
+	MidiService *ms=MidiService::Instance() ;
 	ms->OnPlayerStart() ;
 
   switch(viewData_->playMode_)
@@ -200,10 +200,10 @@ void Player::Stop() {
 	for (int i=0;i<SONG_CHANNEL_COUNT;i++) {
 		mixer_->StopChannel(i) ;
 	}
-	MidiService::GetInstance()->OnPlayerStop() ;
+	MidiService::Instance()->OnPlayerStop() ;
 	mixer_->OnPlayerStop() ;
 
-	SyncMaster::GetInstance()->Stop() ;
+	SyncMaster::Instance()->Stop() ;
 	isRunning_=false ;
 	SetChanged() ;
 	PlayerEvent pe(PET_STOP) ;
@@ -496,20 +496,20 @@ void Player::QueueChannel(int i,QueueingMode mode,unsigned char position,unsigne
 	a block of audio and we get room to prepare the next one
  ************************************************************/
 
-void Player::Update(Observable &o,I_ObservableData *d) {
+void Player::ObserverUpdate(Observable &o,ObservableData *d) {
 
 	// Make sure sync's ok
 
-	MidiService::GetInstance()->Trigger() ;
+	MidiService::Instance()->Trigger() ;
 	project_->Trigger() ;
 
 	if (isRunning_) {
 
-		SyncMaster *sync=SyncMaster::GetInstance() ;
+		SyncMaster *sync=SyncMaster::Instance() ;
 		sync->SetTempo(project_->GetTempo()) ;
 
 		if (!firstPlayCycle_) {
-			Groove::GetInstance()->Trigger() ;
+			Groove::Instance()->Trigger() ;
 			sync->NextSlice() ;
 			triggerLiveChains_=false ;
 			if (retrigAllImmediate_) {
@@ -583,7 +583,7 @@ void Player::Update(Observable &o,I_ObservableData *d) {
 		}
 
 		firstPlayCycle_=false ;
-		System *system=System::GetInstance() ;
+		System *system=System::Instance() ;
 		now_=system->GetClock() ;
 
 		// Notify refresh
@@ -605,7 +605,7 @@ void Player::ProcessCommands() {
 
     // loop on all channels
 
-	Groove *gs=Groove::GetInstance() ;
+	Groove *gs=Groove::Instance() ;
 
 	for (int i=0;i<SONG_CHANNEL_COUNT;i++) {
 
@@ -670,14 +670,14 @@ bool Player::ProcessChannelCommand(int channel,FourCC cmd,ushort param) {
             {
                 Variable*v=project_->FindVariable(VAR_TEMPO) ;
                 v->SetInt(param) ;
-                SyncMaster *sync=SyncMaster::GetInstance() ;
+                SyncMaster *sync=SyncMaster::Instance() ;
  	            sync->SetTempo(project_->GetTempo()) ;  
             }   
             return true ;
             break ;
 		case I_CMD_TABL:
 			{
-				TableHolder *th=TableHolder::GetInstance() ;
+				TableHolder *th=TableHolder::Instance() ;
 				TablePlayback &tpb=TablePlayback::GetTablePlayback(channel) ;
 				param=param&0x7F ;
 				Table &table=th->GetTable(param) ;
@@ -687,7 +687,7 @@ bool Player::ProcessChannelCommand(int channel,FourCC cmd,ushort param) {
 			}
 		case I_CMD_GROV:
 			{
-				Groove *gr=Groove::GetInstance() ;
+				Groove *gr=Groove::Instance() ;
 				bool all=(param&0xFF00)!=0 ;
 				param=param&0xFF ;
 				if (all) {
@@ -825,7 +825,7 @@ void Player::playCursorPosition(int channel) {
 		unsigned char note=phrase->note_[16*currentPhrase+pos]  ;
 		unsigned char instr=phrase->instr_[16*currentPhrase+pos]  ;
 
-		TableHolder *th=TableHolder::GetInstance() ;
+		TableHolder *th=TableHolder::Instance() ;
 		TablePlayback &tpb=TablePlayback::GetTablePlayback(channel) ;
 
 		if (note!=0xFF) {
@@ -950,7 +950,7 @@ void Player::moveToNextStep()
          break ;
     }
 
-    Groove *gs=Groove::GetInstance() ;
+    Groove *gs=Groove::Instance() ;
     
 	  if (mixer_->IsChannelPlaying(i)&&!liveTriggered)
     {
@@ -1160,7 +1160,7 @@ double Player::GetPlayTime() {
 } ;
 
 int Player::GetPlayedBufferPercentage() {
-	unsigned int beatCount=SyncMaster::GetInstance()->GetBeatCount();
+	unsigned int beatCount=SyncMaster::Instance()->GetBeatCount();
 	if (beatCount!=lastBeatCount_) {
 		lastBeatCount_=beatCount ;
 		lastPercentage_=mixer_->GetPlayedBufferPercentage() ;

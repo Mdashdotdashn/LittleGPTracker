@@ -17,9 +17,9 @@ Application::Application() {
 
 void Application::initMidiInput()
 {
-  const char *preferedDevice=Config::GetInstance()->GetValue("MIDICTRLDEVICE");
+  const char *preferedDevice=Config::Instance()->GetValue("MIDICTRLDEVICE");
 
-  IteratorPtr<MidiInDevice>it(MidiService::GetInstance()->GetInIterator()) ;
+  IteratorPtr<MidiInDevice>it(MidiService::Instance()->GetInIterator()) ;
   for(it->Begin();!it->IsDone();it->Next())
   {
     MidiInDevice &in=it->CurrentItem() ;
@@ -41,17 +41,17 @@ void Application::initMidiInput()
 }
 
 bool Application::Init(GUICreateWindowParams &params) {
-	const char* root=Config::GetInstance()->GetValue("ROOTFOLDER") ;
+	const char* root=Config::Instance()->GetValue("ROOTFOLDER") ;
 	if (root) {
 		Path::SetAlias("root",root) ;
 	} ;
 	window_=AppWindow::Create(params) ;
-	PersistencyService::GetInstance() ;
-  Audio *audio=Audio::GetInstance() ;
+	PersistencyService::Instance() ;
+  Audio *audio=Audio::Instance() ;
   audio->Init() ;
-	CommandDispatcher::GetInstance()->Init() ;
+	CommandDispatcher::Instance()->Init() ;
   initMidiInput();
-	ControlRoom::GetInstance()->LoadMapping("bin:mapping.xml") ;
+	ControlRoom::Instance()->LoadMapping("bin:mapping.xml") ;
 	return true ;
 } ;
 

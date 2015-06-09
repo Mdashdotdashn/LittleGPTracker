@@ -1,7 +1,7 @@
 #ifndef _TIME_SERVICE_H_
 #define _TIME_SERVICE_H_
 
-#include "Foundation/T_Singleton.h"
+#include "Framework/Instances/T_Singleton.h"
 #include <string>
 
 typedef double Time ;

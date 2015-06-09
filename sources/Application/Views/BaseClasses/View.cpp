@@ -138,7 +138,7 @@ void View::drawNotes() {
 		GUIPoint pos(initialX,initialY) ;
 		GUITextProperties props ;
 
-        Player *player=Player::GetInstance() ;
+        Player *player=Player::Instance() ;
 		
 		//column banger refactor
 		props.invert_= true;

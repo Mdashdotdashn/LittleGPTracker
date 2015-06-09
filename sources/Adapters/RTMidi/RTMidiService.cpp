@@ -14,7 +14,7 @@
 
 
 RTMidiService::RTMidiService() {
-	const char *delay=Config::GetInstance()->GetValue("MIDIDELAY") ;
+	const char *delay=Config::Instance()->GetValue("MIDIDELAY") ;
 	if (delay) {
 		midiDelay_=atoi(delay) ;
 	} else {

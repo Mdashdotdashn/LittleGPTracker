@@ -2,7 +2,7 @@
 #ifndef _CHANNEL_H_
 #define _CHANNEL_H_
 
-#include "Foundation/Observable.h"
+#include "Framework/Notifications/Observable.h"
 #include <string>
 
 class Channel: public Observable {

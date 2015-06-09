@@ -2,13 +2,13 @@
 #ifndef _AUDIO_H_
 #define _AUDIO_H_
 
-#include "Foundation/T_Factory.h"
-#include "Foundation/T_SimpleList.h"
+#include "Framework/Instances/T_Installable.h"
+#include "Framework/Containers/T_SimpleList.h"
 #include "AudioOut.h"
 #include "AudioSettings.h"
 
 
-class Audio:public T_Factory<Audio>,public T_SimpleList<AudioOut> {
+class Audio:public T_Installable<Audio>,public T_SimpleList<AudioOut> {
 public:
 	Audio(AudioSettings &settings) ;
 	virtual ~Audio() ;

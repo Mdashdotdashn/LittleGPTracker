@@ -5,7 +5,7 @@
 
 void Status::Set(char *fmt, ...) {
 
-	Status *status=Status::GetInstance() ;
+	Status *status=Status::Instance() ;
 	if (!status) return ;
 
      char buffer[4096] ;

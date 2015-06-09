@@ -2,7 +2,7 @@
 #ifndef _GROOVE_H_
 #define _GROOVE_H_
 
-#include "Foundation/T_Singleton.h"
+#include "Framework/Instances/T_Singleton.h"
 #include "Application/Persistency/Persistent.h"
 #include "Application/Model/Song.h"
 #include "Application/Utils/HexBuffers.h"

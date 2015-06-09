@@ -3,9 +3,9 @@
 #define _LIST_SELECT_VIEW_H
 
 #include "BaseClasses/FieldView.h"
-#include "Foundation/Observable.h"
+#include "Framework/Notifications/Observable.h"
 
-class ListSelectView: public FieldView,public I_Observer  {
+class ListSelectView: public FieldView,public Observer  {
 
 public:
 	ListSelectView(GUIWindow &w,ViewData *viewData) ;
@@ -18,7 +18,7 @@ public:
 
 	// Observer for action callback
 
-	void Update(Observable &,I_ObservableData *) ;
+	virtual void ObserverUpdate(Observable &,ObservableData *) ;
 
 private:
 	T_SimpleList<Path> content_ ;

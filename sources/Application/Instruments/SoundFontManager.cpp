@@ -24,7 +24,7 @@ sfBankID SoundFontManager::LoadBank(const char *path) {
 	} 
 	// open the file
 
-	I_File *fin=FileSystem::GetInstance()->Open(path,"r") ;
+	I_File *fin=FileSystem::Instance()->Open(path,"r") ;
 	if (!fin) {
 		return false;
 	}

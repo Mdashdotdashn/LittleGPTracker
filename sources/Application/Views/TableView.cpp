@@ -71,7 +71,7 @@ void TableView::fillClipboardData() {
       
   // Copy the data
     
-	Table &table=TableHolder::GetInstance()->GetTable(viewData_->currentTable_) ;
+	Table &table=TableHolder::Instance()->GetTable(viewData_->currentTable_) ;
 
     uint *src1=table.cmd1_ ;
     uint *dst1=clipboard_.cmd1_ ;
@@ -145,7 +145,7 @@ void TableView::cutSelection() {
 
 // Loop over selection col, row & clear data inside it
 
-	Table &table=TableHolder::GetInstance()->GetTable(viewData_->currentTable_) ;
+	Table &table=TableHolder::Instance()->GetTable(viewData_->currentTable_) ;
     uint *dst1=table.cmd1_ ;
     ushort *dst2=table.param1_ ;
     uint *dst3=table.cmd2_ ;
@@ -202,7 +202,7 @@ void TableView::pasteClipboard() {
         height=16-row_ ;
     }
   */  
-	Table &table=TableHolder::GetInstance()->GetTable(viewData_->currentTable_) ;
+	Table &table=TableHolder::Instance()->GetTable(viewData_->currentTable_) ;
 
     uint *dst1=table.cmd1_ ;
     uint *src1=clipboard_.cmd1_ ;
@@ -255,7 +255,7 @@ void TableView::updateCursor(int dx,int dy) {
 	if (row_>15) row_=15 ;
 	if (row_<0) row_=0 ;
 
-	Table &table=TableHolder::GetInstance()->GetTable(viewData_->currentTable_) ;
+	Table &table=TableHolder::Instance()->GetTable(viewData_->currentTable_) ;
 
 	GUIPoint anchor=GetAnchor() ;
 	GUIPoint p(anchor) ;
@@ -306,7 +306,7 @@ void TableView::updateCursorValue(int offset) {
 	bool wrap=false ;
     FourCC *cc ;
     
-	Table &table=TableHolder::GetInstance()->GetTable(viewData_->currentTable_) ;
+	Table &table=TableHolder::Instance()->GetTable(viewData_->currentTable_) ;
 
     
 	switch (col_) {
@@ -442,7 +442,7 @@ void TableView::updateCursorValue(int offset) {
 void TableView::pasteLast() {
 	uint   *i=0 ;
 	
-	Table &table=TableHolder::GetInstance()->GetTable(viewData_->currentTable_) ;
+	Table &table=TableHolder::Instance()->GetTable(viewData_->currentTable_) ;
 
 	switch (col_) {
 		case 0:
@@ -508,7 +508,7 @@ void TableView::ProcessButtonMask(unsigned short mask,bool pressed) {
 
 void TableView::processNormalButtonMask(unsigned short mask) {
 
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 
 	if (mask&EPBM_B) {
 		if (mask&EPBM_LEFT) warpToNeighbour(-1) ;
@@ -583,7 +583,7 @@ void TableView::processNormalButtonMask(unsigned short mask) {
 
 void TableView::processSelectionButtonMask(unsigned short mask) {
 
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 
 	if (mask&EPBM_B) {
         if (mask&EPBM_L) {
@@ -668,7 +668,7 @@ void TableView::DrawView() {
 	GUITextProperties props ;
 	GUIPoint pos=GetTitlePosition() ;
 
-	Table &table=TableHolder::GetInstance()->GetTable(viewData_->currentTable_) ;
+	Table &table=TableHolder::Instance()->GetTable(viewData_->currentTable_) ;
 
 // Draw title
 
@@ -810,7 +810,7 @@ void TableView::DrawView() {
 	drawMap() ;
 	drawNotes() ;
 
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 
 	if (player->IsRunning()) {
 		OnPlayerUpdate(PET_UPDATE) ;
@@ -836,7 +836,7 @@ void TableView::OnPlayerUpdate(PlayerEventType eventType,unsigned int tick) {
 	pos._y=anchor._y+lastPosition_[2] ;
 	DrawString(pos._x,pos._y," ",props) ;
 
-	TableHolder *th=TableHolder::GetInstance() ;
+	TableHolder *th=TableHolder::Instance() ;
 	// Get current channel
 	int channel=viewData_->songX_ ;
 	// Table associated to the channel playerpb

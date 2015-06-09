@@ -2,8 +2,8 @@
 #ifndef _CONTROLLER_SERVICE_H_
 #define _CONTROLLER_SERVICE_H_
 
-#include "Foundation/T_Singleton.h"
-#include "Foundation/T_SimpleList.h"
+#include "Framework/Instances/T_Singleton.h"
+#include "Framework/Containers/T_SimpleList.h"
 
 #include "ControllerSource.h"
 #include "ControllableVariable.h"

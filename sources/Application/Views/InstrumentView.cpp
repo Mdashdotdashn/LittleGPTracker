@@ -79,7 +79,7 @@ void InstrumentView::fillSampleParameters() {
 	
 //	position._y+=View::fieldSpaceHeight_;
 	Variable *v=instrument->FindVariable(SIP_SAMPLE) ;
-	SamplePool *sp=SamplePool::GetInstance() ;
+	SamplePool *sp=SamplePool::Instance() ;
 	UIIntVarField *f1=new UIIntVarField(position,*v,"sample: %s",0,sp->GetNameListSize()-1,1,0x10) ;
 	T_SimpleList<UIField>::Insert(f1) ;
 	f1->SetFocus() ;
@@ -265,8 +265,8 @@ void InstrumentView::ProcessButtonMask(unsigned short mask,bool pressed) {
 				 {
                     // First check if the samplelib exists
 
-					 Path sampleLib(SamplePool::GetInstance()->GetSampleLib()) ;
-					 if (FileSystem::GetInstance()->GetFileType(sampleLib.GetPath().c_str())!=FT_DIR) {
+					 Path sampleLib(SamplePool::Instance()->GetSampleLib()) ;
+					 if (FileSystem::Instance()->GetFileType(sampleLib.GetPath().c_str())!=FT_DIR) {
 						 MessageBox *mb=new MessageBox(*this,"Can't access the samplelib",MBBF_OK) ;
 						 DoModal(mb) ;
 					 } else { ;
@@ -279,7 +279,7 @@ void InstrumentView::ProcessButtonMask(unsigned short mask,bool pressed) {
 				 }
 				case SIP_TABLE:
 				 {
-					int next=TableHolder::GetInstance()->GetNext() ;
+					int next=TableHolder::Instance()->GetNext() ;
 					if (next!=NO_MORE_TABLE) {
 						v.SetInt(next) ;
 						isDirty_=true ;
@@ -301,7 +301,7 @@ void InstrumentView::ProcessButtonMask(unsigned short mask,bool pressed) {
 			int current=v.GetInt() ;
 			if (current==-1) return ;
 
-			int next=TableHolder::GetInstance()->Clone(current) ;
+			int next=TableHolder::Instance()->Clone(current) ;
 			if (next!=NO_MORE_TABLE) {
 				v.SetInt(next) ;
 				isDirty_=true ;
@@ -317,7 +317,7 @@ void InstrumentView::ProcessButtonMask(unsigned short mask,bool pressed) {
 
 	FieldView::ProcessButtonMask(mask) ;
 	
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 	// B Modifier
 
 	if (mask&EPBM_B) {         
@@ -447,6 +447,6 @@ void InstrumentView::OnFocus() {
 }
 
 
-void InstrumentView::Update(Observable &o,I_ObservableData *d) {
+void InstrumentView::ObserverUpdate(Observable &o,ObservableData *d) {
 	onInstrumentChange() ;
 }

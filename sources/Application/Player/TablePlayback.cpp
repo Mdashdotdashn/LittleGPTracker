@@ -155,7 +155,7 @@ bool TablePlayback::ProcessLocalCommand(int row,FourCC *commandList,ushort *para
 
 void TablePlayback::ProcessStep(TablePlayerChange &tpc) {	
 
-	Groove *gs=Groove::GetInstance();
+	Groove *gs=Groove::Instance();
 
 	if (table_!=0) {
         if (instrument_) {

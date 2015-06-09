@@ -43,21 +43,21 @@ void OSXSystem::Boot(int argc,char **argv)
   // Tracing
   
 #ifdef _DEBUG
-  Trace::GetInstance()->SetLogger(*(new StdOutLogger()));
+  Trace::Instance()->SetLogger(*(new StdOutLogger()));
 #else
   Path logPath("bin:lgpt.log");
   FileLogger *fileLogger=new FileLogger(logPath);
   if(fileLogger->Init().Succeeded())
   {
-    Trace::GetInstance()->SetLogger(*fileLogger);    
+    Trace::Instance()->SetLogger(*fileLogger);    
   }
 #endif
   
-	Config::GetInstance()->ProcessArguments(argc,argv) ;
+	Config::Instance()->ProcessArguments(argc,argv) ;
 	
 	// Install Timers
 
-	TimerService::GetInstance()->Install(new SDLTimerService()) ;
+	TimerService::Instance()->Install(new SDLTimerService()) ;
 
 	// Install Sound
 
@@ -76,7 +76,7 @@ void OSXSystem::Boot(int argc,char **argv)
 
 	SysProcessFactory::Install(new UnixProcessFactory()) ;
 
-	eventManager_=I_GUIWindowFactory::GetInstance()->GetEventManager() ;
+	eventManager_=I_GUIWindowFactory::Instance()->GetEventManager() ;
 	eventManager_->Init() ;
 
 	eventManager_->MapAppButton("a",APP_BUTTON_A) ;

@@ -1,7 +1,7 @@
 #ifndef _VIEW_EVENT_H_
 #define _VIEW_EVENT_H_
 
-#include "Foundation/Observable.h"
+#include "Framework/Notifications/Observable.h"
 
 enum ViewEventType {
 	VET_SWITCH_VIEW,
@@ -12,7 +12,7 @@ enum ViewEventType {
 	VET_QUIT_APP
 } ;
 
-class ViewEvent: public I_ObservableData {
+class ViewEvent: public ObservableData {
 public:
 	ViewEvent(ViewEventType type,void *data=0) ;
 	ViewEventType GetType() ;

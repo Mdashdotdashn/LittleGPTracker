@@ -3,7 +3,7 @@
 #define _APP_WINDOW_H_
 
 #include "UIFramework/SimpleBaseClasses/GUIWindow.h"
-#include "Foundation/Observable.h"
+#include "Framework/Notifications/Observable.h"
 #include "Application/Views/SongView.h"
 #include "Application/Views/ChainView.h"
 #include "Application/Views/PhraseView.h"
@@ -20,7 +20,7 @@
 
 #define PROP_INVERT 0x80
 
-class AppWindow:public GUIWindow,I_Observer,Status {
+class AppWindow:public GUIWindow,Observer,Status {
 protected:
 	AppWindow(I_GUIWindowImp &imp) ;
 	virtual ~AppWindow() ;
@@ -48,9 +48,9 @@ protected: // GUIWindow implementation
 	virtual void DrawString(const char *string,GUIPoint &pos,GUITextProperties &props,bool overlay=false);
 
 
-      // I_Observer implementation
+      // Observer implementation
 
-    virtual void Update(Observable &o,I_ObservableData *d) ;
+    virtual void ObserverUpdate(Observable &o,ObservableData *d) ;
 
 	 // Status implementation
 

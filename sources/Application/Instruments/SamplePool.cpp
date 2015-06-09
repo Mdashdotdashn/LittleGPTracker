@@ -28,7 +28,7 @@ SamplePool::~SamplePool() {
 } ;
 
 const char *SamplePool::GetSampleLib() {
-	Config *config=Config::GetInstance() ;
+	Config *config=Config::Instance() ;
 	const char *lib=config->GetValue("SAMPLELIB") ;
 	return lib?lib:SAMPLE_LIB ;
 } 
@@ -39,14 +39,14 @@ void SamplePool::Reset() {
 		SAFE_DELETE(wav_[i]) ;
 		SAFE_FREE(names_[i]) ;
 	} ;
-	SoundFontManager::GetInstance()->Reset() ;
+	SoundFontManager::Instance()->Reset() ;
 } ;
 
 void SamplePool::Load() {
 
 	Path sampleDir("samples:");
 
-	I_Dir *dir=FileSystem::GetInstance()->Open(sampleDir.GetPath().c_str()) ;
+	I_Dir *dir=FileSystem::Instance()->Open(sampleDir.GetPath().c_str()) ;
 	if (!dir) {
 		return ;
 	}
@@ -150,7 +150,7 @@ int SamplePool::ImportSample(Path &path) {
 
     // Opens files
 
-	I_File *fin=FileSystem::GetInstance()->Open(path.GetPath().c_str(),"r") ;
+	I_File *fin=FileSystem::Instance()->Open(path.GetPath().c_str(),"r") ;
 	if (!fin) {
 		Trace::Error("Failed to open input file %s",path.GetPath().c_str()) ;
 		return -1;
@@ -159,7 +159,7 @@ int SamplePool::ImportSample(Path &path) {
 	long size=fin->Tell() ;
 	fin->Seek(0,SEEK_SET) ;
 
-	I_File *fout=FileSystem::GetInstance()->Open(dstPath.GetPath().c_str(),"w") ;
+	I_File *fout=FileSystem::Instance()->Open(dstPath.GetPath().c_str(),"w") ;
 	if (!fout) {
 		fin->Close() ;
 		delete (fin) ;
@@ -206,7 +206,7 @@ void SamplePool::PurgeSample(int i) {
 	SAFE_DELETE(names_[i]) ;
 
 	// delete file
-	FileSystem::GetInstance()->Delete(path.GetPath().c_str()) ;
+	FileSystem::Instance()->Delete(path.GetPath().c_str()) ;
 
 	// shift all entries from deleted to end
 	for (int j=i;j<count_-1;j++) {
@@ -228,7 +228,7 @@ void SamplePool::PurgeSample(int i) {
 
 bool SamplePool::loadSoundFont(const char *path) {
 
-	sfBankID  id=SoundFontManager::GetInstance()->LoadBank(path) ;
+	sfBankID  id=SoundFontManager::Instance()->LoadBank(path) ;
 	if (id==-1) {
 		return false ;
 	} 

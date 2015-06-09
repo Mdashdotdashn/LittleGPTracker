@@ -134,7 +134,7 @@ SampleInstrument::~SampleInstrument() {
 
 bool SampleInstrument::Init() {
 
-	SamplePool *pool=SamplePool::GetInstance() ;
+	SamplePool *pool=SamplePool::Instance() ;
     Variable *vSample=FindVariable(SIP_SAMPLE) ;
 	NAssert(vSample) ;
 	int index=vSample->GetInt() ;
@@ -210,7 +210,7 @@ bool SampleInstrument::Start(int channel,unsigned char midinote,bool cleanstart)
 	 }*/
 	 rp->reverse_=false ;
 
-     float driverRate=float(Audio::GetInstance()->GetSampleRate()) ;
+     float driverRate=float(Audio::Instance()->GetSampleRate()) ;
      
 	 switch (loopmode) {
 		 case SILM_ONESHOT:
@@ -255,7 +255,7 @@ bool SampleInstrument::Start(int channel,unsigned char midinote,bool cleanstart)
 				 rp->reverse_=true ;
 				 length=-length ;
 			} ;
-			SyncMaster *sm=SyncMaster::GetInstance() ;
+			SyncMaster *sm=SyncMaster::Instance() ;
 			int sampleCount=int(sm->GetTickSampleCount()) ;
 			sampleCount*=(6*16) ; 
 			rp->baseSpeed_=fl2fp(length/float(sampleCount)) ;
@@ -484,7 +484,7 @@ bool SampleInstrument::Render(int channel,fixed *buffer,int size,bool updateTick
 			if (rp->retrig_) {
 				if (rp->retrigCount_==0) {
 					int ticks=rp->retrigOffset_-rp->retrigLoop_ ;
-					long offset=long(ticks*SyncMaster::GetInstance()->GetTickSampleCount()) ;
+					long offset=long(ticks*SyncMaster::Instance()->GetTickSampleCount()) ;
 					rp->position_+=offset*fp2fl(rp->speed_) ;
 					if (rp->position_<0) {
 						rp->position_=0 ;
@@ -960,7 +960,7 @@ bool SampleInstrument::IsInitialized() {
 
 void SampleInstrument::updateInstrumentData(bool search) {
 
-	SamplePool *pool=SamplePool::GetInstance() ;
+	SamplePool *pool=SamplePool::Instance() ;
 
 	// Get the source index
 
@@ -986,7 +986,7 @@ void SampleInstrument::updateInstrumentData(bool search) {
 	dirty_=false ;
 } ;
 
-void SampleInstrument::Update(Observable &o,I_ObservableData *d)
+void SampleInstrument::ObserverUpdate(Observable &o,ObservableData *d)
 {
 	WatchedVariable &v=(WatchedVariable &)o ;
 	FourCC id=v.GetID() ;
@@ -1073,7 +1073,7 @@ void SampleInstrument::ProcessCommand(int channel,FourCC cc,ushort value) {
                 float startVolume=fp2fl(rp->volume_) ;
 				float baseVolume=fp2fl(rp->baseVolume_) ;
                 
-				int sampleCount=int(4*SyncMaster::GetInstance()->GetTickSampleCount()) ;
+				int sampleCount=int(4*SyncMaster::Instance()->GetTickSampleCount()) ;
 				speed=(speed==0)?0:fabs(targetVolume-startVolume)*KRATE_SAMPLE_COUNT/float(speed)/sampleCount ;
 				rp->volumeRamp_.SetData(targetVolume-baseVolume,speed,startVolume-baseVolume) ;
 				if (!rp->volumeRamp_.Enabled()) {
@@ -1092,7 +1092,7 @@ void SampleInstrument::ProcessCommand(int channel,FourCC cc,ushort value) {
 				float basePan=fp2fl(rp->basePan_) ;
 				float speed=float(value>>8) ;
 				float startPan=fp2fl(rp->pan_) ;
-				int sampleCount=int(4*SyncMaster::GetInstance()->GetTickSampleCount()) ;
+				int sampleCount=int(4*SyncMaster::Instance()->GetTickSampleCount()) ;
 				speed=(speed==0)?0:fabs(targetPan-startPan)*KRATE_SAMPLE_COUNT/float(speed)/sampleCount ;
 				rp->panner_.SetData(targetPan-basePan,speed,startPan-basePan) ;
 				if (!rp->panner_.Enabled()) {
@@ -1108,7 +1108,7 @@ void SampleInstrument::ProcessCommand(int channel,FourCC cc,ushort value) {
 				float speed=float(value>>8) ;
                 float start=fp2fl(rp->cutoff_) ;
                 float baseCut=fp2fl(rp->baseFCut_) ;
-				int sampleCount=int(4*SyncMaster::GetInstance()->GetTickSampleCount()) ;
+				int sampleCount=int(4*SyncMaster::Instance()->GetTickSampleCount()) ;
 				speed=(speed==0)?0:fabs(target-start)*KRATE_SAMPLE_COUNT/float(speed)/sampleCount ;
  				rp->cutRamp_.SetData(target-baseCut,speed,start-baseCut) ;
 				if (!rp->cutRamp_.Enabled()) {
@@ -1124,7 +1124,7 @@ void SampleInstrument::ProcessCommand(int channel,FourCC cc,ushort value) {
 				float speed=float(value>>8) ;
                 float start=fp2fl(rp->reso_) ;
 				float baseRes=fp2fl(rp->baseFRes_) ;                
-				int sampleCount=int(4*SyncMaster::GetInstance()->GetTickSampleCount()) ;
+				int sampleCount=int(4*SyncMaster::Instance()->GetTickSampleCount()) ;
 				speed=(speed==0)?0:fabs(target-start)*KRATE_SAMPLE_COUNT/float(speed)/sampleCount ;
  				rp->resRamp_.SetData(target-baseRes,speed,start-baseRes) ;
 				if (!rp->resRamp_.Enabled()) {
@@ -1142,7 +1142,7 @@ void SampleInstrument::ProcessCommand(int channel,FourCC cc,ushort value) {
 				float speed=float(value>>8) ;
                 float start=fp2fl(rp->fbMix_) ;
 				float baseMix=fp2fl(rp->baseFbMix_) ;                
-				int sampleCount=int(4*SyncMaster::GetInstance()->GetTickSampleCount()) ;
+				int sampleCount=int(4*SyncMaster::Instance()->GetTickSampleCount()) ;
 				speed=(speed==0)?0:fabs(target-start)*KRATE_SAMPLE_COUNT/float(speed)/sampleCount ;
  				rp->fbMixRamp_.SetData(target-baseMix,speed,start-baseMix) ;
 				if (!rp->fbMixRamp_.Enabled()) {
@@ -1160,7 +1160,7 @@ void SampleInstrument::ProcessCommand(int channel,FourCC cc,ushort value) {
 				float speed=float(value>>8) ;
                 float start=fp2fl(rp->fbTun_) ;
 				float baseTune=fp2fl(rp->baseFbTun_) ;                
-				int sampleCount=int(4*SyncMaster::GetInstance()->GetTickSampleCount()) ;
+				int sampleCount=int(4*SyncMaster::Instance()->GetTickSampleCount()) ;
 				speed=(speed==0)?0:fabs(target-start)*KRATE_SAMPLE_COUNT/float(speed)/sampleCount ;
  				rp->fbTunRamp_.SetData(target-baseTune,speed,start-baseTune) ;
 				if (!rp->fbTunRamp_.Enabled()) {

@@ -3,8 +3,8 @@
 #define _MIDI_SERVICE_H_
 
 #include <string>
-#include "Foundation/T_Factory.h"
-#include "Foundation/Observable.h"
+#include "Framework/Instances/T_Installable.h"
+#include "Framework/Notifications/Observable.h"
 #include "System/Timer/Timer.h"
 #include "MidiOutDevice.h"
 #include "MidiInDevice.h"
@@ -14,9 +14,9 @@
 #define MIDI_MAX_BUFFERS 20
 
 class MidiService
-:public T_Factory<MidiService>
+:public T_Installable<MidiService>
 ,public T_SimpleList<MidiOutDevice>
-,public I_Observer
+,public Observer
 {
 
 public:
@@ -55,7 +55,7 @@ protected:
 
 	T_SimpleList<MidiInDevice> inList_ ;
 
-  virtual void Update(Observable &o,I_ObservableData *d) ;
+  virtual void ObserverUpdate(Observable &o,ObservableData *d) ;
   void onAudioTick();
 
 	//! start the selected midi device

@@ -2,18 +2,18 @@
 #include "SamplePool.h"
 
 SampleVariable::SampleVariable(const char *name,FourCC id):WatchedVariable(name,id,0,0,-1) {
-	SamplePool *pool=SamplePool::GetInstance() ;
+	SamplePool *pool=SamplePool::Instance() ;
 	list_.char_=pool->GetNameList() ;
 	listSize_=pool->GetNameListSize() ;
 	pool->AddObserver(*this) ;
 } ;
 
 SampleVariable::~SampleVariable() {
-	SamplePool *pool=SamplePool::GetInstance() ;
+	SamplePool *pool=SamplePool::Instance() ;
 	pool->RemoveObserver(*this) ;
 } ;
 
-void SampleVariable::Update(Observable &o,I_ObservableData *d) {
+void SampleVariable::ObserverUpdate(Observable &o,ObservableData *d) {
 	SamplePoolEvent *e=(SamplePoolEvent *)d ;
 	// if we recieved notification that an element has been removed
 	// we shift down all the index above the removed element

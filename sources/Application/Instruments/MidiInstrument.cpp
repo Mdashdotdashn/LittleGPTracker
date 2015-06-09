@@ -10,7 +10,7 @@ MidiInstrument::MidiInstrument() {
 	strcpy(name_,"0") ;
 	
 	if (svc_==0) {
-		svc_=MidiService::GetInstance() ;
+		svc_=MidiService::Instance() ;
 	};
 
 	Variable *v=new Variable("channel",MIP_CHANNEL,0) ;

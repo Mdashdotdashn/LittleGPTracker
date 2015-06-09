@@ -120,7 +120,7 @@ Channel *AssignableControlNode::GetSourceChannel() {
 	return channel_ ;
 } ;
 
-void AssignableControlNode::Update(Observable &o,I_ObservableData *d) {
+void AssignableControlNode::ObserverUpdate(Observable &o,ObservableData *d) {
 	Channel &channel=(Channel &)o ;
 	SetValue(channel.GetValue()) ;
 	NotifyObservers() ;

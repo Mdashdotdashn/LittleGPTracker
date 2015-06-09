@@ -118,7 +118,7 @@ void Song::RestoreContent(TiXmlElement *element) {
 	ushort *param1=phrase_->param1_ ;
 	ushort *param2=phrase_->param2_ ;
 
-	TableHolder *th=TableHolder::GetInstance() ;
+	TableHolder *th=TableHolder::Instance() ;
 
 	for (int i=0;i<PHRASE_COUNT;i++) {
         for (int j=0;j<16;j++) {

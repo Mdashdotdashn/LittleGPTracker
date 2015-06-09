@@ -17,7 +17,7 @@ static const char *buttonText[3]= {
 
 ImportSampleDialog::ImportSampleDialog(View &view):ModalView(view) {
 	if (!initStatic_) {
-		const char *slpath=SamplePool::GetInstance()->GetSampleLib() ;
+		const char *slpath=SamplePool::Instance()->GetSampleLib() ;
 		sampleLib_=Path(slpath) ;
 		currentPath_=Path(slpath) ;
 		initStatic_=true ;
@@ -116,12 +116,12 @@ void ImportSampleDialog::OnFocus() {
 } ;
 
 void ImportSampleDialog::preview(Path &element) {
-	Player::GetInstance()->StartStreaming(element) ;
+	Player::Instance()->StartStreaming(element) ;
 }
 
 void ImportSampleDialog::import(Path &element) {
 
-	SamplePool *pool=SamplePool::GetInstance() ;
+	SamplePool *pool=SamplePool::Instance() ;
 	int sampleID=pool->ImportSample(element) ;
 	if (sampleID>=0) {
 		I_Instrument *instr=viewData_->project_->GetInstrumentBank()->GetInstrument(toInstr_) ;
@@ -217,7 +217,7 @@ void ImportSampleDialog::setCurrentFolder(Path *path) {
 	sampleList_.Empty() ;
 	if (path) {
 		int count=0 ;
-		I_Dir *dir=FileSystem::GetInstance()->Open(path->GetPath().c_str()) ;	
+		I_Dir *dir=FileSystem::Instance()->Open(path->GetPath().c_str()) ;	
 		if (dir) {
 			dir->GetContent("*") ;
 			dir->Sort() ;

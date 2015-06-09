@@ -34,7 +34,7 @@ void ListSelectView::SetContent(T_SimpleList<Path> &content)  {
 	topIndex_=0 ;
 } ;
 
-void ListSelectView::Update(Observable &o,I_ObservableData *) {
+void ListSelectView::ObserverUpdate(Observable &o,ObservableData *) {
 	UIActionField &f=(UIActionField	&)o ;
 	ViewEvent ve(VET_LIST_SELECT,(void *)(f.GetString())) ;
 	SetChanged();

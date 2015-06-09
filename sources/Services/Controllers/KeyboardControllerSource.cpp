@@ -11,7 +11,7 @@ KeyboardControllerSource::~KeyboardControllerSource() {
 } ;
 
 Channel *KeyboardControllerSource::GetChannel(const char *url) {
-	int key=I_GUIWindowFactory::GetInstance()->GetEventManager()->GetKeyCode(url) ;
+	int key=I_GUIWindowFactory::Instance()->GetEventManager()->GetKeyCode(url) ;
 	if (key>0) {
 		if (!channel_[key]) {
 			channel_[key]=new Channel(url) ;

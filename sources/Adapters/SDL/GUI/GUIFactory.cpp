@@ -13,6 +13,6 @@ I_GUIWindowImp &GUIFactory::CreateWindowImp(GUICreateWindowParams &p) {
 }
 
 EventManager *GUIFactory::GetEventManager() {
-	return SDLEventManager::GetInstance() ;
+	return SDLEventManager::Instance() ;
 }
 #endif

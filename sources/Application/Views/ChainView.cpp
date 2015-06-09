@@ -344,20 +344,20 @@ void ChainView::pasteClipboard() {
 
 void ChainView::unMuteAll() {
 
-	UIController *controller=UIController::GetInstance() ;
+	UIController *controller=UIController::Instance() ;
 	controller->UnMuteAll() ;
 } ;
 
 void ChainView::toggleMute() {
 
-	UIController *controller=UIController::GetInstance() ;
+	UIController *controller=UIController::Instance() ;
 	controller->ToggleMute(viewData_->songX_,viewData_->songX_) ;
 	viewMode_=(viewMode_!=VM_MUTEON)?VM_MUTEON:VM_NORMAL ;
 } ;
 
 void ChainView::switchSoloMode() {
 
-	UIController *controller=UIController::GetInstance() ;
+	UIController *controller=UIController::Instance() ;
 	controller->SwitchSoloMode(viewData_->songX_,viewData_->songX_,(viewMode_==VM_NORMAL)) ;
 	viewMode_=(viewMode_!=VM_SOLOON)?VM_SOLOON:VM_NORMAL ;
     isDirty_=true ;
@@ -423,7 +423,7 @@ void ChainView::ProcessButtonMask(unsigned short mask,bool pressed) {
 void ChainView::processNormalButtonMask(unsigned short mask) {
     
     
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 
     // B Modifier
     
@@ -511,7 +511,7 @@ void ChainView::processNormalButtonMask(unsigned short mask) {
 
 void ChainView::processSelectionButtonMask(unsigned short mask) {
 
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 
 	// B Modifier
 
@@ -680,7 +680,7 @@ void ChainView::DrawView() {
         setTextProps(props,1,j,true) ;
 		pos._y++ ;
 	}
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 	
 	drawMap() ;
 	drawNotes() ;
@@ -692,7 +692,7 @@ void ChainView::DrawView() {
 
 void ChainView::OnPlayerUpdate(PlayerEventType eventType,unsigned int tick) {
 
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 
     drawNotes() ;
     

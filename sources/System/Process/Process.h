@@ -1,7 +1,7 @@
 #ifndef _NOS_PROCESS_H_
 #define _NOS_PROCESS_H_
 
-#include "Foundation/T_Factory.h"
+#include "Framework/Instances/T_Installable.h"
 
 class SysThreadExecuter ;
 
@@ -53,7 +53,7 @@ public:
 
 // The thread executer
 
-class SysProcessFactory: public T_Factory<SysProcessFactory> {
+class SysProcessFactory: public T_Installable<SysProcessFactory> {
 public:
 	virtual bool BeginThread(SysThread &)=0 ;
 	virtual SysSemaphore *CreateNewSemaphore(int initialcount = 0, int maxcount = 0)=0 ;

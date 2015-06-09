@@ -1,11 +1,11 @@
 #ifndef _INSTRUMENT_VIEW_H_
 #define _INSTRUMENT_VIEW_H_
 
-#include "Foundation/Observable.h"
+#include "Framework/Notifications/Observable.h"
 #include "BaseClasses/FieldView.h"
 #include "ViewData.h"
 
-class InstrumentView: public FieldView, public I_Observer {
+class InstrumentView: public FieldView, public Observer {
 public:
 	InstrumentView(GUIWindow &w,ViewData *data) ;
 	virtual ~InstrumentView() ;
@@ -21,7 +21,7 @@ protected:
 	void fillSampleParameters() ;
 	void fillMidiParameters() ;
 	InstrumentType getInstrumentType() ;
-	void Update(Observable &o,I_ObservableData *d) ;
+	virtual void ObserverUpdate(Observable &o,ObservableData *d) ;
 
 private:
 	Project *project_ ;

@@ -2,10 +2,10 @@
 #define _FILESYSTEM_H_
 
 #include "System/System/System.h"
-#include "Foundation/T_Factory.h"
-#include "Foundation/T_SimpleList.h"
+#include "Framework/Instances/T_Installable.h"
+#include "Framework/Containers/T_SimpleList.h"
 #include "Foundation/Types/Types.h"
-#include "System/Errors/Result.h"
+#include "Framework/Errors/Result.h"
 #include <stdlib.h>
 #include <string.h>
 #include <string>
@@ -97,7 +97,7 @@ protected:
    char *path_ ;
 } ;
 
-class FileSystem: public T_Factory<FileSystem> {
+class FileSystem: public T_Installable<FileSystem> {
 public:
 	virtual I_File *Open(const char *path,char *mode)=0 ;
 	virtual I_Dir *Open(const char *path)=0 ;
@@ -106,6 +106,6 @@ public:
 	virtual FileType GetFileType(const char *path)=0 ;
 } ;
 
-#define FS_FOPEN(a,b) FileSystem::GetInstance()->Open(a,b)
+#define FS_FOPEN(a,b) FileSystem::Instance()->Open(a,b)
 
 #endif

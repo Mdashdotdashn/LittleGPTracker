@@ -38,7 +38,7 @@ int Swap32 (int from)
 
 WavFile::WavFile(I_File *file) {
 	if (initChunkSize_) {
-		const char *size=Config::GetInstance()->GetValue("SAMPLELOADCHUNKSIZE") ;
+		const char *size=Config::Instance()->GetValue("SAMPLELOADCHUNKSIZE") ;
 		if (size) {
 			bufferChunkSize_=atoi(size) ;
 		}
@@ -65,7 +65,7 @@ WavFile *WavFile::Open(const char *path) {
 
     // open file
 
-	FileSystem *fs=FileSystem::GetInstance() ;
+	FileSystem *fs=FileSystem::Instance() ;
 	I_File *file=fs->Open(path,"r") ;
 	
 	if (!file) return 0 ;
@@ -303,7 +303,7 @@ bool WavFile::GetBuffer(long start,long size) {
 		bufferStart+=readSize ;
 		count-=readSize ;
 		offset+=readSize ;
-		if (bufferChunkSize_>0) TimeService::GetInstance()->Sleep(1) ;
+		if (bufferChunkSize_>0) TimeService::Instance()->Sleep(1) ;
 	}
 
 

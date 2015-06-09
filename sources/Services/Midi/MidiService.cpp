@@ -19,10 +19,10 @@ MidiService::MidiService():
 		queues_[i]=new T_SimpleList<MidiMessage>(true)  ;
 	}
   
-	const char *delay = Config::GetInstance()->GetValue("MIDIDELAY") ;
+	const char *delay = Config::Instance()->GetValue("MIDIDELAY") ;
   midiDelay_ = delay?atoi(delay):1 ;
   
-	const char *sendSync = Config::GetInstance()->GetValue("MIDISENDSYNC") ;
+	const char *sendSync = Config::Instance()->GetValue("MIDISENDSYNC") ;
 	if (sendSync)
   {
 		sendSync_ = (strcmp(sendSync,"YES")==0) ;
@@ -86,7 +86,7 @@ void MidiService::Trigger()
   AdvancePlayQueue();
   
 	if (device_&&sendSync_) {
-		SyncMaster *sm=SyncMaster::GetInstance() ;
+		SyncMaster *sm=SyncMaster::Instance() ;
 		if (sm->MidiSlice()) {
 			MidiMessage msg;
 			msg.status_ = 0xF8;
@@ -103,7 +103,7 @@ void MidiService::AdvancePlayQueue()
 	queue->Empty() ;
 }
 
-void MidiService::Update(Observable &o,I_ObservableData *d)
+void MidiService::ObserverUpdate(Observable &o,ObservableData *d)
 {
   AudioDriver::Event *event=(AudioDriver::Event *)d;
   if (event->type_ == AudioDriver::Event::ADET_DRIVERTICK)

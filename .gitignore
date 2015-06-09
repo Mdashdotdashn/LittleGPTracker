@@ -2,3 +2,4 @@ bin/**
 build/**
 projects/buildPSP/**
 tracks/**
+*.DS_Store

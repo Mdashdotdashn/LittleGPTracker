@@ -26,7 +26,7 @@ PlayerMixer::PlayerMixer() {
 
 bool PlayerMixer::Init(Project *project) {
 
-	MixerService *ms=MixerService::GetInstance() ;
+	MixerService *ms=MixerService::Instance() ;
 	if (!ms->Init()) {
 			return false ;
 	}
@@ -53,13 +53,13 @@ void PlayerMixer::Close()  {
 	}
 
 
-	MixerService *ms=MixerService::GetInstance() ;
+	MixerService *ms=MixerService::Instance() ;
 	ms->Close() ;
 
 }
 
 bool PlayerMixer::Start() {
-	MixerService *ms=MixerService::GetInstance() ;
+	MixerService *ms=MixerService::Instance() ;
 	ms->AddObserver(*this) ;
 
 	for (int i=0;i<SONG_CHANNEL_COUNT;i++) {
@@ -70,7 +70,7 @@ bool PlayerMixer::Start() {
 } ;
 
 void PlayerMixer::Stop() {
-	MixerService *ms=MixerService::GetInstance() ;
+	MixerService *ms=MixerService::Instance() ;
 	ms->Stop() ;
 	ms->RemoveObserver(*this) ;
 } ;
@@ -99,7 +99,7 @@ bool PlayerMixer::Clipped() {
      return clipped_ ;
 }
 
-void PlayerMixer::Update(Observable &o,I_ObservableData *d) {
+void PlayerMixer::ObserverUpdate(Observable &o,ObservableData *d) {
 
   // Notifies the player so that pattern data is processed
 
@@ -108,13 +108,13 @@ void PlayerMixer::Update(Observable &o,I_ObservableData *d) {
 
   // Transfer the mixer data
 
-	Mixer *mixer=Mixer::GetInstance() ;
+	Mixer *mixer=Mixer::Instance() ;
 
 	for (int i=0;i<SONG_CHANNEL_COUNT;i++) {
 		channel_[i]->SetMixBus(mixer->GetBus(i)) ;
 	}
 //     out_->SetMasterVolume(project_->GetMasterVolume()) ;
-	 MixerService *ms=MixerService::GetInstance() ;
+	 MixerService *ms=MixerService::Instance() ;
      ms->SetMasterVolume(project_->GetMasterVolume()) ;
      clipped_=ms->Clipped() ;
 } ;
@@ -137,7 +137,7 @@ I_Instrument *PlayerMixer::GetInstrument(int channel) {
 }
 
 int PlayerMixer::GetPlayedBufferPercentage() {
-	MixerService *ms=MixerService::GetInstance() ;
+	MixerService *ms=MixerService::Instance() ;
 	return ms->GetPlayedBufferPercentage() ;
 };
 
@@ -158,12 +158,12 @@ void PlayerMixer::StopStreaming() {
 } ;
 
 void PlayerMixer::OnPlayerStart() {
-	MixerService *ms=MixerService::GetInstance() ;
+	MixerService *ms=MixerService::Instance() ;
 	ms->OnPlayerStart();
 }
 
 void PlayerMixer::OnPlayerStop() {
-	MixerService *ms=MixerService::GetInstance() ;
+	MixerService *ms=MixerService::Instance() ;
 	ms->OnPlayerStop();
 }
 
@@ -195,17 +195,17 @@ char *PlayerMixer::GetPlayedOctive(int channel) {
 } ;
 
 AudioOut *PlayerMixer::GetAudioOut() {
-	MixerService *ms=MixerService::GetInstance() ;
+	MixerService *ms=MixerService::Instance() ;
 	return ms->GetAudioOut();
 } ;
 
 void PlayerMixer::Lock() {
-	MixerService *ms=MixerService::GetInstance() ;
+	MixerService *ms=MixerService::Instance() ;
 	ms->Lock() ;
 } ;
 
 void PlayerMixer::Unlock() {
-	MixerService *ms=MixerService::GetInstance() ;
+	MixerService *ms=MixerService::Instance() ;
 	ms->Unlock() ;
 
 } ;

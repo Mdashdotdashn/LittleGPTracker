@@ -5,7 +5,7 @@
 UIController::UIController() {
 } ;
 
-UIController *UIController::GetInstance() {
+UIController *UIController::Instance() {
 	if (instance_==0) {
 		instance_=new UIController() ;
 	}
@@ -24,7 +24,7 @@ void UIController::Reset() {
 
 void UIController::UnMuteAll() {
 
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 	for (int i=0;i<SONG_CHANNEL_COUNT;i++) {
 			player->SetChannelMute(i,false) ;
 	} ;
@@ -32,7 +32,7 @@ void UIController::UnMuteAll() {
 
 void UIController::ToggleMute(int from,int to) {
 
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 	for (int i=from;i<to+1;i++) {
 		bool muted=player->IsChannelMuted(i) ;
 		player->SetChannelMute(i,!muted) ;
@@ -41,7 +41,7 @@ void UIController::ToggleMute(int from,int to) {
 
 void UIController::SwitchSoloMode(int from,int to,bool soloing) {
 
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 	
 	// If not in solo mode, we solo current channel or selection
 	

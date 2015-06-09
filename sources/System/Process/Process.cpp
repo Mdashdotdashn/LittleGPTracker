@@ -4,7 +4,7 @@
 #include "System/Console/n_assert.h"
 
 bool SysThread::Start() {
-	return SysProcessFactory::GetInstance()->BeginThread(*this) ;
+	return SysProcessFactory::Instance()->BeginThread(*this) ;
 } ;
 
 bool SysThread::startExecution() {
@@ -34,6 +34,6 @@ void SysThread::RequestTermination() {
 
 
 SysSemaphore *SysSemaphore::Create(int initialcount,int maxcount) {
-	return SysProcessFactory::GetInstance()->CreateNewSemaphore(initialcount,maxcount) ;
+	return SysProcessFactory::Instance()->CreateNewSemaphore(initialcount,maxcount) ;
 } ;
 

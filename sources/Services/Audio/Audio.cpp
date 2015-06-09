@@ -7,7 +7,7 @@ Audio::Audio(AudioSettings &hints):T_SimpleList<AudioOut>(true),settings_() {
 	// default settings for the platform. All of the can
 	// be overriden through the config file
 
-	Config *config=Config::GetInstance() ;
+	Config *config=Config::Instance() ;
 	const char *v=config->GetValue("AUDIOAPI") ;
 	settings_.audioAPI_=v?v:hints.audioAPI_ ;
 	v=config->GetValue("AUDIODEVICE")  ;

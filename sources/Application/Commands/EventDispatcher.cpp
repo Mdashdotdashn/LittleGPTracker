@@ -7,7 +7,7 @@ int EventDispatcher::keyRepeat_=30 ;
 int EventDispatcher::keyDelay_=500 ;
 
 Uint32 OnTimer(Uint32 interval) {
-	return EventDispatcher::GetInstance()->OnTimerTick() ;
+	return EventDispatcher::Instance()->OnTimerTick() ;
 } ;
 
 EventDispatcher::EventDispatcher() {
@@ -16,7 +16,7 @@ EventDispatcher::EventDispatcher() {
 
 	// Read config file key repeat
 
-	Config *config=Config::GetInstance() ;
+	Config *config=Config::Instance() ;
 	const char *s=config->GetValue("KEYDELAY") ;
 	if (s) {
 		keyDelay_=atoi(s) ;
@@ -33,7 +33,7 @@ EventDispatcher::EventDispatcher() {
 	repeatMask_|=(1<<EPBT_UP) ;
 	repeatMask_|=(1<<EPBT_DOWN) ;
 
-	timer_=TimerService::GetInstance()->CreateTimer() ;
+	timer_=TimerService::Instance()->CreateTimer() ;
 	timer_->AddObserver(*this) ;
 
 } ;
@@ -88,7 +88,7 @@ void EventDispatcher::Execute(FourCC id,float value) {
 
 		// Dispatch event to window
 
-		unsigned long now=System::GetInstance()->GetClock();
+		unsigned long now=System::Instance()->GetClock();
 		GUIEventType type=(value>0.5)? ET_PADBUTTONDOWN:ET_PADBUTTONUP ;
 		GUIEvent event(mapping,type,now,0,0,0) ;
 		window_->DispatchEvent(event) ;
@@ -110,7 +110,7 @@ void EventDispatcher::SetWindow(GUIWindow *window) {
 unsigned int EventDispatcher::OnTimerTick() {
 
 	unsigned sendMask=(eventMask_&repeatMask_) ;
-	unsigned long now=System::GetInstance()->GetClock();
+	unsigned long now=System::Instance()->GetClock();
 
 	if (sendMask) {
 		int current=0 ;
@@ -127,7 +127,7 @@ unsigned int EventDispatcher::OnTimerTick() {
 	return 0 ;
 } ;
 
-void EventDispatcher::Update(Observable &o,I_ObservableData *d) {
+void EventDispatcher::ObserverUpdate(Observable &o,ObservableData *d) {
 	unsigned int tick=OnTimerTick() ;
 	if (tick) {
 		timer_->SetPeriod(float(tick)) ;

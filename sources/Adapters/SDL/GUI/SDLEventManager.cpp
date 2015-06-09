@@ -36,7 +36,7 @@ bool SDLEventManager::Init()
 	joyCount=(joyCount>MAX_JOY_COUNT)?MAX_JOY_COUNT:joyCount ;
 
 	keyboardCS_=new KeyboardControllerSource("keyboard") ;
-	const char *dumpIt=Config::GetInstance()->GetValue("DUMPEVENT") ;
+	const char *dumpIt=Config::Instance()->GetValue("DUMPEVENT") ;
 	if ((dumpIt)&&(!strcmp(dumpIt,"YES")))
   {
 		dumpEvent_=true ;
@@ -75,7 +75,7 @@ bool SDLEventManager::Init()
 
 int SDLEventManager::MainLoop() 
 {
-	GUIWindow *appWindow=Application::GetInstance()->GetWindow() ;
+	GUIWindow *appWindow=Application::Instance()->GetWindow() ;
 	SDLGUIWindowImp *sdlWindow=(SDLGUIWindowImp *)appWindow->GetImpWindow() ;
 	while (!finished_)
 	{

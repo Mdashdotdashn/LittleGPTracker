@@ -34,7 +34,7 @@ bool PersistencyService::Load() {
 
 	// Try opening the file
 	
-	FileSystem *fs=FileSystem::GetInstance() ;
+	FileSystem *fs=FileSystem::Instance() ;
 	I_File *file=fs->Open(filename.GetPath().c_str(),"r") ;
 	if (!file) return false ;
 	

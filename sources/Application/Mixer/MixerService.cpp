@@ -12,7 +12,7 @@ MixerService::MixerService():
 	sync_(0)
 {
 	mode_=MSM_AUDIO ;
-	const char *render=Config::GetInstance()->GetValue("RENDER") ;
+	const char *render=Config::Instance()->GetValue("RENDER") ;
 	if (render) {
 		if (!strcmp(render,"FILERT")) {
 			mode_=MSM_FILERT ;
@@ -44,7 +44,7 @@ bool MixerService::Init() {
 			out_=new DummyAudioOut() ;
 			break;
 		default:
-			Audio *audio=Audio::GetInstance() ;
+			Audio *audio=Audio::Instance() ;
 			out_=audio->GetFirst() ;
 			break ;
 	}
@@ -78,7 +78,7 @@ bool MixerService::Init() {
 			   }
 			   break ;
 	   }
-    out_->AddObserver(*MidiService::GetInstance());
+    out_->AddObserver(*MidiService::Instance());
 	}
 
 	sync_=SDL_CreateMutex() ;
@@ -95,7 +95,7 @@ bool MixerService::Init() {
 
 void MixerService::Close() {
 	if (out_) {
-    out_->RemoveObserver(*MidiService::GetInstance());
+    out_->RemoveObserver(*MidiService::Instance());
 		out_->Close() ;
 		out_->Empty() ;
 		master_.Empty() ;
@@ -125,7 +125,7 @@ void MixerService::Close() {
 } ;
 
 bool MixerService::Start() {
-	MidiService::GetInstance()->Start() ;
+	MidiService::Instance()->Start() ;
      if (out_) {
       out_->AddObserver(*this) ;
       out_->Start() ;
@@ -134,7 +134,7 @@ bool MixerService::Start() {
 } ;
 
 void MixerService::Stop() {
-	MidiService::GetInstance()->Stop() ;
+	MidiService::Instance()->Stop() ;
      if (out_) {
       out_->Stop() ;
       out_->RemoveObserver(*this) ;
@@ -145,7 +145,7 @@ MixBus *MixerService::GetMixBus(int i) {
 	return &(bus_[i]) ;
 } ;
 
-void MixerService::Update(Observable &o,I_ObservableData *d)  {
+void MixerService::ObserverUpdate(Observable &o,ObservableData *d)  {
 
   AudioDriver::Event *event=(AudioDriver::Event *)d;
   if (event->type_ == AudioDriver::Event::ADET_BUFFERNEEDED)
@@ -164,7 +164,7 @@ bool MixerService::Clipped() {
 } ;
 
 void MixerService::SetMasterVolume(int vol) {
-  Mixer *mixer=Mixer::GetInstance();
+  Mixer *mixer=Mixer::Instance();
   
   fixed masterVolume = fp_mul(i2fp(vol),fl2fp(0.01f));
   
@@ -205,7 +205,7 @@ void MixerService::OnPlayerStop() {
 
 void MixerService::Execute(FourCC id,float value) {
      if (value>0.5) {
-        Audio *audio=Audio::GetInstance() ;
+        Audio *audio=Audio::Instance() ;
         int volume=audio->GetMixerVolume() ;
         switch(id) {
            case TRIG_VOLUME_INCREASE:

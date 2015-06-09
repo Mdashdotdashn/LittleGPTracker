@@ -592,20 +592,20 @@ void PhraseView::pasteClipboard() {
 
 void PhraseView::unMuteAll() {
 
-	UIController *controller=UIController::GetInstance() ;
+	UIController *controller=UIController::Instance() ;
 	controller->UnMuteAll() ;
 } ;
 
 void PhraseView::toggleMute() {
 
-	UIController *controller=UIController::GetInstance() ;
+	UIController *controller=UIController::Instance() ;
 	controller->ToggleMute(viewData_->songX_,viewData_->songX_) ;
 	viewMode_=(viewMode_!=VM_MUTEON)?VM_MUTEON:VM_NORMAL ;
 } ;
 
 void PhraseView::switchSoloMode() {
 
-	UIController *controller=UIController::GetInstance() ;
+	UIController *controller=UIController::Instance() ;
 	controller->SwitchSoloMode(viewData_->songX_,viewData_->songX_,(viewMode_==VM_NORMAL)) ;
 	viewMode_=(viewMode_!=VM_SOLOON)?VM_SOLOON:VM_NORMAL ;
     isDirty_=true ;
@@ -653,7 +653,7 @@ void PhraseView::ProcessButtonMask(unsigned short mask,bool pressed) {
 				mask&=(0xFFFF-EPBM_A) ;
 			} else {
 				if ((col_==3)&&(*(phrase_->cmd1_+(16*viewData_->currentPhrase_+row_)))==I_CMD_TABL) {
-					TableHolder *th=TableHolder::GetInstance() ;
+					TableHolder *th=TableHolder::Instance() ;
 					unsigned short next=th->GetNext() ;
 					if (next!=NO_MORE_TABLE) {
 						ushort *c=phrase_->param1_+(16*viewData_->currentPhrase_+row_) ;
@@ -664,7 +664,7 @@ void PhraseView::ProcessButtonMask(unsigned short mask,bool pressed) {
 					}
 				}
 				if ((col_==5)&&(*(phrase_->cmd2_+(16*viewData_->currentPhrase_+row_)))==I_CMD_TABL) {
-					TableHolder *th=TableHolder::GetInstance() ;
+					TableHolder *th=TableHolder::Instance() ;
 					unsigned short next=th->GetNext() ;
 					if (next!=NO_MORE_TABLE) {
 						ushort *c=phrase_->param2_+(16*viewData_->currentPhrase_+row_) ;
@@ -693,7 +693,7 @@ void PhraseView::ProcessButtonMask(unsigned short mask,bool pressed) {
 				}
 			}else {
 				if ((col_==3)&&(*(phrase_->cmd1_+(16*viewData_->currentPhrase_+row_)))==I_CMD_TABL) {
-					TableHolder *th=TableHolder::GetInstance() ;
+					TableHolder *th=TableHolder::Instance() ;
 					int current=*(phrase_->param1_+(16*viewData_->currentPhrase_+row_)) ;
 					if (current!=-1) {
 						unsigned short next=th->Clone(current) ;
@@ -706,7 +706,7 @@ void PhraseView::ProcessButtonMask(unsigned short mask,bool pressed) {
 					}
 				}
 				if ((col_==5)&&(*(phrase_->cmd2_+(16*viewData_->currentPhrase_+row_)))==I_CMD_TABL) {
-					TableHolder *th=TableHolder::GetInstance() ;
+					TableHolder *th=TableHolder::Instance() ;
 					unsigned short next=th->Clone(*(phrase_->param2_+(16*viewData_->currentPhrase_+row_))) ;
 					if (next!=NO_MORE_TABLE) {
 						ushort *c=phrase_->param2_+(16*viewData_->currentPhrase_+row_) ;
@@ -741,7 +741,7 @@ void PhraseView::processNormalButtonMask(unsigned short mask) {
 
 	// B Modifier
 	
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 
 	if (mask&EPBM_B) {
 		if (mask&EPBM_LEFT) warpToNeighbour(-1) ;
@@ -855,7 +855,7 @@ void PhraseView::processNormalButtonMask(unsigned short mask) {
 
 void PhraseView::processSelectionButtonMask(unsigned short mask) {
 
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 
 	// B modifier
 
@@ -1122,7 +1122,7 @@ void PhraseView::DrawView() {
     drawMap() ;
    	drawNotes() ;
  
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 	if (player->IsRunning()) {
 		OnPlayerUpdate(PET_UPDATE) ;
 	} ;
@@ -1147,7 +1147,7 @@ void PhraseView::OnPlayerUpdate(PlayerEventType eventType,unsigned int tick) {
 	pos._y=anchor._y+lastPlayingPos_ ;
 	DrawString(pos._x,pos._y," ",props) ;
 
-	Player *player=Player::GetInstance() ;
+	Player *player=Player::Instance() ;
 
 	if (eventType!=PET_STOP) {
 

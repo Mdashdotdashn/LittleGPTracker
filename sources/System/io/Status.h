@@ -2,9 +2,9 @@
 #ifndef _STATUS_H_
 #define _STATUS_H_
 
-#include "Foundation/T_Factory.h"
+#include "Framework/Instances/T_Installable.h"
 
-class Status: public T_Factory<Status>  {
+class Status: public T_Installable<Status>  {
 public:
 	virtual void Print(char *)=0 ;
 	static void Set(char *fmt, ...) ;

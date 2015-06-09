@@ -2,14 +2,14 @@
 #define _AUDIO_OUT_DRIVER_H_
 
 #include "AudioOut.h"
-#include "Foundation/Observable.h"
+#include "Framework/Notifications/Observable.h"
 #include "Application/Instruments/WavFileWriter.h"
 
 class AudioDriver ;
 
 #define MIX_BUFFER_SIZE 40000
 
-class AudioOutDriver: public AudioOut,protected I_Observer {
+class AudioOutDriver: public AudioOut,protected Observer {
 public:
        AudioOutDriver(AudioDriver &) ;
        virtual ~AudioOutDriver() ;
@@ -36,7 +36,7 @@ public:
 
 protected:
 
-		virtual void Update(Observable &o,I_ObservableData *d) ;
+		virtual void ObserverUpdate(Observable &o,ObservableData *d) ;
  
        void prepareMixBuffers() ;
        void mixToPrimary() ;

@@ -3,7 +3,7 @@
 
 #include <string>
 #include "Foundation/Types/Types.h"
-#include "Foundation/T_SimpleList.h"
+#include "Framework/Containers/T_SimpleList.h"
 #include "MidiMessage.h"
 
 class MidiOutDevice {

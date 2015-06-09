@@ -8,7 +8,7 @@ WavFileWriter::WavFileWriter(const char *path):
 	sampleCount_(0)
 {
 	Path filePath(path) ;
-	file_=FileSystem::GetInstance()->Open(filePath.GetPath().c_str(),"wb") ;
+	file_=FileSystem::Instance()->Open(filePath.GetPath().c_str(),"wb") ;
 	if (file_) {
 
 		// RIFF chunk

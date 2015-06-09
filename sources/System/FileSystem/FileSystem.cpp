@@ -86,7 +86,7 @@ Path Path::Descend(const std::string& leaf)
 void Path::getType() {
 	if (!gotType_) {
 		gotType_=true ;
-		type_=FileSystem::GetInstance()->GetFileType(path_) ;
+		type_=FileSystem::Instance()->GetFileType(path_) ;
 	} ;
 } ;
 

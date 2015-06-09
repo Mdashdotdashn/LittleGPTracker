@@ -25,7 +25,7 @@ bool NCEventManager::Init() {
 }
 
 int  NCEventManager::MainLoop() {
-	GUIWindow *appWindow=Application::GetInstance()->GetWindow() ;
+	GUIWindow *appWindow=Application::Instance()->GetWindow() ;
 	NCGUIWindowImp *ncWindow=(NCGUIWindowImp *)appWindow->GetImpWindow() ;
 
 	ncWindow->ProcessExpose() ;

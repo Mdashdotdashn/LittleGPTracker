@@ -2,7 +2,7 @@
 #define _TABLE_H_
 
 #include "Foundation/Types/Types.h"
-#include "Foundation/T_Singleton.h"
+#include "Framework/Instances/T_Singleton.h"
 #include "Application/Persistency/Persistent.h"
 
 #define TABLE_COUNT 0x80

@@ -1,8 +1,8 @@
 #ifndef _TIMER_H_
 #define _TIMER_H_
 
-#include "Foundation/T_Factory.h"
-#include "Foundation/Observable.h"
+#include "Framework/Instances/T_Installable.h"
+#include "Framework/Notifications/Observable.h"
 
 typedef void (*timerCallback)() ;
 
@@ -18,7 +18,7 @@ public:
 	virtual float GetPeriod()=0 ;
 } ;
 
-class TimerService:public T_Factory<TimerService> {
+class TimerService:public T_Installable<TimerService> {
 public:
 	virtual I_Timer *CreateTimer()=0 ; // Returns a timer
 	virtual void TriggerCallback(int msec,timerCallback cb)=0 ;
