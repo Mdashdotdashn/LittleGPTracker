@@ -11,7 +11,7 @@ int main(int argc,char *argv[])
 	params.title="littlegptracker" ;
 	params.cacheFonts_=true ;
 
-	Application::GetInstance()->Init(params) ;
+	Application::Instance()->Init(params) ;
 
 	int retval=DEBSystem::MainLoop() ;
 

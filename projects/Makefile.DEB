@@ -1,8 +1,8 @@
 
 include $(PWD)/deb_rules
 
-CFLAGS	:= -O3 -DCPP_MEMORY -Wall -I/usr/local/include -I$(PWD)/../sources -D__LINUX_ALSA__ -D__LINUX_ALSASEQ__ -D_DEBUG
-#CFLAGS	:= -g -DCPP_MEMORY -Wall -I/usr/local/include -I$(PWD)/../sources -D__LINUX_ALSA__ -D__LINUX_ALSASEQ__
+CFLAGS	:= -O3 -DCPP_MEMORY -Wall -I/usr/local/include -I$(PWD)/../sources -D__LINUX_ALSA__ -D__LINUX_ALSASEQ__ -D_DEBUG -std=c++11
+#CFLAGS	:= -g -DCPP_MEMORY -Wall -I/usr/local/include -I$(PWD)/../sources -D__LINUX_ALSA__ -D__LINUX_ALSASEQ__ -std=c++11
  
 
 CXXFLAGS:= $(CFLAGS)

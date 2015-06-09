@@ -4,7 +4,7 @@
 .SUFFIXES:
 #---------------------------------------------------------------------------------
 
-PLATFORM:=  RASPI
+PLATFORM:=  DEB
 
 include $(PWD)/Makefile.$(PLATFORM)
 
@@ -153,7 +153,6 @@ COMMONDIRS	:=	../sources/System/Console \
 				../sources/Services/Controllers \
 				../sources/System/FileSystem \
 				../sources/System/Timer \
-				../sources/System/Errors \
 				../sources/UIFramework/Framework \
 				../sources/UIFramework/BasicDatas \
 				../sources/UIFramework/SimpleBaseClasses \
@@ -172,6 +171,9 @@ COMMONDIRS	:=	../sources/System/Console \
 				../sources/Application/Instruments \
 				../sources/Application/Persistency \
 				../sources/Foundation \
+				../sources/Framework/Errors \
+				../sources/Framework/Instances \
+				../sources/Framework/Notifications \
 				../sources/Services/Audio \
   				../sources/Foundation/Services \
 				../sources/Foundation/Variables \

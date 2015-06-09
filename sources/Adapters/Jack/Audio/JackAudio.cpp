@@ -22,7 +22,7 @@ JackAudio::~JackAudio() {
 
 void JackAudio::Init() {
 
-	JackClient *jc=JackClient::GetInstance() ;
+	JackClient *jc=JackClient::Instance() ;
 	jack_client_t *client=jc->GetClient() ; NAssert(client) ;
 	if (client==0) return  ;
 

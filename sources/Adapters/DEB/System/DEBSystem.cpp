@@ -57,30 +57,30 @@ void DEBSystem::Boot(int argc,char **argv) {
 	Path::SetAlias("root","bin:..") ;
 
 #ifdef _DEBUG
-  Trace::GetInstance()->SetLogger(*(new StdOutLogger()));
+  Trace::Instance()->SetLogger(*(new StdOutLogger()));
 #else
   Path logPath("bin:lgpt.log");
   FileLogger *fileLogger=new FileLogger(logPath);
   if(fileLogger->Init().Succeeded())
   {
-    Trace::GetInstance()->SetLogger(*fileLogger);    
+    Trace::Instance()->SetLogger(*fileLogger);    
   }
 #endif
 
   // Process arguments
 
-	Config::GetInstance()->ProcessArguments(argc,argv) ;
+	Config::Instance()->ProcessArguments(argc,argv) ;
 
 	// Install GUI Factory
 	I_GUIWindowFactory::Install(new GUIFactory()) ;
 
 	// Install Timers
 
-	TimerService::GetInstance()->Install(new SDLTimerService()) ;
+	TimerService::Instance()->Install(new SDLTimerService()) ;
 
 	// See if jack available
 #ifndef _NO_JACK_
-	if (JackClient::GetInstance()->Init()) {
+	if (JackClient::Instance()->Init()) {
 		Trace::Debug("Audio","Found jack.. connecting to it") ;
 		AudioSettings hints ;  // Jack doesn't care of hints for now on
 		Audio::Install(new JackAudio(hints)) ;
@@ -110,7 +110,7 @@ void DEBSystem::Boot(int argc,char **argv) {
 
 	atexit(SDL_Quit);
 
-	eventManager_=I_GUIWindowFactory::GetInstance()->GetEventManager() ;
+	eventManager_=I_GUIWindowFactory::Instance()->GetEventManager() ;
 	eventManager_->Init() ;
 
 	eventManager_->MapAppButton("a",APP_BUTTON_A) ;
@@ -186,7 +186,7 @@ void DEBSystem::AddUserLog(const char *msg) {
 };
 
 void DEBSystem::PostQuitMessage() {
-	SDLEventManager::GetInstance()->PostQuitMessage() ;
+	SDLEventManager::Instance()->PostQuitMessage() ;
 } ; 
 
 unsigned int DEBSystem::GetMemoryUsage() {

@@ -3,8 +3,8 @@
 #define _JACK_CLIENT_H_
 
 #include "jack/jack.h"
-#include "Foundation/T_Singleton.h"
-#include "Foundation/T_SimpleList.h"
+#include "Framework/Instances/T_Singleton.h"
+#include "Framework/Containers/T_SimpleList.h"
 
 class JackProcessor {
 public:

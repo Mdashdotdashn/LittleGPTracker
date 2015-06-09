@@ -26,7 +26,7 @@ JackClient::~JackClient() {
 
 bool JackClient::Init() {
 
-	long time=System::GetInstance()->GetClock() ;
+	long time=System::Instance()->GetClock() ;
 	sprintf(clientName,"littlegptracker-%ld",time) ;
 	
 // Initialise callbacks
