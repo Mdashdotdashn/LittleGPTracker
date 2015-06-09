@@ -35,7 +35,7 @@ void WSDLSystem::Boot(int argc,char **argv) {
 	// Install FileSystem
 	FileSystem::Install(new W32FileSystem()) ;
   // Setup logger
-  Trace::GetInstance()->SetLogger(*(new StdOutLogger()));
+  Trace::Instance()->SetLogger(*(new StdOutLogger()));
 
 	// Get application directory & install platform specific aliases
 
@@ -57,17 +57,17 @@ void WSDLSystem::Boot(int argc,char **argv) {
   // Tracing
   
 #ifdef _DEBUG
-  Trace::GetInstance()->SetLogger(*(new StdOutLogger()));
+  Trace::Instance()->SetLogger(*(new StdOutLogger()));
 #else
   Path logPath("bin:lgpt.log");
   FileLogger *fileLogger=new FileLogger(logPath);
   if(fileLogger->Init().Succeeded())
   {
-    Trace::GetInstance()->SetLogger(*fileLogger);    
+    Trace::Instance()->SetLogger(*fileLogger);    
   }
 #endif
   
-	Config *config=Config::GetInstance() ;
+	Config *config=Config::Instance() ;
 	config->ProcessArguments(argc,argv) ;
 
 	// Install GUI Factory
@@ -75,7 +75,7 @@ void WSDLSystem::Boot(int argc,char **argv) {
 
 	// Install Timers
 
-	TimerService::GetInstance()->Install(new W32TimerService()) ;
+	TimerService::Instance()->Install(new W32TimerService()) ;
 
 //	(new RTAudioStub(config->GetValue("AUDIODRIVER")))->Init() ;
 
@@ -116,7 +116,7 @@ void WSDLSystem::Boot(int argc,char **argv) {
 
 	atexit(SDL_Quit);
 
-	eventManager_=I_GUIWindowFactory::GetInstance()->GetEventManager() ;
+	eventManager_=I_GUIWindowFactory::Instance()->GetEventManager() ;
 	eventManager_->Init() ;
 
 	eventManager_->MapAppButton("a",APP_BUTTON_A) ;
@@ -132,11 +132,11 @@ void WSDLSystem::Boot(int argc,char **argv) {
 } ;
 
 void WSDLSystem::Shutdown() {
-	delete Audio::GetInstance() ;
+	delete Audio::Instance() ;
 } ;
 
 //void WSDLSystem::readConfig() {
-//	SDLInput::GetInstance()->ReadConfig() ;
+//	SDLInput::Instance()->ReadConfig() ;
 //} ;
 
 unsigned long WSDLSystem::GetClock() {
@@ -182,7 +182,7 @@ void *WSDLSystem::Memcpy(void *s1, const void *s2, int n)
 
 void WSDLSystem::PostQuitMessage() 
 {
-	SDLEventManager::GetInstance()->PostQuitMessage()  ;
+	SDLEventManager::Instance()->PostQuitMessage()  ;
 } ; 
 
 unsigned int  WSDLSystem::GetMemoryUsage() 

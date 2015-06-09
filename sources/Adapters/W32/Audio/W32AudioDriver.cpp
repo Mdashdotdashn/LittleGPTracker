@@ -122,7 +122,7 @@ void W32AudioDriver::OnChunkDone(W32SoundBuffer *sb) {
 	if (ticksBeforeMidi_>0) {
 		ticksBeforeMidi_-- ;
 	} else {
-		MidiService::GetInstance()->Flush() ;
+		MidiService::Instance()->Flush() ;
 	}
 
 } ;
