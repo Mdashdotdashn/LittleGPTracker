@@ -76,7 +76,7 @@ void DEBSystem::Boot(int argc,char **argv) {
 
 	// Install Timers
 
-	TimerService::Instance()->Install(new SDLTimerService()) ;
+	TimerService::Install(new SDLTimerService()) ;
 
 	// See if jack available
 #ifndef _NO_JACK_
