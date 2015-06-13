@@ -32,7 +32,6 @@ private:
     int bufferPos_ ;
     int bufferSize_ ;
 	int volume_ ;
-	int ticksBeforeMidi_ ;
 	unsigned long streamSampleTime_ ;
 } ;
 #endif

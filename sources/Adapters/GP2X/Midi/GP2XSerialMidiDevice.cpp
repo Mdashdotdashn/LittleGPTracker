@@ -62,7 +62,7 @@ void GP2XSerialMidiDevice::Stop(){
 }
 
 
-void GP2XSerialMidiDevice::SendMessage(MidiMessage &msg) {
+void GP2XSerialMidiDevice::SendMessage(const MidiMessage &msg) {
   unsigned char buffer[3] ;
   if (fd_>0) {
     buffer[0]=msg.status_ ;

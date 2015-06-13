@@ -14,7 +14,7 @@ public:
 	virtual void Stop();
 	
 protected:
-	virtual void SendMessage(MidiMessage &) ;
+	virtual void SendMessage(const MidiMessage &) ;
 private:
         struct termios oldtio_;
         int fd_ ;

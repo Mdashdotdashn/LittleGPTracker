@@ -1,7 +1,6 @@
 
 #include "GP2XAudioDriver.h"
 #include "System/System/System.h"
-#include "Services/Midi/MidiService.h"
 #include "Application/Model/Config.h"
 #include <stdlib.h>
 #include <string.h>
@@ -190,12 +189,7 @@ bool GP2XAudioDriver::StartDriver() {
 	bufferPos_=0 ;
 	bufferSize_=0 ;
 
-  ticksBeforeMidi_=4 ;
   
-  for (int i=0;i<ticksBeforeMidi_;i++) {
-    AddBuffer(blank,500) ;
-	}
-
   streamSampleTime_=0 ;
   gp2x_sound_pause(0);
   sem_post(&sem) ;
@@ -230,11 +224,6 @@ void GP2XAudioDriver::OnChunkDone() {
 			// First move remaining bytes at the front
 			SYS_MEMCPY(mainBuffer_,mainBuffer_+bufferPos_,bufferSize_-bufferPos_) ;
 			 
-             if (ticksBeforeMidi_) {
-               ticksBeforeMidi_-- ;
-             } else {
-               MidiService::GetInstance()->Flush() ;
-             }
     		 SYS_MEMCPY(mainBuffer_+bufferSize_-bufferPos_, pool_[poolPlayPosition_].buffer_,pool_[poolPlayPosition_].size_);
     
              // Adapt buffer variables

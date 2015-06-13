@@ -1,11 +1,4 @@
-/*
- *  SysMutex.h
- *  lgpt
- *
- *  Created by Marc Nostromo on 10/03/12.
- *  Copyright 2012 __MyCompanyName__. All rights reserved.
- *
- */
+#pragma once
 
 #include <SDL/SDL.h>
 
