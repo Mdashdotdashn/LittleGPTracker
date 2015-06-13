@@ -143,7 +143,6 @@ bool RTAudioDriver::StartDriver()
 	for (int i=0;i<settings_.preBufferCount_;i++)
   {
 		AddBuffer((short *)miniBlank_,fragSize_/4);
-		MidiService::GetInstance()->AdvancePlayQueue();
 	}
 
 	if (settings_.preBufferCount_==0)
@@ -206,7 +205,8 @@ void RTAudioDriver::fillBuffer(short *stream,int frameCount)
       pool_[poolPlayPosition_].buffer_ = 0 ;
       poolPlayPosition_ = (poolPlayPosition_+1)%SOUND_BUFFER_COUNT ;
       thread_->Notify() ;
-     }    	 
+      Trace::Debug("notified");
+     }
   }
   SYS_MEMCPY(stream,(short *)(mainBuffer_+bufferPos_), len); 
   onAudioBufferTick();

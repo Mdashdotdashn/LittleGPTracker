@@ -13,7 +13,8 @@ MidiService::MidiService():
 	T_SimpleList<MidiOutDevice>(true),
   inList_(true),
 	device_(0),
-	sendSync_(true)
+	sendSync_(true),
+  tickToFlush_(0)
 {
 	for (int i=0;i<MIDI_MAX_BUFFERS;i++) {
 		queues_[i]=new T_SimpleList<MidiMessage>(true)  ;
@@ -27,81 +28,115 @@ MidiService::MidiService():
   {
 		sendSync_ = (strcmp(sendSync,"YES")==0) ;
 	}
+}
 
-} ;
-
-MidiService::~MidiService() {
+MidiService::~MidiService()
+{
 	Close() ;
 } ;
 
-bool MidiService::Init() {
+bool MidiService::Init()
+{
 	Empty() ;
   inList_.Empty();
 	buildDriverList() ;
 	// Add a merger for the input
 	merger_=new MidiInMerger() ;
-	IteratorPtr<MidiInDevice>it(inList_.GetIterator()) ;
-	for  (it->Begin();!it->IsDone();it->Next()) {
-		MidiInDevice &current=it->CurrentItem() ;
+	IteratorPtr<MidiInDevice>it(inList_.GetIterator());
+	for  (it->Begin();!it->IsDone();it->Next())
+  {
+		MidiInDevice &current=it->CurrentItem();
 		merger_->Insert(current) ;
 	}
 
 	return true ;
-} ;
+}
 
-void MidiService::Close() {
-	Stop() ;
-} ;
+void MidiService::Close()
+{
+	Stop();
+}
 
-I_Iterator<MidiInDevice> *MidiService::GetInIterator() {
+I_Iterator<MidiInDevice> *MidiService::GetInIterator()
+{
 	return inList_.GetIterator() ;
-} ;
+}
 
-void MidiService::SelectDevice(const std::string &name) {
+void MidiService::SelectDevice(const std::string &name)
+{
 	deviceName_=name ;
-} ;
+}
 
-bool MidiService::Start() {
-	currentPlayQueue_=0 ;
-	currentOutQueue_=0 ;
+bool MidiService::Start()
+{
+	currentPlayQueue_ = 1 ;
+	currentOutQueue_ = 0 ;
 	return true ;
-} ;
+}
 
 
-void MidiService::Stop() {
+void MidiService::Stop()
+{
 	stopDevice() ;
-} ;
+}
 
-void MidiService::QueueMessage(MidiMessage &m) {
+// Adds a message in the current playback queue
+
+void MidiService::QueueMessage(MidiMessage &m)
+{
   if (device_)
   {
     T_SimpleList<MidiMessage> *queue=queues_[currentPlayQueue_] ;
     MidiMessage *ms=new MidiMessage(m.status_,m.data1_,m.data2_) ;
     queue->Insert(ms) ;
   }
-} ;
+}
+
+// Trigger is called whenever the player is starting a new slice
+// This means we need to advance the queue for the midi messages associated to the queu
+// And then queue a MIDI clock message
 
 void MidiService::Trigger()
 {
-  AdvancePlayQueue();
+  advancePlayQueue();
   
-	if (device_&&sendSync_) {
+	if (device_ && sendSync_)
+  {
 		SyncMaster *sm=SyncMaster::GetInstance() ;
 		if (sm->MidiSlice()) {
 			MidiMessage msg;
 			msg.status_ = 0xF8;
 			QueueMessage(msg);
 		}
-
 	}
 }
 
-void MidiService::AdvancePlayQueue()
+void MidiService::advancePlayQueue()
 {
  	currentPlayQueue_=(currentPlayQueue_+1)%MIDI_MAX_BUFFERS ;
+
 	T_SimpleList<MidiMessage> *queue=queues_[currentPlayQueue_] ;
 	queue->Empty() ;
 }
+
+//
+// Flush is called everytime a new audio buffer slice is copied for sending to
+// the audio card. If a midi delay is set, we don't send the buffer right away but
+// wait audio driver ticks to trigger the real flush
+
+void MidiService::Flush()
+{
+  tickToFlush_ = midiDelay_ ;
+  if (tickToFlush_ == 0)
+  {
+    flushOutQueue();
+  }
+}
+
+// Observable callback for when a new buffer has been send to the audio
+// card. The timing of this depends on the audio card buffer size and is not
+// in sync with the triggers call. If  midiDelay_ has been set, we didn't send
+// the midi buffer straight away but we'll count down tick until we can send it
 
 void MidiService::Update(Observable &o,I_ObservableData *d)
 {
@@ -123,26 +158,19 @@ void MidiService::onAudioTick()
   }
 }
 
-void MidiService::Flush() {
-
-  tickToFlush_ = midiDelay_ ;
-  if (tickToFlush_ == 0)
-  {
-    flushOutQueue();
-  }
-} ;
-
 void MidiService::flushOutQueue()
 {
   // Move queue positions
   currentOutQueue_=(currentOutQueue_+1)%MIDI_MAX_BUFFERS ;
 	T_SimpleList<MidiMessage> *flushQueue=queues_[currentOutQueue_] ;
-  
-	if (device_) {
+
+	if (device_)
+  {
     // Send whatever is on the out queue
 		device_->SendQueue(*flushQueue) ;
 	}
 	flushQueue->Empty() ;
+  
 }
 
 void MidiService::startDevice() {

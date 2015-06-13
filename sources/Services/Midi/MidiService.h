@@ -44,7 +44,6 @@ public:
 	//! Time chunk trigger
 
 	void Trigger() ;
-  void AdvancePlayQueue();
 
 	//! Flush current queue to the output
 
@@ -52,6 +51,8 @@ public:
   
 
 protected:
+
+  void advancePlayQueue();
 
 	T_SimpleList<MidiInDevice> inList_ ;
 
