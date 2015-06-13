@@ -30,7 +30,6 @@ protected:
 private:
 	double streamTime_ ;
   int index_ ;
-	int ticksBeforeMidi_ ;
 	HWAVEOUT waveOut_ ;
 } ;
 #endif

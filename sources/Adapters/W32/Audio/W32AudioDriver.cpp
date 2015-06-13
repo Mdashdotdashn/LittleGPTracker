@@ -92,7 +92,6 @@ bool W32AudioDriver::StartDriver() {
 
     int prebuffer=8 ;
     
-    ticksBeforeMidi_=0;
     for (int i=0;i<prebuffer;i++) {
 		AddBuffer(blank,4000) ;
         sendNextChunk(i==prebuffer-1) ;
@@ -118,13 +117,6 @@ void W32AudioDriver::OnChunkDone(W32SoundBuffer *sb) {
 	streamTime_+= double(sb->wavHeader_->dwBufferLength)/44100.0 ;
 	sendNextChunk() ;
 	clearPlayedChunk(sb) ;
-
-	if (ticksBeforeMidi_>0) {
-		ticksBeforeMidi_-- ;
-	} else {
-		MidiService::GetInstance()->Flush() ;
-	}
-
 } ;
 
 
