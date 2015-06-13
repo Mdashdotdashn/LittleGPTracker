@@ -25,20 +25,20 @@ RTMidiService::RTMidiService() {
 	try {
 		rtMidiIn_ = new RtMidiIn();
 	}
-	catch ( RtError &error ) {
+	catch ( RtMidiError &error ) {
 		Trace::Error("Couldn't get RtMidiIn object") ;
 		rtMidiIn_=0 ;
-		Trace::Error(error.getMessageString());
+		Trace::Error(error.getMessage().c_str());
 	}
 
 	// RtMidiOut constructor
 	try {
 		rtMidiOut_ = new RtMidiOut();
 	}
-	catch ( RtError &error ) {
+	catch ( RtMidiError &error ) {
 		Trace::Error("Couldn't get RtMidiOut object") ;
 		rtMidiOut_=0 ;
-		Trace::Error(error.getMessageString());
+		Trace::Error(error.getMessage().c_str());
 	}
 
 } ;
@@ -62,8 +62,8 @@ void RTMidiService::buildDriverList() {// Here we just loop over existing Midi o
 			RTMidiInDevice *in=new RTMidiInDevice(i,portName.c_str()) ;
 			Trace::Log("MIDI"," %s",portName.c_str()) ;
 			inList_.Insert(in) ;
-		} catch (RtError &error) {
-      Trace::Error(error.getMessageString());
+		} catch (RtMidiError &error) {
+      Trace::Error(error.getMessage().c_str());
 		}
 	}
 
@@ -80,9 +80,9 @@ void RTMidiService::buildDriverList() {// Here we just loop over existing Midi o
 			Trace::Log("MIDI"," %s",portName.c_str()) ;
 			Insert(out) ;
 		} 
-    catch (RtError &error) 
+    catch (RtMidiError &error)
     {
-			Trace::Error(error.getMessageString());
+			Trace::Error(error.getMessage().c_str());
 		}
 	}
 }

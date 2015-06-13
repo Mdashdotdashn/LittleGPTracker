@@ -16,10 +16,6 @@ MidiService::MidiService():
 	sendSync_(true),
   tickToFlush_(0)
 {
-	for (int i=0;i<MIDI_MAX_BUFFERS;i++) {
-		queues_[i]=new T_SimpleList<MidiMessage>(true)  ;
-	}
-  
 	const char *delay = Config::GetInstance()->GetValue("MIDIDELAY") ;
   midiDelay_ = delay?atoi(delay):1 ;
   
@@ -69,8 +65,6 @@ void MidiService::SelectDevice(const std::string &name)
 
 bool MidiService::Start()
 {
-	currentPlayQueue_ = 1 ;
-	currentOutQueue_ = 0 ;
 	return true ;
 }
 
@@ -86,9 +80,9 @@ void MidiService::QueueMessage(MidiMessage &m)
 {
   if (device_)
   {
-    T_SimpleList<MidiMessage> *queue=queues_[currentPlayQueue_] ;
-    MidiMessage *ms=new MidiMessage(m.status_,m.data1_,m.data2_) ;
-    queue->Insert(ms) ;
+    SysMutexLocker lock(queueMutex_);
+    NAssert(!messageQueue_.empty());
+    messageQueue_.back().push_back(MidiMessage(m.status_,m.data1_,m.data2_));
   }
 }
 
@@ -113,10 +107,8 @@ void MidiService::Trigger()
 
 void MidiService::advancePlayQueue()
 {
- 	currentPlayQueue_=(currentPlayQueue_+1)%MIDI_MAX_BUFFERS ;
-
-	T_SimpleList<MidiMessage> *queue=queues_[currentPlayQueue_] ;
-	queue->Empty() ;
+  SysMutexLocker lock(queueMutex_);
+  messageQueue_.push_back(std::vector<MidiMessage>());
 }
 
 //
@@ -160,17 +152,17 @@ void MidiService::onAudioTick()
 
 void MidiService::flushOutQueue()
 {
-  // Move queue positions
-  currentOutQueue_=(currentOutQueue_+1)%MIDI_MAX_BUFFERS ;
-	T_SimpleList<MidiMessage> *flushQueue=queues_[currentOutQueue_] ;
-
+  SysMutexLocker lock(queueMutex_);
+  NAssert(!messageQueue_.empty());
+  std::vector<MidiMessage> &queue = messageQueue_.front();
+  
 	if (device_)
   {
     // Send whatever is on the out queue
-		device_->SendQueue(*flushQueue) ;
+		device_->SendQueue(queue) ;
 	}
-	flushQueue->Empty() ;
   
+  messageQueue_.pop_front();
 }
 
 void MidiService::startDevice() {

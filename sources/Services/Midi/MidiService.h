@@ -3,6 +3,7 @@
 #define _MIDI_SERVICE_H_
 
 #include <string>
+#include "System/Process/SysMutex.h"
 #include "Foundation/T_Factory.h"
 #include "Foundation/Observable.h"
 #include "System/Timer/Timer.h"
@@ -10,8 +11,7 @@
 #include "MidiInDevice.h"
 #include "MidiInDevice.h"
 #include "MidiInMerger.h"
-
-#define MIDI_MAX_BUFFERS 20
+#include <deque>
 
 class MidiService
 :public T_Factory<MidiService>
@@ -77,10 +77,9 @@ private:
 	std::string deviceName_ ;
 	MidiOutDevice *device_ ;
 
-	T_SimpleList<MidiMessage> *queues_[MIDI_MAX_BUFFERS] ;
-	int currentPlayQueue_ ;
-	int currentOutQueue_ ;
-
+  std::deque<std::vector<MidiMessage> > messageQueue_;
+  SysMutex queueMutex_;
+  
 	MidiInMerger *merger_ ;
 	int midiDelay_ ;
   int tickToFlush_ ;

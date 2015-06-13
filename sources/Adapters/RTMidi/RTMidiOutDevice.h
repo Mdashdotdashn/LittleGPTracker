@@ -12,7 +12,7 @@ public:
 	virtual void Close() ;
 	virtual bool Start() ;
 	virtual void Stop();
-	virtual void SendMessage(MidiMessage &m);
+	virtual void SendMessage(const MidiMessage &m);
 private:
     RtMidiOut rtMidiOut_ ;
 	int index_ ;

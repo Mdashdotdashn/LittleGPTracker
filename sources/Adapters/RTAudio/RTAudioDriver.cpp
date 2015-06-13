@@ -12,7 +12,11 @@ int callback( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
          double streamTime, RtAudioStreamStatus status, void *userData )
 {
 	RTAudioDriver *sound=(RTAudioDriver *)userData ;
-	sound->fillBuffer((short *)outputBuffer,nBufferFrames) ;
+  try {
+    sound->fillBuffer((short *)outputBuffer,nBufferFrames) ;
+  } catch (...) {
+    NInvalid;
+  }
 	return 0 ;
 }
 
@@ -90,7 +94,7 @@ bool RTAudioDriver::InitDriver() {
 		audio_.openStream( &params, NULL, RTAUDIO_SINT16,
 		                sampleRate, &bufferFrames, &callback, (void *)this);
 	}
-  catch (RtError &e)
+  catch (RtAudioError &e)
   {
 		Trace::Error("Error opening audio output stream: %s",e.getMessage().c_str()) ;
 		return false ;
@@ -153,7 +157,7 @@ bool RTAudioDriver::StartDriver()
   {
 		audio_.startStream();
 	}
-  catch (RtError &e) 
+  catch (RtAudioError &e)
   {
 		Trace::Error("Error starting output stream: %s",e.getMessage().c_str()) ;
 		return false ;
@@ -205,7 +209,6 @@ void RTAudioDriver::fillBuffer(short *stream,int frameCount)
       pool_[poolPlayPosition_].buffer_ = 0 ;
       poolPlayPosition_ = (poolPlayPosition_+1)%SOUND_BUFFER_COUNT ;
       thread_->Notify() ;
-      Trace::Debug("notified");
      }
   }
   SYS_MEMCPY(stream,(short *)(mainBuffer_+bufferPos_), len); 

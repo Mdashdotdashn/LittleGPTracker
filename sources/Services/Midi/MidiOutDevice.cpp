@@ -16,12 +16,13 @@ void MidiOutDevice::SetName(const char *name)
 	name_ = name;
 }
 
-void MidiOutDevice::SendQueue(T_SimpleList<MidiMessage> &queue)  {
-
-	IteratorPtr<MidiMessage> it(queue.GetIterator()) ;
-	for (it->Begin();!it->IsDone();it->Next()) {
-		MidiMessage msg=it->CurrentItem() ;
-		SendMessage(msg) ;
+void MidiOutDevice::SendQueue(const std::vector<MidiMessage>& queue)
+{
+  std::vector<MidiMessage>::const_iterator it = queue.begin();
+  while (it != queue.end())
+  {
+		SendMessage(*it);
+    it++;
 	} ;
 
 }

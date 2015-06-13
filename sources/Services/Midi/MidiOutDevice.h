@@ -23,8 +23,8 @@ public:
 		is to send every message one after the other using sendmessage
 	*/
 
-	virtual void SendQueue(T_SimpleList<MidiMessage> &queue)  ;
-	virtual void SendMessage(MidiMessage &m)=0 ;
+	virtual void SendQueue(const std::vector<MidiMessage> &queue)  ;
+	virtual void SendMessage(const MidiMessage &m)=0 ;
 
 private:
 	std::string name_ ;

@@ -32,7 +32,7 @@ void RTMidiOutDevice::Stop(){
 	rtMidiOut_.closePort() ;
 } ;
 
-void RTMidiOutDevice::SendMessage(MidiMessage &msg)
+void RTMidiOutDevice::SendMessage(const MidiMessage &msg)
 {
   if (running_)
   {
