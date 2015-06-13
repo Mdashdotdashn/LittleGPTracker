@@ -13,7 +13,6 @@ public:
 
 	virtual void ProcessButtonMask(unsigned short mask,bool pressed) ;
 	virtual void DrawView() ;
-	virtual void OnPlayerUpdate(PlayerEventType,unsigned int) {} ;
 	virtual void OnFocus() {} ;
 
 	// Observer for action callback
@@ -25,9 +24,12 @@ public:
 	void OnQuit() ;
 
 protected:
+	virtual void OnPlayerUpdate(PlayerEventType,unsigned int);
+
 private:
 	Project *project_ ;
 // Debug
+  bool invertBatt_ ;
 	unsigned long lastTick_ ;
 	unsigned long lastClock_ ;
 	UIField *tempoField_ ;

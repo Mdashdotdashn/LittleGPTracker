@@ -216,3 +216,55 @@ void ProjectView::OnQuit() {
 	SetChanged();
 	NotifyObservers(&ve) ;
 } ;
+
+void ProjectView::OnPlayerUpdate(PlayerEventType eventType,unsigned int tick)
+{
+	SetColor(CD_NORMAL) ;
+
+	Player *player=Player::GetInstance() ;
+	GUITextProperties props ;
+
+	GUIPoint anchor=GetAnchor() ;
+	GUIPoint pos=anchor ;
+
+  pos=anchor ;
+  pos._x+=25 ;
+
+  if (player->Clipped()) {
+    DrawString(pos._x,pos._y,"clit",props);
+  } else {
+    DrawString(pos._x,pos._y,"----",props);
+  }
+
+	char strbuffer[10] ;
+	pos._y+=1 ;
+	sprintf(strbuffer,"%3.3d%%",player->GetPlayedBufferPercentage()) ;
+	DrawString(pos._x,pos._y,strbuffer,props) ;
+
+  System *sys=System::GetInstance() ;
+  int batt=sys->GetBatteryLevel() ;
+  if (batt>=0) {
+		if (batt<90) {
+			SetColor(CD_HILITE2) ;
+			invertBatt_=!invertBatt_ ;
+		} else {
+			invertBatt_=false ;
+		} ;
+		props.invert_=invertBatt_ ;
+
+    pos._y+=1 ;
+    sprintf(strbuffer,"%3.3d",batt) ;
+    DrawString(pos._x,pos._y,strbuffer,props) ;
+  }
+
+	if (eventType!=PET_STOP) {
+		SetColor(CD_NORMAL) ;
+		props.invert_=false ;
+		int time=int(player->GetPlayTime()) ;
+		int mi=time/60 ;
+		int se=time-mi*60 ;
+		sprintf(strbuffer,"%2.2d:%2.2d",mi,se) ;
+		pos._y+=1 ;
+		DrawString(pos._x,pos._y,strbuffer,props) ;
+	}
+}
