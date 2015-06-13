@@ -1,4 +1,5 @@
 bin/**
 build/**
 projects/buildPSP/**
+projects/LittleGPTracker.build/**
 tracks/**
