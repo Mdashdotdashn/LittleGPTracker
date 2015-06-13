@@ -17,7 +17,7 @@ MidiService::MidiService():
   tickToFlush_(0)
 {
 	const char *delay = Config::GetInstance()->GetValue("MIDIDELAY") ;
-  midiDelay_ = delay?atoi(delay):1 ;
+  tickToFlush_ = delay?atoi(delay):1 ;
   
 	const char *sendSync = Config::GetInstance()->GetValue("MIDISENDSYNC") ;
 	if (sendSync)
@@ -92,6 +92,11 @@ void MidiService::QueueMessage(MidiMessage &m)
 
 void MidiService::Trigger()
 {
+  if (tickToFlush_  == 0)
+  {
+    flushOutQueue();
+  }
+
   advancePlayQueue();
   
 	if (device_ && sendSync_)
@@ -111,19 +116,6 @@ void MidiService::advancePlayQueue()
   messageQueue_.push_back(std::vector<MidiMessage>());
 }
 
-//
-// Flush is called everytime a new audio buffer slice is copied for sending to
-// the audio card. If a midi delay is set, we don't send the buffer right away but
-// wait audio driver ticks to trigger the real flush
-
-void MidiService::Flush()
-{
-  tickToFlush_ = midiDelay_ ;
-  if (tickToFlush_ == 0)
-  {
-    flushOutQueue();
-  }
-}
 
 // Observable callback for when a new buffer has been send to the audio
 // card. The timing of this depends on the audio card buffer size and is not
@@ -143,10 +135,7 @@ void MidiService::onAudioTick()
 {
   if (tickToFlush_>0)
   {
-    if (--tickToFlush_ ==0)
-    {
-      flushOutQueue();
-    }
+    tickToFlush_--;
   }
 }
 

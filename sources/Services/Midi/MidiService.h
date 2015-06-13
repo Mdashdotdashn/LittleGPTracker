@@ -44,10 +44,6 @@ public:
 	//! Time chunk trigger
 
 	void Trigger() ;
-
-	//! Flush current queue to the output
-
-	void Flush() ;
   
 
 protected:
@@ -81,8 +77,7 @@ private:
   SysMutex queueMutex_;
   
 	MidiInMerger *merger_ ;
-	int midiDelay_ ;
-  int tickToFlush_ ;
+  int tickToFlush_ ; // a number of audio buffer ticks to delay sending midi with
 	bool sendSync_ ;
 } ;
 #endif

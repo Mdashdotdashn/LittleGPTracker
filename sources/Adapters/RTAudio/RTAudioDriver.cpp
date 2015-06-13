@@ -197,8 +197,6 @@ void RTAudioDriver::fillBuffer(short *stream,int frameCount)
       memcpy(mainBuffer_,mainBuffer_+bufferPos_,bufferSize_-bufferPos_) ;
 		  memcpy(mainBuffer_+bufferSize_-bufferPos_, pool_[poolPlayPosition_].buffer_,pool_[poolPlayPosition_].size_);
     
-			MidiService::GetInstance()->Flush() ;
-
 			 // Adapt buffer variables
     
       bufferSize_ = bufferSize_-bufferPos_ + pool_[poolPlayPosition_].size_ ;
