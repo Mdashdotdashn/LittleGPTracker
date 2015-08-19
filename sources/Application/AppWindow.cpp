@@ -408,7 +408,7 @@ bool AppWindow::onEvent(GUIEvent &event) {
 	unsigned short v=1<<event.GetValue();
 
 	MixerService *sm=MixerService::GetInstance() ;
-	sm->Lock() ;
+	//sm->Lock() ;
 
 	switch(event.GetType())  {
  
@@ -441,7 +441,7 @@ bool AppWindow::onEvent(GUIEvent &event) {
 		default:
 			break ;
 	}
-	sm->Unlock() ;
+	//sm->Unlock() ;
 
 	if (_shouldQuit) {
 		onQuitApp() ;
