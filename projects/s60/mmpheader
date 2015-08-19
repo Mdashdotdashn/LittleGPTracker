@@ -1,0 +1,53 @@
+target		lgpt.exe
+targettype	exe
+uid		0x100039ce 0xa0102034
+vendorid	0
+
+epocstacksize	0xA000
+epocheapsize	0x100000 0x4000000
+
+start resource	lgpt.rss
+targetpath	\private\10003a3f\import\apps
+end
+start resource	lgpt_loc.rss
+targetpath	\resource\apps
+lang        SC
+end
+
+macro		SYMBIAN
+macro		WITH_SDL
+macro		WITH_ZLIB
+macro		WITH_PERSONAL_DIR
+macro       CPP_MEMORY
+
+systeminclude	\epoc32\include\stdapis
+systeminclude	\epoc32\include\stdapis\stlport
+systeminclude	\epoc32\include\stdapis\stlport\stl
+systeminclude	\epoc32\include\stdapis\glib-2.0
+systeminclude	\epoc32\include
+systeminclude	\epoc32\include\SDL
+
+library		libc.lib
+library		libm.lib
+library		libpthread.lib
+library		libstdcpp.lib
+staticlibrary	sdl.lib
+library		apgrfx.lib
+library		apparc.lib
+library		avkon.lib
+library		bitgdi.lib
+library		cone.lib
+library		eikcore.lib
+library		euser.lib
+library		fbscli.lib
+library		hal.lib
+library		mediaclientaudiostream.lib
+library     ws32.lib
+library		centralrepository.lib
+library     remconcoreapi.lib
+library     remconinterfacebase.lib
+
+capability ReadUserData WriteUserData UserEnvironment NetworkServices
+
+userinclude ../sources
+userinclude ../sources/System/System

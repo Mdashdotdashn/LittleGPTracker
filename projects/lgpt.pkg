@@ -1,0 +1,36 @@
+&EN
+
+; standard SIS file header
+#{"LGPT"},(0xA0102033),1,0,0
+
+;Localised Vendor name
+%{"Vendor-EN"}
+
+;Unique Vendor name
+:"Vendor"
+
+[0x101F7961], 0, 0, 0, {"S60v3"}
+[0x1028315F], 0, 0, 0, {"S60v5"}
+
+;Files to install
+"\epoc32\release\gcce\urel\lgpt.exe" - "!:\sys\bin\lgpt.exe"
+"\epoc32\data\z\private\10003a3f\import\apps\lgpt.rsc" - "!:\private\10003a3f\import\apps\lgpt.rsc"
+"\epoc32\data\z\resource\apps\lgpt_loc.rsc" - "!:\resource\apps\lgpt_loc.rsc"
+"lgpt.mif" - "!:\resource\apps\lgpt.mif"
+
+; For getting meaningful stacktraces with fdb from FShell
+"\epoc32\release\gcce\urel\lgpt.exe.map" - "e:\lgpt.exe.map"
+
+; Demo song include
+"lgpt10k\samples\tunedbell.wav" - "e:\lgpt\lgpt10k\samples\tunedbell.wav"
+"lgpt10k\samples\triangle.wav" - "e:\lgpt\lgpt10k\samples\triangle.wav"
+"lgpt10k\samples\square.wav" - "e:\lgpt\lgpt10k\samples\square.wav"
+"lgpt10k\samples\Snaredrum.wav" - "e:\lgpt\lgpt10k\samples\Snaredrum.wav"
+"lgpt10k\samples\sinus.wav" - "e:\lgpt\lgpt10k\samples\sinus.wav"
+"lgpt10k\samples\sawtooth.wav" - "e:\lgpt\lgpt10k\samples\sawtooth.wav"
+"lgpt10k\samples\rezobass.wav" - "e:\lgpt\lgpt10k\samples\rezobass.wav"
+"lgpt10k\samples\Hihat.wav" - "e:\lgpt\lgpt10k\samples\Hihat.wav"
+"lgpt10k\samples\Downramp.wav" - "e:\lgpt\lgpt10k\samples\Downramp.wav"
+"lgpt10k\samples\Bassdrum.wav" - "e:\lgpt\lgpt10k\samples\Bassdrum.wav"
+"lgpt10k\samples\accordion.wav" - "e:\lgpt\lgpt10k\samples\accordion.wav"
+"lgpt10k\lgptsav.dat" - "e:\lgpt\lgpt10k\lgptsav.dat"
