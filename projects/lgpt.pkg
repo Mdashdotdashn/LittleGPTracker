@@ -1,7 +1,7 @@
 &EN
 
 ; standard SIS file header
-#{"LGPT"},(0xA0102033),1,0,0
+#{"LGPT"},(0xA0102034),1,0,0
 
 ;Localised Vendor name
 %{"Vendor-EN"}
