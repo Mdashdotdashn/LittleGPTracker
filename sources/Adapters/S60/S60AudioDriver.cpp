@@ -20,7 +20,6 @@ void S60AudioDriver::CloseDriver() {
 } ;
 
 bool S60AudioDriver::StartDriver() {
-    streamTime_=0 ;
     thread_=new S60AudioDriverThread(this) ;
     thread_->Start() ;
     return true ;
@@ -29,8 +28,14 @@ bool S60AudioDriver::StartDriver() {
 void S60AudioDriver::StopDriver() {
 } ;
 
+double S60AudioDriverThread::GetStreamTime() {
+    return streamTime_;
+}
+
 double S60AudioDriver::GetStreamTime() {
-    return streamTime_ ;
+    if (!thread_)
+        return 0;
+    return thread_->GetStreamTime() ;
 } ;
 
 bool S60AudioDriverThread::Execute() {
@@ -62,7 +67,7 @@ void S60AudioDriverThread::InitializeComplete(TInt aError) {
     TRAP(err, dev->PlayInitL());
 } ; 
 
-void S60AudioDriver::FillBuffer(CMMFBuffer *aBuffer, FILE *fp) {
+void S60AudioDriver::FillBuffer(CMMFBuffer *aBuffer) {
     CMMFDataBuffer *buf = static_cast<CMMFDataBuffer*>(aBuffer);
     TDes8 &output = buf->Data();
     AudioBufferData *abd = &(pool_[poolPlayPosition_]);
@@ -71,7 +76,6 @@ void S60AudioDriver::FillBuffer(CMMFBuffer *aBuffer, FILE *fp) {
         while (!abd->size_);    // XXX spinning!
     }
     output.Copy((TUint8*)abd->buffer_, abd->size_);
-    streamTime_ += abd->size_ / (2*44100);
     SAFE_FREE(pool_[poolPlayPosition_].buffer_);
     poolPlayPosition_=(poolPlayPosition_+1)%SOUND_BUFFER_COUNT;
     output.SetLength(abd->size_);
@@ -81,10 +85,11 @@ void S60AudioDriver::FillBuffer(CMMFBuffer *aBuffer, FILE *fp) {
 }
 
 void S60AudioDriverThread::BufferToBeFilled(CMMFBuffer *aBuffer) {
-    driver->FillBuffer(aBuffer, fp);
+    driver->FillBuffer(aBuffer);
     dev->EmptyBuffers();
     TInt err;
     TRAP(err, dev->PlayData());
+    streamTime_ = dev->SamplesPlayed() / 44100;
 }
 
 void S60AudioDriverThread::PlayError(TInt aError) {

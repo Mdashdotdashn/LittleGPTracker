@@ -8,16 +8,15 @@
 #include <mmf/server/sounddevice.h>
 #undef Time
 
-#include <stdio.h> // XXX
-
 class S60AudioDriver;
 
 class S60AudioDriverThread: public SysThread, MDevSoundObserver {
 public:
-	S60AudioDriverThread(S60AudioDriver *driver) : driver(driver) {};
-	virtual ~S60AudioDriverThread() {} ;
-	virtual bool Execute() ;
-	void RequestTermination() ;
+    S60AudioDriverThread(S60AudioDriver *driver) : driver(driver) {};
+    virtual ~S60AudioDriverThread() {} ;
+    virtual bool Execute() ;
+    void RequestTermination() ;
+    double GetStreamTime() ;
 
 public: // From MDevSoundObserver
    void InitializeComplete(TInt aError);
@@ -32,6 +31,7 @@ public: // From MDevSoundObserver
 private:
     CMMFDevSound *dev;
     S60AudioDriver *driver;
+    double streamTime_ ;
 } ;
 
 class S60AudioDriver: public AudioDriver {
@@ -48,8 +48,8 @@ public:
     virtual bool Interlaced() { return true ; } ;
     virtual double GetStreamTime() ;
 
-    void FillBuffer(CMMFBuffer *aBuffer, FILE *fp);
+    void FillBuffer(CMMFBuffer *aBuffer);
 private:
-    double streamTime_ ;
+    S60AudioDriverThread * thread_ ;
 } ;
 #endif
