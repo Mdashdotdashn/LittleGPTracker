@@ -47,7 +47,7 @@ library		centralrepository.lib
 library     remconcoreapi.lib
 library     remconinterfacebase.lib
 
-capability ReadUserData WriteUserData UserEnvironment NetworkServices
+capability ReadUserData WriteUserData
 
 userinclude ../sources
 userinclude ../sources/System/System
