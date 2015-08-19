@@ -71,8 +71,8 @@ void S60System::Boot(int argc,char **argv) {
   if ( SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0 )   {
     return;
   }
-  Path::SetAlias("root","e:/lgpt") ;
-  Path::SetAlias("bin","e:/lgpt") ;
+  Path::SetAlias("root","c:/data/lgpt") ;
+  Path::SetAlias("bin","c:/data/lgpt") ;
 
   SDL_EnableUNICODE(1);
 
