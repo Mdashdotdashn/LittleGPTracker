@@ -42,12 +42,13 @@ library		euser.lib
 library		fbscli.lib
 library		hal.lib
 library		mediaclientaudiostream.lib
+library     mmfdevsound.lib
 library     ws32.lib
 library		centralrepository.lib
 library     remconcoreapi.lib
 library     remconinterfacebase.lib
 
-capability ReadUserData WriteUserData
+capability ReadUserData WriteUserData MultimediaDD
 
 userinclude ../sources
 userinclude ../sources/System/System

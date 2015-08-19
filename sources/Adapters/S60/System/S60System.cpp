@@ -4,7 +4,7 @@
 #include "Adapters/SDL/GUI/SDLGUIWindowImp.h"
 #include "Adapters/SDL/GUI/SDLEventManager.h"
 #include "Adapters/Unix/Process/UnixProcess.h"
-#include "Adapters/SDL/Audio/SDLAudio.h"
+#include "Adapters/S60/S60Audio.h"
 #include "Adapters/Dummy/Midi/DummyMidi.h"
 #include "Externals/TinyXML/tinyxml.h"
 #include "Application/Model/Config.h"
@@ -58,9 +58,7 @@ void S60System::Boot(int argc,char **argv) {
 
   // Install Sound
   AudioSettings hints ;
-  hints.bufferSize_=1024 ;
-  hints.preBufferCount_=8 ;
-  Audio::Install(new SDLAudio(hints)) ;
+  Audio::Install(new S60Audio(hints)) ;
   // Install Midi
   MidiService::Install(new DummyMidi()) ;
 

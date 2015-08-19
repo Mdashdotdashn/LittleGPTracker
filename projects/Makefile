@@ -181,7 +181,6 @@ COMMONDIRS	:=	../sources/System/Console \
 
 S60DIRS :=      ../sources/Adapters/Unix/FileSystem \
 				../sources/System/Process \
-				../sources/Adapters/SDL/Audio \
 				../sources/Adapters/Dummy/Midi \
 				../sources/Adapters/Unix/Process \
 				../sources/Adapters/SDL/GUI \
@@ -311,9 +310,9 @@ GP2XFILES		:=	GPSDLMain.o \
 
 S60FILES :=     UnixFileSystem.o \
 					DummyMidi.o \
-					SDLAudio.o \
+					S60Audio.o \
+					S60AudioDriver.o \
 					Process.o \
-					SDLAudioDriver.o \
 					UnixProcess.o \
 					SDLTimer.o \
 					GUIFactory.o \
