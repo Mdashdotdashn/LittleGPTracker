@@ -39,6 +39,14 @@ double S60AudioDriver::GetStreamTime() {
 } ;
 
 bool S60AudioDriverThread::Execute() {
+    _LIT(KThreadName,"lgpt_audio_thread");
+    TPtrC threadname(KThreadName);
+    User::RenameThread(threadname);
+
+    RProcess cur_process;
+    cur_process.SetPriority(EPriorityHigh);
+    RThread cur_thread;
+    cur_thread.SetPriority(EPriorityAbsoluteHigh);
     CActiveScheduler* activeScheduler = new (ELeave) CActiveScheduler;
     CleanupStack::PushL(activeScheduler);
     CActiveScheduler::Install(activeScheduler);
