@@ -72,6 +72,7 @@ void S60AudioDriverThread::InitializeComplete(TInt aError) {
     caps.iRate = EMMFSampleRate44100Hz;
     caps.iBufferSize = 0;
     TRAP(err, dev->SetConfigL(caps));
+    samples_pushed = 0;
     TRAP(err, dev->PlayInitL());
 } ; 
 
@@ -101,8 +102,17 @@ int S60AudioDriver::FillBuffer(CMMFBuffer *aBuffer) {
 }
 
 void S60AudioDriverThread::BufferToBeFilled(CMMFBuffer *aBuffer) {
-    driver->FillBuffer(aBuffer);
-    dev->EmptyBuffers();
+    samples_pushed += driver->FillBuffer(aBuffer);
+
+    // This is a filthy hack to reduce the amount of buffering (which we can't control) supplied by the OS.
+    // Once the output sample comes up, we start sandbagging to let that buffer drain.
+    // This is a terrible magic number.
+    if (dev->SamplesPlayed()) {
+        while (dev->SamplesPlayed() < (samples_pushed - 10000)) {
+            User::After(1);
+        }
+    }
+
     TInt err;
     TRAP(err, dev->PlayData());
     streamTime_ = dev->SamplesPlayed() / 44100.;

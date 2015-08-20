@@ -32,6 +32,7 @@ private:
     CMMFDevSound *dev;
     S60AudioDriver *driver;
     double streamTime_ ;
+    int samples_pushed;
     int bufpos_;
 } ;
 
