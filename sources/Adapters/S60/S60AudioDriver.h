@@ -32,6 +32,7 @@ private:
     CMMFDevSound *dev;
     S60AudioDriver *driver;
     double streamTime_ ;
+    int bufpos_;
 } ;
 
 class S60AudioDriver: public AudioDriver {
@@ -48,7 +49,7 @@ public:
     virtual bool Interlaced() { return true ; } ;
     virtual double GetStreamTime() ;
 
-    void FillBuffer(CMMFBuffer *aBuffer);
+    int FillBuffer(CMMFBuffer *aBuffer);
 private:
     S60AudioDriverThread * thread_ ;
 } ;
