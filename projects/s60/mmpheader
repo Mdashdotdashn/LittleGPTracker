@@ -48,7 +48,7 @@ library		centralrepository.lib
 library     remconcoreapi.lib
 library     remconinterfacebase.lib
 
-capability ReadUserData WriteUserData MultimediaDD
+capability ReadUserData WriteUserData
 
 userinclude ../sources
 userinclude ../sources/System/System

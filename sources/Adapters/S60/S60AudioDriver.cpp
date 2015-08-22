@@ -2,10 +2,16 @@
 #include <math.h>
 #include "System/Console/Trace.h"
 #include "System/System/System.h"
-#include "Services/Midi/MidiService.h"
+#include "Application/Model/Config.h"
 #include <assert.h>
 
-S60AudioDriver::S60AudioDriver(AudioSettings &settings):AudioDriver(settings) {
+S60AudioDriver::S60AudioDriver(AudioSettings &settings):
+    AudioDriver(settings), buffersize_(settings.bufferSize_){
+    const char *delta = Config::GetInstance()->GetValue("S60SANDBAGDELTA");
+    if (delta)
+        sandbagdelta_ = atoi(delta);
+    else
+        sandbagdelta_ = 11500;  // works reliably on Nokia E63 w/ fw 500.x
 }
 
 S60AudioDriver::~S60AudioDriver() {
@@ -13,19 +19,19 @@ S60AudioDriver::~S60AudioDriver() {
 
 bool S60AudioDriver::InitDriver() {
     return true;
-}    
+}
 
 void S60AudioDriver::CloseDriver() {
-
 } ;
 
 bool S60AudioDriver::StartDriver() {
-    thread_=new S60AudioDriverThread(this) ;
+    thread_=new S60AudioDriverThread(this, bufferSize_, sandbagdelta_) ;
     thread_->Start() ;
     return true ;
-} ; 
+} ;
 
 void S60AudioDriver::StopDriver() {
+    thread_->RequestTermination();
 } ;
 
 double S60AudioDriverThread::GetStreamTime() {
@@ -58,6 +64,7 @@ bool S60AudioDriverThread::Execute() {
 }
 
 void S60AudioDriverThread::RequestTermination() {
+    terminating = true;
 }
 
 void S60AudioDriverThread::InitializeComplete(TInt aError) {
@@ -70,52 +77,53 @@ void S60AudioDriverThread::InitializeComplete(TInt aError) {
     caps.iChannels = EMMFStereo;
     caps.iEncoding = EMMFSoundEncoding16BitPCM;
     caps.iRate = EMMFSampleRate44100Hz;
-    caps.iBufferSize = 0;
+    caps.iBufferSize = buffersize_;
     TRAP(err, dev->SetConfigL(caps));
     samples_pushed = 0;
     TRAP(err, dev->PlayInitL());
-} ; 
+} ;
 
 int S60AudioDriver::FillBuffer(CMMFBuffer *aBuffer) {
+    AudioBufferData *abd = &(pool_[poolPlayPosition_]);
+    if (!abd->size_)
+        OnNewBufferNeeded();
+
     CMMFDataBuffer *buf = static_cast<CMMFDataBuffer*>(aBuffer);
     TDes8 &output = buf->Data();
-    AudioBufferData *abd = &(pool_[poolPlayPosition_]);
-    if (!abd->size_) {
-        OnNewBufferNeeded();
-        while (!abd->size_)
-            User::After(1000);
-    }
-    int nplayed = abd->size_ - bufpos_;
-    if (nplayed > 200*4)
-        nplayed = 200*4;
-    output.Copy((TUint8*)abd->buffer_ + bufpos_, nplayed);
-    bufpos_ += nplayed;
-    if (bufpos_ >= abd->size_) {
-        bufpos_ = 0;
-        SAFE_FREE(pool_[poolPlayPosition_].buffer_);
-        poolPlayPosition_=(poolPlayPosition_+1)%SOUND_BUFFER_COUNT;
-        onAudioBufferTick();
-        OnNewBufferNeeded();
-    }
-    output.SetLength(nplayed);
-    return nplayed / 4;
+    output.Copy((TUint8*)abd->buffer_, abd->size_);
+    return abd->size_ / 4;
+}
+
+void S60AudioDriver::NextBuffer() {
+    SAFE_FREE(pool_[poolPlayPosition_].buffer_);
+    poolPlayPosition_=(poolPlayPosition_+1)%SOUND_BUFFER_COUNT;
+    onAudioBufferTick();
+    OnNewBufferNeeded();
 }
 
 void S60AudioDriverThread::BufferToBeFilled(CMMFBuffer *aBuffer) {
+    if (terminating) {
+        dev->Stop();
+        CActiveScheduler::Stop();
+        return;
+    }
+
     samples_pushed += driver->FillBuffer(aBuffer);
 
     // This is a filthy hack to reduce the amount of buffering (which we can't control) supplied by the OS.
-    // Once the output sample comes up, we start sandbagging to let that buffer drain.
+    // Once the output sample counter comes up, we start sandbagging to let that buffer drain.
     // This is a terrible magic number.
-    if (dev->SamplesPlayed()) {
-        while (dev->SamplesPlayed() < (samples_pushed - 10000)) {
-            User::After(1);
+    if (sandbagdelta_ && dev->SamplesPlayed()) {
+        while (dev->SamplesPlayed() < (samples_pushed - sandbagdelta_)) {
+            User::After(100);
         }
     }
 
     TInt err;
     TRAP(err, dev->PlayData());
+    User::After(100);   // yield
     streamTime_ = dev->SamplesPlayed() / 44100.;
+    driver->NextBuffer();
 }
 
 void S60AudioDriverThread::PlayError(TInt aError) {

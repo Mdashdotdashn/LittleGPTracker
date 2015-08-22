@@ -12,7 +12,11 @@ class S60AudioDriver;
 
 class S60AudioDriverThread: public SysThread, MDevSoundObserver {
 public:
-    S60AudioDriverThread(S60AudioDriver *driver) : driver(driver) {};
+    S60AudioDriverThread(S60AudioDriver *driver, int buffersize, int sandbagdelta)
+            : driver(driver),
+              terminating(false),
+              buffersize_(buffersize),
+              sandbagdelta_(sandbagdelta) {};
     virtual ~S60AudioDriverThread() {} ;
     virtual bool Execute() ;
     void RequestTermination() ;
@@ -33,7 +37,8 @@ private:
     S60AudioDriver *driver;
     double streamTime_ ;
     int samples_pushed;
-    int bufpos_;
+    bool terminating;
+    int buffersize_, sandbagdelta_;
 } ;
 
 class S60AudioDriver: public AudioDriver {
@@ -41,17 +46,19 @@ public:
     S60AudioDriver(AudioSettings &settings) ;
     ~S60AudioDriver() ;
      // Audio implementation
-    virtual bool InitDriver() ; 
+    virtual bool InitDriver() ;
     virtual void CloseDriver();
-    virtual bool StartDriver() ; 
+    virtual bool StartDriver() ;
     virtual void StopDriver();
     virtual int GetPlayedBufferPercentage() { return 0 ;} ;
-    virtual int GetSampleRate() { return 44100; } ; 
+    virtual int GetSampleRate() { return 44100; } ;
     virtual bool Interlaced() { return true ; } ;
     virtual double GetStreamTime() ;
 
     int FillBuffer(CMMFBuffer *aBuffer);
+    void NextBuffer();
 private:
     S60AudioDriverThread * thread_ ;
+    int buffersize_, sandbagdelta_;
 } ;
 #endif

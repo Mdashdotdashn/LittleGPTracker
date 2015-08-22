@@ -19,7 +19,7 @@
 #include <time.h>
 #include <assert.h>
 #include <stdio.h>
-#include <sys/time.h> 
+#include <sys/time.h>
 #include <stdlib.h>
 
 #define Time E32Time
@@ -33,12 +33,13 @@ int S60System::MainLoop() {
 } ;
 
 void S60System::Boot(int argc,char **argv) {
-
   // Install System
   System::Install(new S60System()) ;
 
   // Install FileSystem
   FileSystem::Install(new UnixFileSystem()) ;
+  Path::SetAlias("root","c:/data/lgpt") ;
+  Path::SetAlias("bin","c:/data/lgpt") ;
   Config::GetInstance()->ProcessArguments(argc,argv) ;
 
   // XXX debug to SD card
@@ -47,7 +48,7 @@ void S60System::Boot(int argc,char **argv) {
   FileLogger *fileLogger=new FileLogger(logPath);
   if(fileLogger->Init().Succeeded())
   {
-    Trace::GetInstance()->SetLogger(*fileLogger);    
+    Trace::GetInstance()->SetLogger(*fileLogger);
   }
 
   // Install GUI Factory
@@ -58,6 +59,8 @@ void S60System::Boot(int argc,char **argv) {
 
   // Install Sound
   AudioSettings hints ;
+  hints.bufferSize_=0 ;     // let OS autosize (ignored on many)
+  hints.preBufferCount_=0 ; // does nothing
   Audio::Install(new S60Audio(hints)) ;
   // Install Midi
   MidiService::Install(new DummyMidi()) ;
@@ -65,12 +68,9 @@ void S60System::Boot(int argc,char **argv) {
   // Install Threads
   SysProcessFactory::Install(new UnixProcessFactory()) ;
 
-  // XXX this conflicts with the SDLEventManager
-  if ( SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0 )   {
+  if ( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0 )   {
     return;
   }
-  Path::SetAlias("root","c:/data/lgpt") ;
-  Path::SetAlias("bin","c:/data/lgpt") ;
 
   SDL_EnableUNICODE(1);
 
@@ -96,12 +96,12 @@ void S60System::Shutdown() {
   exit(0);
 } ;
 
-static int      secbase; 
+static int      secbase;
 
 unsigned long S60System::GetClock() {
   struct timeval tp;
 
-  gettimeofday(&tp, NULL);  
+  gettimeofday(&tp, NULL);
   if (!secbase)
   {
     secbase = tp.tv_sec;
@@ -125,11 +125,11 @@ void *S60System::Malloc(unsigned size) {
 
 void S60System::Free(void *ptr) {
   free(ptr) ;
-} 
+}
 
 //extern "C" void *gpmemset(void *s1,unsigned char val,int n) ;
 
-void S60System::Memset(void *addr,char val,int size) 
+void S60System::Memset(void *addr,char val,int size)
 {
   memset(addr,val,size) ;
 } ;
@@ -139,13 +139,13 @@ void *S60System::Memcpy(void *s1, const void *s2, int n)
   return memcpy(s1,s2,n);
 }
 
-void S60System::PostQuitMessage() 
+void S60System::PostQuitMessage()
 {
   Trace::Log("S60", "PostQuitMessage called");
   SDLEventManager::GetInstance()->PostQuitMessage() ;
 }
 
-unsigned int S60System::GetMemoryUsage() 
+unsigned int S60System::GetMemoryUsage()
 {
   return 0;
 }
