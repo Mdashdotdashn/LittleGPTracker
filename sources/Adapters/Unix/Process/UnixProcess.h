@@ -19,6 +19,6 @@ public:
 	virtual SysSemaphoreResult WaitTimeout(unsigned long) ;
 	virtual SysSemaphoreResult Post() ;
 private:
-	sem_t *sem_ ;
+	sem_t sem_;
 } ;
 #endif

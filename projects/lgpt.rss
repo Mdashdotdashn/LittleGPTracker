@@ -1,0 +1,9 @@
+#include <appinfo.rh>
+
+UID2 KUidAppRegistrationResourceFile
+UID3 0xA0102034
+
+RESOURCE APP_REGISTRATION_INFO {
+    app_file="lgpt";
+    localisable_resource_file="\\resource\\apps\\lgpt_loc";
+}

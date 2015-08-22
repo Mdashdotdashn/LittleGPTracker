@@ -20,6 +20,7 @@ bool SDLEventManager::Init()
 {
 	EventManager::Init() ;
 	
+#ifndef SYMBIAN
 	if ( SDL_Init(SDL_INIT_VIDEO|SDL_INIT_JOYSTICK|SDL_INIT_TIMER) < 0 )
   {
 		return false;
@@ -34,22 +35,15 @@ bool SDLEventManager::Init()
 
 	int joyCount=SDL_NumJoysticks() ;
 	joyCount=(joyCount>MAX_JOY_COUNT)?MAX_JOY_COUNT:joyCount ;
-
-	keyboardCS_=new KeyboardControllerSource("keyboard") ;
-	const char *dumpIt=Config::GetInstance()->GetValue("DUMPEVENT") ;
-	if ((dumpIt)&&(!strcmp(dumpIt,"YES")))
-  {
-		dumpEvent_=true ;
-	}
-
-	for (int i=0;i<MAX_JOY_COUNT;i++) 
+	
+  for (int i=0;i<MAX_JOY_COUNT;i++) 
   {
 		joystick_[i]=0 ;
 		buttonCS_[i]=0 ;
 		joystickCS_[i]=0 ;
 	}
     
-	for (int i=0;i<joyCount;i++) 
+	for (int i=0;i<joyCount;i++)
   {
 		char sourceName[128] ;
 		joystick_[i]=SDL_JoystickOpen(i) ;
@@ -64,7 +58,15 @@ bool SDLEventManager::Init()
 		sprintf(sourceName,"hatJoy%d",i) ;
 		hatCS_[i]=new HatControllerSource(sourceName) ;
 	}
-  
+#endif
+
+  keyboardCS_=new KeyboardControllerSource("keyboard") ;
+  const char *dumpIt=Config::GetInstance()->GetValue("DUMPEVENT") ;
+  if ((dumpIt)&&(!strcmp(dumpIt,"YES")))
+  {
+    dumpEvent_=true ;
+  }
+
 	for (int i=0;i<SDLK_LAST;i++) 
   {
 		keyname_[i]=SDL_GetKeyName((SDLKey)i) ;

@@ -22,16 +22,15 @@ SysSemaphore *UnixProcessFactory::CreateNewSemaphore(int initialcount, int maxco
 } ;
 
 UnixSysSemaphore::UnixSysSemaphore(int initialcount,int maxcount) {
-	sem_=sem_open("n0ssemaphore",O_CREAT,S_IRUSR|S_IWUSR , 0 );
+  sem_init(&sem_, 0, initialcount);
 } ;
 
 UnixSysSemaphore::~UnixSysSemaphore() {
-  sem_close(sem_) ;
-  sem_unlink("n0ssemaphore") ;
+  sem_destroy(&sem_);
 } ;
 
 SysSemaphoreResult UnixSysSemaphore::Wait() {
-	sem_wait(sem_) ;
+	sem_wait(&sem_) ;
 	return SSR_NO_ERROR ;
 } ;
 
@@ -44,6 +43,6 @@ SysSemaphoreResult UnixSysSemaphore::WaitTimeout(unsigned long timeout) {
 } ;
 
 SysSemaphoreResult UnixSysSemaphore::Post() {
-	sem_post(sem_) ;
+	sem_post(&sem_) ;
 	return SSR_NO_ERROR ;
 } ;

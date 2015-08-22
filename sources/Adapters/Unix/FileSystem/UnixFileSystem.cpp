@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <unistd.h>
-#include <sys/dir.h>
+#include <dirent.h>
 #include <sys/stat.h>
 #include <ctype.h>
 #include <errno.h>

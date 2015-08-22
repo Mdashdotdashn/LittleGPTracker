@@ -4,9 +4,9 @@
 .SUFFIXES:
 #---------------------------------------------------------------------------------
 
-PLATFORM:=  RASPI
+PLATFORM:=  S60
 
-include $(PWD)/Makefile.$(PLATFORM)
+include Makefile.$(PLATFORM)
 
 #---------------------------------------------------------------------------------
 # options for FXE
@@ -179,6 +179,15 @@ COMMONDIRS	:=	../sources/System/Console \
 				../sources/Externals/Soundfont \
 				../sources/Externals/TinyXML
 
+S60DIRS :=      ../sources/Adapters/Unix/FileSystem \
+				../sources/System/Process \
+				../sources/Adapters/Dummy/Midi \
+				../sources/Adapters/Unix/Process \
+				../sources/Adapters/SDL/GUI \
+				../sources/Adapters/SDL/Timer \
+                ../sources/Adapters/S60/System \
+                ../sources/Adapters/S60
+
 #---------------------------------------------------------------------------------
 # files definition
 #---------------------------------------------------------------------------------
@@ -298,6 +307,19 @@ GP2XFILES		:=	GPSDLMain.o \
 					gpmemset.o \
 					SDLTimer.o \
 					GUIFactory.o SDLEventManager.o SDLGUIWindowImp.o 
+
+S60FILES :=     UnixFileSystem.o \
+					DummyMidi.o \
+					S60Audio.o \
+					S60AudioDriver.o \
+					Process.o \
+					UnixProcess.o \
+					SDLTimer.o \
+					GUIFactory.o \
+					SDLEventManager.o \
+					SDLGUIWindowImp.o \
+                    S60Main.o \
+                    S60System.o
 
 CAANOOFILES		:=	CAANOOSDLMain.o \
 					UnixFileSystem.o \

@@ -62,8 +62,15 @@ SDLGUIWindowImp::SDLGUIWindowImp(GUICreateWindowParams &p)
 
   const SDL_VideoInfo* videoInfo = SDL_GetVideoInfo();
   NAssert(videoInfo != NULL);
- 
- #if defined(PLATFORM_GP2X)
+
+ #ifdef SYMBIAN
+	// Symbian is locked to native phone resolution. SDL doesn't support easy orientation changes.
+	SDL_Rect **modes = SDL_ListModes(NULL, SDL_SWSURFACE | SDL_FULLSCREEN);
+
+	int screenWidth = modes[0]->w;
+	int screenHeight = modes[0]->h;
+  windowed_ = false;
+ #elif defined(PLATFORM_GP2X)
   int screenWidth = 320;
   int screenHeight = 240;
  #elif defined(PLATFORM_PSP)
@@ -82,6 +89,9 @@ SDLGUIWindowImp::SDLGUIWindowImp(GUICreateWindowParams &p)
   Trace::Log("DISPLAY","Using driver %s. Screen (%d,%d) Bpp:%d",driverName,screenWidth,screenHeight,bitDepth_);
   
   bool fullscreen=false ;
+ #ifdef SYMBIAN
+  fullscreen=true;
+ #endif
   
   const char *fullscreenValue=Config::GetInstance()->GetValue("FULLSCREEN") ;
   if ((fullscreenValue)&&(!strcmp(fullscreenValue,"YES")))

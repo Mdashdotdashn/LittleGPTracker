@@ -1,0 +1,39 @@
+PWD = ${shell pwd}
+
+ICONSRC = ..\sources\Resources\lgpt_icon.svg
+
+all: lgpt.sis
+
+run: lgpt.sis
+	runonphone -s lgpt.sis lgpt.exe
+
+lgpt.sis: $(EPOCROOT)/epoc32/build/$(PWD)/lgpt/gcce/urel/lgpt.exe lgpt.pkg lgpt.mif
+	makesis "-d$(EPOCROOT)" lgpt.pkg
+
+$(EPOCROOT)/epoc32/build/$(PWD)/lgpt/gcce/urel/lgpt.exe: lgpt.gcce $(SRCS) $(EPOCROOT)/epoc32/release/armv5/urel/sdl.lib
+	+make -f lgpt.gcce UREL
+
+lgpt.mif: $(ICONSRC)
+	mifconv lgpt.mif $(ICONSRC)
+
+lgpt.mmp: s60/mmpheader
+	+perl s60/makemmp.pl "$(OFILES)" "$(SOURCES)" $< > $@
+
+lgpt.gcce: lgpt.mmp
+	bldmake bldfiles
+	makmake lgpt.mmp gcce
+
+clean: clean-S60
+
+clean-S60: lgpt.gcce
+	make -f lgpt.gcce CLEAN
+	del lgpt.gcce
+	del lgpt.mmp
+	del lgpt.mif
+	del lgpt.sis
+
+mrproper: clean
+	rm -rf $(EPOCROOT)/epoc32/build$(PWD)
+
+$(EPOCROOT)/epoc32/build/$(PWD)/gcce.make: bld.inf lgpt.mmp
+	bldmake bldfiles
