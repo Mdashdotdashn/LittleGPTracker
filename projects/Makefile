@@ -4,7 +4,7 @@
 .SUFFIXES:
 #---------------------------------------------------------------------------------
 
-PLATFORM:=  RASPI
+PLATFORM:=  GCWZERO
 
 include $(PWD)/Makefile.$(PLATFORM)
 
