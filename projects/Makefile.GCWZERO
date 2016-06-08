@@ -1,0 +1,17 @@
+
+DEVKIT=/opt/gcw0-toolchain
+
+TOOLPATH=$(DEVKIT)/usr/bin
+PREFIX		:=	
+SDL_BASE = /opt/gcw0-toolchain/usr/bin/
+
+include $(PWD)/dingoo_rules
+
+CFLAGS	:=	`sdl-config --cflags` -O3 -D_DEBUG -Wall -DPLATFORM_$(PLATFORM) -I$(PWD)/../sources -D__LINUX_ALSA__  -DCPP_MEMORY
+
+CXXFLAGS:=	$(CFLAGS)
+
+EXTENSION:= dge
+
+LIBS	:=  -L/opt/gcw0-toolchain/usr/lib -lSDL -lpthread 
+LIBDIRS	:=	$(DEKVIT)/usr/lib
