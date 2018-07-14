@@ -1,10 +1,10 @@
 
 #include "DINGOOSerialMidiDevice.h"
-#include "System/io/Trace.h"
+//#include "System/io/Trace.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <sys/signal.h>
+#include <signal.h>
 #include <sys/types.h>
 #include <memory.h>
 
@@ -12,8 +12,11 @@ const char *port="/dev/ttyS0" ;
 //const char *port="/dev/usb/tts/0" ;
 #define BAUDRATE B38400
 
-
+#ifdef RS97
+DINGOOSerialMidiDevice::DINGOOSerialMidiDevice():MidiOutDevice("RS-97 Serial") {
+#else
 DINGOOSerialMidiDevice::DINGOOSerialMidiDevice():MidiOutDevice("DINGOO Serial") {
+#endif
     fd_=0 ;
 } ;
 
@@ -21,10 +24,11 @@ bool DINGOOSerialMidiDevice::Init(){
 
      struct termios newtio;
 
-     Trace::Debug("about to open port") ;
+     printf("about to open port\n") ;
      fd_ = open(port, O_RDWR /*| O_NOCTTY | O_NDELAY*/ ); 
-     if (fd_ <=0) {Trace::Dump("Failed to open %",port); fd_=0 ;return false ; }
-     Trace::Dump("opened serial successfully %x",fd_) ;
+     if (fd_ <=0) {printf("Failed to open %s",port); fd_=0 ;return false ; }
+     //Trace::Dump("opened serial successfully %x",fd_) ;
+     printf("opened serial successfully");
      tcgetattr(fd_,&oldtio_); /* save current port settings */
     
      memset(&newtio,0,sizeof(newtio)) ;
@@ -40,9 +44,9 @@ bool DINGOOSerialMidiDevice::Init(){
     tcflush(fd_, TCIFLUSH);
     int code=tcsetattr(fd_,TCSANOW,&newtio);
     if (code<0) {
-       Trace::Dump("Failed to set attributes") ;
+       printf("Failed to set attributes\n") ;
     } else {
-       Trace::Debug("Serial attributes set") ;
+       printf("Serial attributes set\n") ;
     }
 
  	return (code>=0)   ;
@@ -77,7 +81,7 @@ void DINGOOSerialMidiDevice::SendMessage(MidiMessage &msg) {
           len=3 ;
          }
        write(fd_,buffer,len);
-       Trace::Debug("Sending 0x%x 0x%x 0x%x",buffer[0],buffer[1],buffer[2]) ;
+       printf("Sending 0x%x 0x%x 0x%x\n",buffer[0],buffer[1],buffer[2]) ;
     }
      
 } ;

@@ -5,7 +5,7 @@
 #include "Adapters/SDL/GUI/SDLEventManager.h"
 #include "Adapters/SDL/Process/SDLProcess.h"
 #include "Adapters/DINGOO/Audio/DINGOOAudio.h"
-#include "Adapters/Dummy/Midi/DummyMidi.h"
+#include "Adapters/DINGOO/Midi/DINGOOMidiService.h"
 #include "Externals/TinyXML/tinyxml.h"
 #include "Application/Model/Config.h"
 #include "Application/Controllers/ControlRoom.h"
@@ -22,6 +22,9 @@
 #include <sys/time.h> 
 #include <malloc.h>
 #include <stdlib.h>
+#include <malloc.h>
+#include <stdlib.h>
+#include <string.h>
 
 EventManager *GPSDLSystem::eventManager_ = NULL ;
 bool GPSDLSystem::invert_=false ;
@@ -76,7 +79,7 @@ void GPSDLSystem::Boot(int argc,char **argv) {
 	Audio::Install(new DINGOOAudio(hint)) ;
 
 	// Install Midi
-	MidiService::Install(new DummyMidi()) ;
+	MidiService::Install(new DINGOOMidiService()) ;
     
 	// Install Threads
 
@@ -200,6 +203,11 @@ void GPSDLSystem::PostQuitMessage()
 
 unsigned int GPSDLSystem::GetMemoryUsage() 
 {
-	struct mallinfo m=mallinfo();	
-	return m.uordblks ;
+#ifdef RS97
+	return 1000000;
+#else
+	struct mallinfo mi;
+	mi = mallinfo();	
+	return mi.uordblks ;
+#endif
 }

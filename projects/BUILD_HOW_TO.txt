@@ -9,3 +9,5 @@ GP2X: Compile under minsys
 PSP: Compile under minsys
 
 DINGOO: Compile under Linux
+
+RS97: Compile under Linux and type make PLATFORM=RS97
