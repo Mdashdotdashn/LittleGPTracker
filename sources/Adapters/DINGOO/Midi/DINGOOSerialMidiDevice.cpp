@@ -8,9 +8,14 @@
 #include <sys/types.h>
 #include <memory.h>
 
-const char *port="/dev/ttyS0" ;
-//const char *port="/dev/usb/tts/0" ;
-#define BAUDRATE B38400
+#ifdef USB_TTY
+const char *port="/dev/usb/tts/0" ;
+#else
+const char *port="/dev/ttyS1" ;
+#endif
+
+//#define BAUDRATE B38400
+#define BAUDRATE B57600
 
 #ifdef RS97
 DINGOOSerialMidiDevice::DINGOOSerialMidiDevice():MidiOutDevice("RS-97 Serial") {
