@@ -1,0 +1,9 @@
+-include $(PWD)/base_rules
+
+#STRIP = arm-linux-strip
+STRIP = ls
+
+#---------------------------------------------------------------------------------
+%.dge: $(OFILES)
+	$(CXX) $(LDFLAGS) -o $@ $(OFILES) $(LIBS)
+	@$(STRIP) $@
