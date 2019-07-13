@@ -7,13 +7,13 @@ TOOLPATH=$(DEVKIT)/usr/bin
 PREFIX		:=	arm-linux-
 SDL_BASE = /opt/bittboy-toolchain/usr/arm-miyoo-linux-musleabi/sysroot/usr/bin/
 
-include $(PWD)/rs97_rules
+include $(PWD)/bittboy_rules
 
 CFLAGS	:=	`$(SDL_BASE)sdl-config --cflags` -O3 -D_NDEBUG -D_NO_JACK_ -Wall -DPLATFORM_DINGOO -I$(PWD)/../sources -D__LINUX_ALSA__  -DCPP_MEMORY -DRS97
 
 CXXFLAGS:=	$(CFLAGS) -fpermissive -std=gnu++03
 
-EXTENSION:= dge
+EXTENSION:= elf
 
 LIBS	:=  -lSDL -lasound -lpthread 
 LIBDIRS	:=	$(DEKVIT)/usr/lib
