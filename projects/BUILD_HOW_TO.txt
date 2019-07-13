@@ -11,3 +11,5 @@ PSP: Compile under minsys
 DINGOO: Compile under Linux
 
 RS97: Compile under Linux and type make PLATFORM=RS97
+
+Bittboy: Compile under Linux and type make PLATFORM=BITTBOY
