@@ -70,11 +70,21 @@ SDLGUIWindowImp::SDLGUIWindowImp(GUICreateWindowParams &p)
   int screenWidth = 480; 
   int screenHeight = 272;
   windowed_ = false;
+ #elif defined(RS97)
+  int screenWidth = 320; 
+  int screenHeight = 240;
+  windowed_ = false;
  #else
   int screenWidth = videoInfo->current_w;
   int screenHeight = videoInfo->current_h;
  #endif
+ 
+ #if defined(RS97)
+  /* Pick the best bitdepth for the RS97 as it will select 32 as its default, even though that's slow */
+  bitDepth_ = 16;
+ #else
   bitDepth_ = videoInfo->vfmt->BitsPerPixel;
+ #endif
   
   char driverName[64] ;
   SDL_VideoDriverName(driverName,64);

@@ -1,7 +1,7 @@
 
 #include "DINGOOMidiService.h"
 #include "DINGOOSerialMidiDevice.h"
-#include "System/io/Trace.h"
+//#include "System/io/Trace.h"
 
 DINGOOMidiService::DINGOOMidiService() {
 } ;
