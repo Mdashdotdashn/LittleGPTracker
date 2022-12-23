@@ -9,3 +9,8 @@ GP2X: Compile under minsys
 PSP: Compile under minsys
 
 DINGOO: Compile under Linux
+
+RASPI: Compile under Linux
+	Required libs:
+	    sudo apt install -y git gcc libsdl1.2-dev make g++ libjack-dev
+

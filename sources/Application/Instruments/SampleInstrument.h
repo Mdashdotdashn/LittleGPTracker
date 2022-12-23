@@ -99,8 +99,8 @@ private:
        bool running_ ;
        bool dirty_ ;
 	   TableSaveState tableState_ ;
-
-	   static char lastMidiNote_[SONG_CHANNEL_COUNT] ;
+	   
+	   static int8_t lastMidiNote_[SONG_CHANNEL_COUNT] ;
 	   static fixed lastSample_[SONG_CHANNEL_COUNT][2] ;
 	   static fixed feedback_[SONG_CHANNEL_COUNT][FB_BUFFER_LENGTH*2] ;
 
