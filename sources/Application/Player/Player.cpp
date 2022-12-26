@@ -881,8 +881,9 @@ void Player::playCursorPosition(int channel) {
 							tpb.Stop() ;
 						}
 					}
-				} else {
-					NAssert(0) ;
+				} 
+				else {
+					Trace::Error("Note outside range: %02x", (unsigned int) note) ;
 				}
 			}
 		}
