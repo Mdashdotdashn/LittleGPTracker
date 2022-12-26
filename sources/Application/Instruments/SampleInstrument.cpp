@@ -88,6 +88,9 @@ SampleInstrument::SampleInstrument() {
 	 Insert(loopMode_) ;
 	 loopMode_->SetInt(0) ;
 
+	 slices_=new Variable("slices",SIP_SLICES,1) ;
+	 Insert(slices_) ;
+
 	 loopStart_=new WatchedVariable("loopstart",SIP_LOOPSTART,0) ;
 	 Insert(loopStart_) ;
 	 loopStart_->AddObserver(*this) ;
@@ -265,6 +268,18 @@ bool SampleInstrument::Start(int channel,unsigned char midinote,bool cleanstart)
       }
       break ;
 		}
+	case SILM_SLICE: {
+		if (rp->midiNote_ > slices_->GetInt()-1) break; // No sound outside of slice range
+		int note = rp->midiNote_;
+		int wavSize=rp->rendLoopEnd_;
+		int slice = wavSize/slices_->GetInt();
+
+		rp->position_= float(note*slice);
+		rp->baseSpeed_=fl2fp(source_->GetSampleRate(rp->midiNote_)/driverRate) ;
+		rp->speed_ = rp->baseSpeed_;
+		rp->rendLoopEnd_ = (note+1)*slice;
+		break ;
+	}
 		case SILM_LAST:
 			NAssert(0) ;
 			break ;
@@ -277,6 +292,9 @@ bool SampleInstrument::Start(int channel,unsigned char midinote,bool cleanstart)
 	float fineTune=float(fineTune_->GetInt()-0x7F) ;
 	fineTune/=float(0x80) ;
 	int offset=midinote-rootNote ;
+	if (loopmode == SILM_SLICE) {
+		offset = rootNote-source_->GetRootNote(rp->midiNote_);
+	}
 	while (offset>127)
   {
 		offset-=12 ;
@@ -391,6 +409,7 @@ void SampleInstrument::updateFeedback(renderParams *rp) {
 		switch(loopMode) {
 			case SILM_ONESHOT:
 			case SILM_LOOP:
+			case SILM_SLICE:
 			case SILM_LOOPSYNC:
 				rp->feedbackMode_=FB_ADD ;
 				if (offset<0x80) {
@@ -621,6 +640,7 @@ bool SampleInstrument::Render(int channel,fixed *buffer,int size,bool updateTick
 				if (input>=lastSample/*-((loopMode==SILM_OSCFINE)?1:0)*/) {
 					switch(loopMode) {
 						case SILM_ONESHOT:
+						case SILM_SLICE:
 							*rpFinished=true ;
 							break ;
 						case SILM_LOOP:
@@ -656,6 +676,7 @@ bool SampleInstrument::Render(int channel,fixed *buffer,int size,bool updateTick
 				if (input<lastSample) {
 					switch(loopMode) {
 						case SILM_ONESHOT:
+						case SILM_SLICE:
 							*rpFinished=true ;
 							break ;
 						case SILM_LOOP:
