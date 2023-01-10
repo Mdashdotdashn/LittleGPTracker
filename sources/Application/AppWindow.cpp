@@ -18,12 +18,12 @@
 
 AppWindow *instance=0 ;
 
-GUIColor AppWindow::backgroundColor_(0xF1,0xF1,0x96) ;
-GUIColor AppWindow::normalColor_(0x77,0x6B,0x56) ;
-GUIColor AppWindow::highlight2Color_(0x8E,0xA0,0x4A) ;
-GUIColor AppWindow::highlightColor_(0xA8,0x16,0x16) ;
-GUIColor AppWindow::consoleColor_(0xFF,0x00,0xFF) ;
-GUIColor AppWindow::cursorColor_(0x77,0x6B,0x56) ;
+GUIColor AppWindow::backgroundColor_(0x1D,0x0A,0x1F); 
+GUIColor AppWindow::normalColor_    (0xF5,0xEB,0xFF);
+GUIColor AppWindow::highlightColor_ (0xB7,0x50,0xD1);
+GUIColor AppWindow::highlight2Color_(0xDB,0x33,0xDB);
+GUIColor AppWindow::consoleColor_   (0x00,0xFF,0x00);
+GUIColor AppWindow::cursorColor_    (0xFF,0x00,0x8C);
 
 int AppWindow::charWidth_=8;
 int AppWindow::charHeight_=8 ;
@@ -65,7 +65,7 @@ AppWindow::AppWindow(I_GUIWindowImp &imp):GUIWindow(imp)  {
 
 	_statusLine[0]=0 ;
 
-	_currentView=0 ;	
+	_currentView=0 ;
 	_viewData=0 ;
 	_songView=0 ;
 	_chainView=0 ;
@@ -92,7 +92,6 @@ AppWindow::AppWindow(I_GUIWindowImp &imp):GUIWindow(imp)  {
 
     defineColor("BACKGROUND",backgroundColor_) ;
     defineColor("FOREGROUND",normalColor_) ;
-	cursorColor_=normalColor_ ;
     defineColor("HICOLOR1",highlightColor_) ;
     defineColor("HICOLOR2",highlight2Color_) ;
     defineColor("CURSORCOLOR",cursorColor_) ;
