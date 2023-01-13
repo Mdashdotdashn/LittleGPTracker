@@ -119,6 +119,10 @@ void ImportSampleDialog::preview(Path &element) {
 	Player::GetInstance()->StartStreaming(element) ;
 }
 
+void ImportSampleDialog::endPreview() {
+	Player::GetInstance()->StopStreaming() ;
+}
+
 void ImportSampleDialog::import(Path &element) {
 
 	SamplePool *pool=SamplePool::GetInstance() ;
@@ -147,6 +151,11 @@ void ImportSampleDialog::ProcessButtonMask(unsigned short mask,bool pressed) {
 
 	  // A modifier
 	  if (mask&EPBM_A) { 
+
+		// Allow browse preview
+		if (mask&EPBM_UP) warpToNextSample(-1) ;
+		if (mask&EPBM_DOWN) warpToNextSample(1) ;
+
 		IteratorPtr<Path> it(sampleList_.GetIterator()) ;
 		int count=0 ;
 		Path *element=0 ;
@@ -156,7 +165,8 @@ void ImportSampleDialog::ProcessButtonMask(unsigned short mask,bool pressed) {
 			}
 		}
 
-		if ((selected_!=2)&&(element->IsDirectory())) {
+		if ((selected_!=2)&&(element->IsDirectory()) && // Folders
+			!(mask&EPBM_UP||mask&EPBM_DOWN)) { // Don't browse preview folders
 			if (element->GetName()=="..") {
 				if (currentPath_.GetPath()==sampleLib_.GetPath()) {
 	//				EndModal(true) ;
@@ -174,12 +184,13 @@ void ImportSampleDialog::ProcessButtonMask(unsigned short mask,bool pressed) {
 
 		switch(selected_) {
 			case 0: // preview
-				preview(*element) ;
+				if(!element->IsDirectory()) preview(*element) ; // Don't browse preview folders
 				break ;
 			case 1: // import
-				import(*element) ;
+				if(!element->IsDirectory()) import(*element) ; // Don't browse import folders
 				break ;
 			case 2: // Exit ;
+				endPreview(); // Stop playback when exiting
 				EndModal(0) ;
 				break ;
 		}
