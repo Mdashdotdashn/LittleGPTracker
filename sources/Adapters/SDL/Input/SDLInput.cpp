@@ -2,7 +2,7 @@
 #include "SDLInput.h"
 #include "Application/Model/Config.h"
 
-
+#ifndef PLATOFM_BITTBOY
 int keyMapping[]={
 	SDLK_a,
 	SDLK_s,
@@ -14,6 +14,7 @@ int keyMapping[]={
 	SDLK_LCTRL,
 	SDLK_SPACE
 } ;
+#endif
 
 int eventMapping[]={
 	SDLI_BUTTON_A,

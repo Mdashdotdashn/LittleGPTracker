@@ -1,0 +1,18 @@
+DEVKIT=/opt/arm-buildroot-linux-musleabi_sdk-buildroot
+
+TARGET = lgpt.elf
+
+TOOLPATH=$(DEVKIT)/usr/bin
+PREFIX		:=	arm-linux-
+SDL_BASE = $(DEVKIT)/arm-buildroot-linux-musleabi/sysroot/usr/bin/
+
+include $(PWD)/bittboy_rules
+
+CFLAGS	:=	`$(SDL_BASE)sdl-config --cflags` -O3 -D_NDEBUG -D_NO_JACK_ -Wall -DPLATFORM_DINGOO -I$(PWD)/../sources -D__LINUX_ALSA__  -DCPP_MEMORY -DRS97
+
+CXXFLAGS:=	$(CFLAGS) -std=gnu++03
+
+EXTENSION:= elf
+
+LIBS	:=  -lSDL -lasound -lpthread 
+LIBDIRS	:=	$(DEKVIT)/usr/lib

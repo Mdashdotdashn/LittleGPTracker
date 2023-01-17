@@ -115,6 +115,32 @@ DINGOODIRS      :=    . \
 				../sources/Adapters/SDL/GUI \
 				../sources/Adapters/SDL/Timer
 
+RS97DIRS      :=    . \
+				../sources/Adapters/DINGOO/Main \
+				../sources/Adapters/Unix/FileSystem \
+				../sources/System/Process \
+				../sources/Adapters/Unix/Process \
+				../sources/Adapters/DINGOO/System \
+				../sources/Adapters/DINGOO/Midi \
+				../sources/Adapters/DINGOO/Audio \
+				../sources/Adapters/SDL/Audio \
+				../sources/Adapters/SDL/Process \
+				../sources/Adapters/SDL/GUI \
+				../sources/Adapters/SDL/Timer
+				
+BITTBOYDIRS      :=    . \
+				../sources/Adapters/DINGOO/Main \
+				../sources/Adapters/Unix/FileSystem \
+				../sources/System/Process \
+				../sources/Adapters/Unix/Process \
+				../sources/Adapters/DINGOO/System \
+				../sources/Adapters/DINGOO/Midi \
+				../sources/Adapters/DINGOO/Audio \
+				../sources/Adapters/SDL/Audio \
+				../sources/Adapters/SDL/Process \
+				../sources/Adapters/SDL/GUI \
+				../sources/Adapters/SDL/Timer
+
 PSPDIRS	:=    . \
 				../sources/Adapters/PSP/Main \
 				../sources/Adapters/PSP/FileSystem \
@@ -198,6 +224,40 @@ DINGOOFILES             :=  GPSDLMain.o \
 					GUIFactory.o \
 					SDLEventManager.o \
 					SDLGUIWindowImp.o
+
+RS97FILES  		:=  GPSDLMain.o \
+					UnixFileSystem.o \
+					DINGOOAudio.o \
+					Process.o \
+					UnixProcess.o \
+					SDLAudioDriver.o \
+					DINGOOAudioDriver.o \
+					BITTBOYSystem.o \
+					DINGOOEventQueue.o \
+					SDLProcess.o \
+					SDLTimer.o \
+					GUIFactory.o \
+					SDLEventManager.o \
+					BITTBOYSerialMidiDevice.o \
+					BITTBOYMidiService.o \
+					SDLGUIWindowImp.o 
+					
+BITTBOYFILES    :=  GPSDLMain.o \
+					UnixFileSystem.o \
+					DINGOOAudio.o \
+					Process.o \
+					UnixProcess.o \
+					SDLAudioDriver.o \
+					DINGOOAudioDriver.o \
+					BITTBOYSystem.o \
+					DINGOOEventQueue.o \
+					SDLProcess.o \
+					SDLTimer.o \
+					GUIFactory.o \
+					SDLEventManager.o \
+					BITTBOYSerialMidiDevice.o \
+					BITTBOYMidiService.o \
+					SDLGUIWindowImp.o 
 
 PSPFILES		:=	PSPmain.o  \
 					PSPFileSystem.o \
@@ -429,7 +489,7 @@ $(BUILD):
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(OUTPUT).$(EXTENSION) $(BUILD) *.elf *.gxb *.fxe
+	@rm -fr $(OUTPUT).$(EXTENSION) $(BUILD) *.elf *.gxb *.fxe *.gdb
 
 
 #---------------------------------------------------------------------------------

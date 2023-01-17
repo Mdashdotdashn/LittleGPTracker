@@ -1,0 +1,19 @@
+
+DEVKIT=/opt/mipsel-rg350-linux-uclibc_sdk-buildroot
+
+TARGET = lgpt.dge
+
+TOOLPATH=$(DEVKIT)/usr/bin
+PREFIX		:=	mipsel-linux-
+SDL_BASE = /opt/mipsel-rg350-linux-uclibc_sdk-buildroot/usr/mipsel-rg350-linux-uclibc/sysroot/usr/bin/
+
+include $(PWD)/rs97_rules
+
+CFLAGS	:=	`$(SDL_BASE)sdl-config --cflags` -O3 -D_NDEBUG -D_NO_JACK_ -Wall -DPLATFORM_DINGOO -I$(PWD)/../sources -D__LINUX_OSS__  -DCPP_MEMORY -DRS97 -DUSB_TTY
+
+CXXFLAGS:=	$(CFLAGS) -std=gnu++03
+
+EXTENSION:= dge
+
+LIBS	:=  -lSDL -lpthread 
+LIBDIRS	:=	$(DEKVIT)/usr/lib
