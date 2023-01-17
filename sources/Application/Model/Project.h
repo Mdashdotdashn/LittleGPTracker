@@ -17,7 +17,7 @@
 
 #define PROJECT_NUMBER "1.3"
 #define PROJECT_RELEASE "o"
-#define BUILD_COUNT "alpha-2"
+#define BUILD_COUNT "alpha-4"
 
 #define MAX_TAP 3
 

@@ -45,4 +45,3 @@
 	    install in /opt/ and run relocate-sdk.sh from there
 	Build with:
 		make PLATFORM=RS97
-
