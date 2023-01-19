@@ -45,3 +45,7 @@
 	    install in /opt/ and run relocate-sdk.sh from there
 	Build with:
 		make PLATFORM=RS97
+
+##### STEAMDECK: Compile in "scout" docker
+	docker run -v /lgpt/repo/path/LittleGPTracker:/LGPT -it registry.gitlab.steamos.cloud/steamrt/scout/sdk/i386:latest bash
+	cd LGPT/projects && make PLATFORM=STEAM

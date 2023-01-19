@@ -79,6 +79,22 @@ RASPIDIRS :=                      ../sources/Adapters/Unix/FileSystem \
                                 ../sources/Adapters/SDL/Timer\
                                 ../sources/Adapters/SDL/GUI
 
+STEAMDIRS 	:=	../sources/Adapters/Unix/FileSystem \
+				../sources/Adapters/DEB/Main\
+				../sources/Adapters/Unix/Process\
+				../sources/System/Process\
+				../sources/Externals/RTAudio\
+				../sources/Externals/RtMidi\
+				../sources/Adapters/DEB/System\
+				../sources/Adapters/Jack/Audio\
+				../sources/Adapters/Jack/Midi\
+				../sources/Adapters/Jack/Client\
+				../sources/Adapters/Jack/Midi\
+				../sources/Adapters/RTAudio\
+				../sources/Adapters/RTMidi\
+				../sources/Adapters/SDL/Timer\
+				../sources/Adapters/SDL/GUI
+
 GP2XDIRS	:=    . \
 				../sources/Adapters/GP2X/Main \
 				../sources/Adapters/GP2X/FileSystem \
@@ -326,6 +342,26 @@ RASPIFILES                :=      UnixFileSystem.o \
                                         JackClient.o \
                                         JackAudio.o 
 
+STEAMFILES		:=  UnixFileSystem.o \
+					DEBmain.o \
+					DEBSystem.o \
+					GUIFactory.o \
+					SDLGUIWindowImp.o \
+					SDLEventManager.o \
+					Process.o \
+					UnixProcess.o \
+					RTAudioDriver.o \
+					RTAudioStub.o \
+					RtAudio.o\
+					RtMidi.o\
+					RTMidiService.o\
+					RTMidiOutDevice.o\
+					RTMidiInDevice.o\
+					SDLTimer.o \
+					JackAudioDriver.o \
+					JackClient.o \
+					JackAudio.o
+
 NDSFILES		:=	NDSmain.o \
 					NDSFileSystem.o \
 					DummyMidi.o \
@@ -374,7 +410,7 @@ CAANOOFILES		:=	CAANOOSDLMain.o \
 					SDLTimer.o \
 					GUIFactory.o SDLEventManager.o SDLGUIWindowImp.o 
 
-					COMMONFILES		:=	Logger.o Trace.o Result.o Status.o Config.o \
+COMMONFILES		:=	Logger.o Trace.o Result.o Status.o Config.o \
 					Timer.o FileSystem.o \
 					SysMutex.o TimeService.o \
 					MidiOutDevice.o MidiInDevice.o MidiService.o Groove.o \
@@ -532,11 +568,11 @@ endif
 #---------------------------------------------------------------------------------------
 
 # Make as many as possible
-# Copy over rpi and build w32 first
+# Build W32 first
 deploy:
-	~/docker_686.sh
 	make PLATFORM=PSP
-#	~/docker_pi.sh		# set up and edit prefix linux-gnueabi in RASPI makefile
-#	~/docker_arch.sh	# Investigate SteamOS builds closer
-	~/lgpt_package.sh	
-        
+	~/docker_steam.sh 
+	~/docker_deb686.sh 
+	~/lgpt_package.sh 
+#	~/build_and_copy_from_pi.sh
+	~/lgpt_package.sh	        

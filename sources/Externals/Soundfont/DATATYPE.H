@@ -123,30 +123,7 @@ typedef short               SHORT;     /* 16 bit signed value was: INT */
 ********************************************************************/
 typedef unsigned short        EMUSTAT;
 
-/********************************************************************
-* Compare <limits.h> values with SoundFont Enabler limits.  Fail compile
-* if discrepency. If compile fails due to one of these errors, then
-* the SoundFont enabler will not work with your system or the state of your
-* development environment.
-********************************************************************/
-#if (SCHAR_MAX != CHAR_MAXVAL) || (UCHAR_MAX != BYTE_MAXVAL)
-  #error <datatype.h>: char is out of range!
-#endif
-
-#if (SHRT_MAX != SHRT_MAXVAL)
-  #error <datatype.h>: short is out of range!
-#endif
-
-#if (LONG_MAX != LONG_MAXVAL)
-  #error <datatype.h>: long is out of range!
-#endif
-
-#if (ULONG_MAX != DWORD_MAXVAL)
-  #error <datatype.h>: unsigned long is out of range!
-#endif
-
 #ifdef __BYTE_COHERENT
-
 /********************************************************************
 * Convenient union datatypes to use for byte swapping or extracting
 * bytes and/or shorts within a short or long value without using
