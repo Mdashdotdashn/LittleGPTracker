@@ -222,6 +222,7 @@ bool SampleInstrument::Start(int channel,unsigned char midinote,bool cleanstart)
 	 switch (loopmode) {
 		 case SILM_ONESHOT:
 		 case SILM_LOOP:
+		 case SILM_LOOP_PINGPONG:
 
 			// Compute speed factor
 			// if instrument sampled below 44.1Khz, should
@@ -231,7 +232,7 @@ bool SampleInstrument::Start(int channel,unsigned char midinote,bool cleanstart)
       rp->position_= float(rp->rendFirst_); 
 			rp->baseSpeed_=fl2fp(source_->GetSampleRate(rp->midiNote_)/driverRate) ;
 			rp->reverse_=(rp->rendLoopEnd_<rp->position_) ;
-      
+
 			break ;
 
 		case SILM_OSC:
@@ -413,6 +414,7 @@ void SampleInstrument::updateFeedback(renderParams *rp) {
 		switch(loopMode) {
 			case SILM_ONESHOT:
 			case SILM_LOOP:
+			case SILM_LOOP_PINGPONG:
 			case SILM_SLICE:
 			case SILM_LOOPSYNC:
 				rp->feedbackMode_=FB_ADD ;
@@ -644,7 +646,7 @@ bool SampleInstrument::Render(int channel,fixed *buffer,int size,bool updateTick
 
 			// look where we are, if we need to
 
-			if (!rpReverse) {
+			if (!rpReverse) { //Looping forward 
 				if (input>=lastSample/*-((loopMode==SILM_OSCFINE)?1:0)*/) {
 					switch(loopMode) {
 						case SILM_ONESHOT:
@@ -662,6 +664,14 @@ bool SampleInstrument::Render(int channel,fixed *buffer,int size,bool updateTick
 								fpSpeed=rp->speed_ ; 
 							}
 							break ;
+						case SILM_LOOP_PINGPONG:
+							if (rp->position_ >= rp->rendLoopEnd_) {
+							// if (loopPosition >= lastSample) {
+								rpReverse = !rpReverse;
+								fpSpeed = -fpSpeed;
+								rp->couldClick_=SHOULD_KILL_CLICKS ;
+							}
+							break;
 /*						case SILM_OSCFINE:
 						{
 							int offset=(input-lastSample)/channelCount ;
@@ -680,7 +690,7 @@ bool SampleInstrument::Render(int channel,fixed *buffer,int size,bool updateTick
 							break ;
 					} ;
 				}
-			} else {
+			} else { // Looping backward
 				if (input<lastSample) {
 					switch(loopMode) {
 						case SILM_ONESHOT:
@@ -698,6 +708,21 @@ bool SampleInstrument::Render(int channel,fixed *buffer,int size,bool updateTick
 								fpSpeed=rp->speed_ ; 
 							}
 							break ;
+						case SILM_LOOP_PINGPONG:
+							if (rp->position_ <= rp->rendLoopStart_) {
+								rpReverse = !rpReverse;
+								fpSpeed = -fpSpeed;
+								// if (rp->rendLoopEnd_<rp->position_) { // Doesn't work
+								// 	input=loopPosition ; // Only this breaks backwards loop
+								// } else {
+								// 	input=lastSample+100; // ???
+								// }
+								input=loopPosition ; // OK forward loop, regular backwards loop, 
+								// input=(short*)fpPos ; // Nope illegal
+								// input=lastSample ; // First loop OK, the rest broken
+								rp->couldClick_=SHOULD_KILL_CLICKS;
+							}
+							break;
 /*						case SILM_OSCFINE:
 						{
 							int offset=(lastSample-input)/channelCount ;

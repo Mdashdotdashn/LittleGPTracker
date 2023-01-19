@@ -182,7 +182,7 @@ void Path::Alias::SetPath(const char *path) {
 
 int FileSystemService::Copy(const Path &src,const Path &dst)
 {
-  int  bufsize=4096;
+  const int bufsize=4096;
   char buffer[bufsize];
   int  count=0;
   int  nbwrite=-1;

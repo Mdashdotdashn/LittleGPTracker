@@ -531,10 +531,12 @@ $(OUTPUT).beagle-exe	:	$(OFILES)
 endif
 #---------------------------------------------------------------------------------------
 
-
+# Make as many as possible
+# Copy over rpi and build w32 first
 deploy:
-	../scripts/deployW32.sh 
-	../scripts/deployGP2X.sh 
-	../scripts/deployGP32.sh 
-	../scripts/deployOSX.sh 
+	~/docker_686.sh
+	make PLATFORM=PSP
+#	~/docker_pi.sh		# set up and edit prefix linux-gnueabi in RASPI makefile
+#	~/docker_arch.sh	# Investigate SteamOS builds closer
+	~/lgpt_package.sh	
         
