@@ -148,8 +148,8 @@ void InstrumentView::fillSampleParameters() {
 	T_SimpleList<UIField>::Insert(f1) ;
 
 	position._y+=1 ;
-	v=instrument->FindVariable(SIP_FILTATTN) ;
-	f1=new UIIntVarField(position,*v,"attn: %d [%2.2X]",1,0x7F,1,0x10) ;
+	v=instrument->FindVariable(SIP_ATTENUATE) ;
+	f1=new UIIntVarField(position,*v,"attenuate: %d [%2.2X]",1,0xFF,1,0x10) ;
 	T_SimpleList<UIField>::Insert(f1) ;
 
 	position._y+=1 ;

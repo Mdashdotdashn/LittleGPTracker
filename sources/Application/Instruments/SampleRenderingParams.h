@@ -53,7 +53,7 @@ struct renderParams {
 	FeedbackMode feedbackMode_ ;
 	unsigned char crush_ ; // crush
 	unsigned char drive_ ; // crush drive
-	fixed filterAttenuate_ ; // filter attenuate
+	fixed attenuate_ ; // filter attenuate
 
 	unsigned char downsample_ ; // downsampling
 
