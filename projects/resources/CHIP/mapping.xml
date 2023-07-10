@@ -1,0 +1,38 @@
+<MAPPINGS>
+<!--
+        <KEY_DOWN value="key:0:down" />
+
+    EXAMPLE
+    maps the button "8" to left shoulder
+    maps the button "6" to right shoulder
+    enable DUMPEVENT to help with mapping
+        <MAP src="but:0:8" dst="/event/rshoulder" />
+        <MAP src="but:0:6" dst="/event/lshoulder" />
+-->
+<!--
+Macro 1
+        Stop Phrase (Selected phrase cue stop)
+-->
+        <MAP src="key:0:escape" dst="/event/rshoulder" />
+        <MAP src="key:0:escape" dst="/event/start" />
+<!--
+Macro 2
+        Queue Phrases (Current row Phrases cue play)
+-->
+        <MAP src="key:0:return" dst="/event/lshoulder" />
+        <MAP src="key:0:return" dst="/event/start" />
+<!--
+Macro 3
+        Solo phrase (hold to solo, release to unsolo)
+        Warning: will do weirdness if combined with other buttons! Use with caution ;)
+-->
+        <MAP src="key:0:s" dst="/event/a" />
+        <MAP src="key:0:s" dst="/event/rshoulder" />
+<!--
+Macro 4
+        Mute phrase (hold to mute, release to unmute)
+        Warning: will do weirdness if combined with other buttons! Use with caution ;)
+-->
+        <MAP src="key:0:m" dst="/event/b" />
+        <MAP src="key:0:m" dst="/event/rshoulder" />
+</MAPPINGS>

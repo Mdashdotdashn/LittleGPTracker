@@ -1,0 +1,26 @@
+<!-- CONFIG-CHIP.xml-->
+<CONFIG>
+	<KEY_A value="key:0:backspace" />
+	<KEY_B value="key:0:[-]" />
+	<KEY_LEFT value="key:0:left" />
+	<KEY_RIGHT value="key:0:right" />
+	<KEY_UP value="key:0:up" />
+	<KEY_DOWN value="key:0:down" />
+	<KEY_LSHOULDER value="key:0:1" />
+	<KEY_RSHOULDER value="key:0:9" />
+	<KEY_START value="space" />
+	
+	<FULLSCREEN value='YES'/>
+	<DUMPEVENT value='YES'/>
+    <!-- use if you want to put your tracks somewhere special
+            Must be absolute path
+    <ROOTFOLDER value="/home/chip/lgpt/"/>
+    -->
+    <!-- Useful if you don't want to clone your samplelib
+            Must be absolute path
+    <SAMPLELIB value="/home/chip/lgpt/"/>
+    -->
+    <!-- Uncomment to render
+    <RENDER value="FILE" />
+    -->
+</CONFIG>

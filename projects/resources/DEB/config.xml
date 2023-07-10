@@ -1,0 +1,24 @@
+<CONFIG>
+	<DUMPEVENT value="YES"/>
+	<SCREENMULT value="2"/> <!-- increase screen size -->
+<!--
+	<BACKGROUND value="313131" />
+	<FOREGROUND value="7f7f31" />
+
+	<HICOLOR1 value="ff9900" /> <!-- row count in song screen -->
+	<HICOLOR2 value="cc7a00" /> <!-- cursor-->
+-->
+<!--
+	<KEY_A value="key:0:x"/>
+	<KEY_B value="key:0:z"/>
+	<KEY_LSHOULDER value="key:0:a" />
+	<KEY_RSHOULDER value="key:0:s" />
+
+	<KEY_UP value="key:0:up" />
+	<KEY_DOWN value="key:0:down" />
+	<KEY_LEFT value="key:0:left" />
+	<KEY_RIGHT value="key:0:right" />
+
+	<KEY_START value="key:0:return" />
+-->
+</CONFIG>
