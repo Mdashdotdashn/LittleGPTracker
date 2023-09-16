@@ -1,4 +1,8 @@
-include $(PWD)/deb_rules
+-include $(PWD)/rules_base
+LDFLAGS := -m32
+
+%.deb-exe: $(OFILES)
+	$(CXX) $(LDFLAGS) $@ $(OFILES) $(LIBS)
 
 CFLAGS	:= -m32 -O3 -DCPP_MEMORY -Wall -I/usr/local/include -I$(PWD)/../sources -D__LINUX_ALSA__ -D__LINUX_ALSASEQ__ -D_DEBUG
 LIBS	:=  -O3 -L/local/lib -Wl,-rpath,/usr/local/lib -lasound -lSDL -ljack -lpthread

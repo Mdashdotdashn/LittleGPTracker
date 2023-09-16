@@ -1,4 +1,5 @@
 #!/bin/bash
+cd $(git rev-parse --show-toplevel)/projects/
 BUILD="$(grep -oP 'BUILD_COUNT [^"]*"\K[^"]*' ../sources/Application/Model/Project.h)"
 VERSION=1.3o_$BUILD
 PACKAGE=LGPT-$VERSION.zip

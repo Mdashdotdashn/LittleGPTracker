@@ -1,6 +1,0 @@
--include $(PWD)/base_rules
-
-#---------------------------------------------------------------------------------
-%.app: $(OFILES)
-	$(CXX) $(LDFLAGS) -arch i386 -framework SDL -framework Cocoa -framework Carbon -o $@ $(OFILES) $(LIBS)
-	mv $@ ../lgpt

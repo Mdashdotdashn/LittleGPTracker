@@ -1,3 +1,9 @@
+-include $(PWD)/rules_base
+STRIP = arm-linux-strip
+
+%.gpe: $(OFILES)
+	$(CXX) -static $(LDFLAGS) -o $@ $(OFILES) $(LIBS)
+	@$(STRIP) $@
 
 DEVKITARM=/c/devkitGP2X
 
@@ -6,8 +12,6 @@ DEVKITPRO=$(DEVKITARM)/..
 TOOLPATH=$(DEVKITARM)/bin
 PREFIX		:=	arm-linux-
 SDL_BASE = C:/devkitGP2X/bin/arm-linux-
-
-include $(PWD)/gp2x_rules
 
 CFLAGS	:=	`$(SDL_BASE)sdl-config --cflags` -DNDEBUG -O2 -Wall -DCPP_MEMORY -DPLATFORM_$(PLATFORM) -I$(PWD)/../sources -D__LINUX_OSS__ 
 

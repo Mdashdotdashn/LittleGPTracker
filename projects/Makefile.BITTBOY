@@ -1,4 +1,22 @@
+-include $(PWD)/rules_base
+STRIP = $(CROSS_COMPILE)strip
+
+%.elf: $(OFILES)
+	$(CXX) $(LDFLAGS) -o $@ $(OFILES) $(LIBS)
+	@$(STRIP) $@
+
 DEVKIT=/opt/arm-buildroot-linux-musleabi_sdk-buildroot
+CROSS_COMPILE=$(DEVKIT)/bin/arm-buildroot-linux-musleabi-
+
+CC = $(CROSS_COMPILE)gcc
+CXX = $(CROSS_COMPILE)g++
+SYSROOT     := $(shell $(CROSS_COMPILE)gcc --print-sysroot)
+SDL_CFLAGS  := $(shell $(SYSROOT)/usr/bin/sdl-config --cflags)
+SDL_LIBS    := $(shell $(SYSROOT)/usr/bin/sdl-config --libs)
+
+DEFINES = -DHAVE_STDINT_H -D_NDEBUG -D_NO_JACK_ -I$(PWD)/../sources -D__LINUX_ALSA__ -DCPP_MEMORY $(SDL_CFLAGS) $(SDL_LIBS) -DBUFFERED
+INCLUDES = -Iinclude $(SDL_CFLAGS)
+OPT_FLAGS  = -O3 -Ofast
 
 TARGET = lgpt.elf
 
@@ -6,13 +24,11 @@ TOOLPATH=$(DEVKIT)/usr/bin
 PREFIX		:=	arm-linux-
 SDL_BASE = $(DEVKIT)/arm-buildroot-linux-musleabi/sysroot/usr/bin/
 
-include $(PWD)/bittboy_rules
-
-CFLAGS	:=	`$(SDL_BASE)sdl-config --cflags` -O3 -D_NDEBUG -D_NO_JACK_ -Wall -DPLATFORM_DINGOO -I$(PWD)/../sources -D__LINUX_ALSA__  -DCPP_MEMORY -DRS97
+CFLAGS	:=	$(DEFINES) $(INCLUDES) $(OPT_FLAGS) -Wall -DRS97
 
 CXXFLAGS:=	$(CFLAGS) -std=gnu++03
 
 EXTENSION:= elf
 
-LIBS	:=  -lSDL -lasound -lpthread 
+LIBS	:=  -lSDL -lSDL_mixer -lasound -lpthread
 LIBDIRS	:=	$(DEKVIT)/usr/lib

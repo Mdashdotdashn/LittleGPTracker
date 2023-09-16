@@ -1,4 +1,4 @@
--include $(DEVKITARM)/base_rules
+-include $(DEVKITARM)/rules_base
 
 LIBMIRKO	:=	$(DEVKITPRO)/libmirko
 

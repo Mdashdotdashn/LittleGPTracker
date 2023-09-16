@@ -1,11 +1,15 @@
+-include $(PWD)/rules_base
+STRIP = ls
+
+%.dge: $(OFILES)
+	$(CXX) $(LDFLAGS) -o $@ $(OFILES) $(LIBS)
+	@$(STRIP) $@
 
 DEVKIT=/opt/mipsel-linux-uclibc
 
 TOOLPATH=$(DEVKIT)/usr/bin
 PREFIX		:=	mipsel-linux-
 SDL_BASE = /opt/mipsel-linux-uclibc/usr/bin/
-
-include $(PWD)/dingoo_rules
 
 CFLAGS	:=	`$(SDL_BASE)sdl-config --cflags` -O3 -D_DEBUG -Wall -DPLATFORM_$(PLATFORM) -I$(PWD)/../sources -D__LINUX_ALSA__  -DCPP_MEMORY
 

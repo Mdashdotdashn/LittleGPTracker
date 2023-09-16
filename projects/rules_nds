@@ -2,7 +2,7 @@ ifeq ($(strip $(DEVKITPRO)),)
 $(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>devkitPro)
 endif
 
-include $(DEVKITARM)/base_rules
+include $(DEVKITARM)/rules_base
 
 LIBNDS	:=	$(DEVKITPRO)/libnds
 

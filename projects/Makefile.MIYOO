@@ -1,3 +1,10 @@
+-include $(PWD)/rules_base
+STRIP = $(CROSS_COMPILE)strip
+
+%.elf: $(OFILES)
+	$(CXX) $(LDFLAGS) -o $@ $(OFILES) $(LIBS)
+	@$(STRIP) $@
+
 DEVKIT = /opt/miyoomini-toolchain/
 CROSS_COMPILE=$(DEVKIT)bin/arm-linux-gnueabihf-
 
@@ -15,8 +22,6 @@ TARGET = lgpt.elf
 
 TOOLPATH=$(DEVKIT)/usr/bin
 PREFIX		:=	arm-linux-gnueabihf-
-
-include $(PWD)/miyoo_rules
 
 CFLAGS	:=	$(DEFINES) $(INCLUDES) $(OPT_FLAGS) -Wall  
 CXXFLAGS:=	$(CFLAGS) -std=gnu++03 

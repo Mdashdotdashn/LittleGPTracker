@@ -1,7 +1,0 @@
--include $(PWD)/base_rules
-LDFLAGS := -m32
-
-#---------------------------------------------------------------------------------
-%.deb-exe: $(OFILES)
-	$(CXX) $(LDFLAGS) $@ $(OFILES) $(LIBS)
-

@@ -1,12 +1,15 @@
+-include $(PWD)/rules_base
+
+TARGET=lgpt
+
+export OBJS:=$(OFILES)
+
 TARGET = lgpt
 
 EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = LittleGPTracker
 PSP_EBOOT_ICON = $(PWD)/psp_icon.png
-PSP_EBOOT_ICON1 = $(PWD)/lgpt_icon.bmp
 PSP_EBOOT_PIC1 = $(PWD)/psp_bg.png
-
-include $(PWD)/psp_rules
 
 PSPSDK=$(shell $(PSPDEV)/bin/psp-config --pspsdk-path)
 PSPBIN = $(PSPSDK)/../bin

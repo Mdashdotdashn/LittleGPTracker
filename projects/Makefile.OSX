@@ -1,5 +1,8 @@
+-include $(PWD)/rules_base
 
-include $(PWD)/osx_rules
+%.app: $(OFILES)
+	$(CXX) $(LDFLAGS) -arch i386 -framework SDL -framework Cocoa -framework Carbon -o $@ $(OFILES) $(LIBS)
+	mv $@ ../lgpt
 
 CFLAGS	:= -O3 -Wall -I$(PWD) -I/Library/Frameworks/SDL.framework/Headers 
 
