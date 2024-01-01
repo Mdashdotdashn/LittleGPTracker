@@ -101,7 +101,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="../bin"
+			OutputDirectory="buildW32/"
 			IntermediateDirectory="../build/Release"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
@@ -146,7 +146,7 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/fixed:no"
 				AdditionalDependencies="sdlmain-release.lib  sdl-release.lib winmm.lib dsound.lib"
-				OutputFile="$(OutDir)/lgpt.exe"
+				OutputFile="$(OutDir)/lgpt-W32.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="../libs/WSDL"
 				GenerateManifest="false"

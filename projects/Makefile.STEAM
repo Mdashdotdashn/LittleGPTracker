@@ -3,10 +3,14 @@
 %.steam-exe: $(OFILES)
 	$(CXX) -o $(LDFLAGS) $@ $(OFILES) $(LIBS)
 
-CFLAGS	:= -O3 -DCPP_MEMORY -Wall -I/usr/local/include -I$(PWD)/../sources -D__LINUX_ALSA__ -D__LINUX_ALSASEQ__ -D_DEBUG
+SYSROOT     := $(shell gcc --print-sysroot)
+SDL_CFLAGS  := $(shell $(SYSROOT)/usr/bin/sdl-config --cflags)
+SDL_LIBS    := $(shell $(SYSROOT)/usr/bin/sdl-config --libs)
+
+CFLAGS	:= -O3 -D_NO_JACK_ -DCPP_MEMORY -Wall -I/usr/local/include -I$(PWD)/../sources -D__LINUX_ALSA__ -D__LINUX_ALSASEQ__ $(SDL_CFLAGS) $(SDL_LIBS)
  
 CXXFLAGS:= $(CFLAGS)
 
 EXTENSION:= steam-exe
 
-LIBS	:=  -O3 -L/local/lib -Wl,-rpath,/usr/local/lib -lasound -lSDL -ljack -lpthread
+LIBS	:=  -O3 -L/local/lib -Wl,-rpath,/usr/local/lib -lasound -lSDL -lSDL_mixer -lpthread

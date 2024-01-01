@@ -602,7 +602,7 @@ deploy:
 	make PLATFORM=RS97
 	make PLATFORM=BITTBOY
 	make PLATFORM=MIYOO
-	./resources/packaging/docker_steam.sh
+#	./resources/packaging/docker_steam.sh
 	./resources/packaging/build_and_copy_from_pi.sh
 	./resources/packaging/build_and_copy_from_chip.sh
 	./resources/packaging/lgpt_package.sh

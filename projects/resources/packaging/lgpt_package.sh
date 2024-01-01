@@ -28,10 +28,12 @@ collect_resources() { #1PLATFORM #2lgpt.*-exe
   zip -9 ../../$PACKAGE $CONTENTS && cd -
 }
 
-rm -f buildPSP/lgpt.elf
 collect_resources PSP EBOOT.PBP
 collect_resources DEB lgpt.deb-exe
-collect_resources STEAM lgpt.steam-exe
 collect_resources RS97 lgpt.dge
-collect_resources BITTBOY lgpt.elf
-collect_resources W32 lgpt.exe
+collect_resources BITTBOY lgpt-bittboy.elf
+collect_resources MIYOO lgpt-miyoo.elf
+# collect_resources STEAM lgpt.steam-exe
+collect_resources W32 lgpt-W32.exe
+collect_resources RASPI lgpt.rpi-exe
+collect_resources CHIP lgpt.chip-exe

@@ -1,20 +1,40 @@
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-DISCLAIMER
+NOTE!
 This build is derivative of the work of the original 
 author m-.-n aka Marc Nostromo. The original work and 
 releasing the source code has laid the foundation for
-everything included below.
+everything included in this package.
 
-This build should be considered an alpha and should not
-currently be considered to replace your daily driver.
-Although implemented features have been tested,
-there's no guarantee a project won't crash.
-All implemented features so far have been
-tested not to break old projects but make backups
-of your old cherished work nonetheless <3
+This build can be considered beta and has thus been tested
+extensively. Please report any issues you could find
+via Github:
+    https://github.com/djdiskmachine/LittleGPTracker/issues
+
+All implemented features have been tested not to break old
+projects but make sure to backup your old cherished work
+just to be safe <3
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-Changelog Jan 19 2023
+Changelog Jan 1 2024
+1.3o-beta-1
+    Pingpong loop now stable
+        Courtesy of djdiskmachine 
+
+    Add ability to change font
+    USAGE: ./mkfont.py FONT_BMP [OUTPUT_FILE]
+    FONT_BMP must be a black/white (#000000, #FFFFFF) 128x64px bmp
+    if OUTPUT_FILE is omitted, will print to stdout
+        Courtesy of subnixr 
+
+    Adds Miyoo mini build
+        Courtesy of Nine-H
+
+    Changes filter attenuation to attenuation
+    Adjust volume post scream filter 
+    https://github.com/Mdashdotdashn/LittleGPTracker/issues/22
+
+    Missing wiki content dumped to repo
+        Courtesy of Peter Swimm 
 
 1.3o-alpha-5
     Adds native SteamOS build

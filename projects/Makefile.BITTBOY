@@ -18,7 +18,7 @@ DEFINES = -DHAVE_STDINT_H -D_NDEBUG -D_NO_JACK_ -I$(PWD)/../sources -D__LINUX_AL
 INCLUDES = -Iinclude $(SDL_CFLAGS)
 OPT_FLAGS  = -O3 -Ofast
 
-TARGET = lgpt.elf
+OUTPUT = ../lgpt-bittboy
 
 TOOLPATH=$(DEVKIT)/usr/bin
 PREFIX		:=	arm-linux-
