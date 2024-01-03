@@ -23,6 +23,8 @@ protected:
 	void preview(Path &element) ;
 	void endPreview() ;
 private:
+	Path *getImportElement();
+	void setCurrent(Path *element, unsigned short mask);
 	T_SimpleList<Path> sampleList_ ;
 	int currentSample_ ;
 	int topIndex_ ;
