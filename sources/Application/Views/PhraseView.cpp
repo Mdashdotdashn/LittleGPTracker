@@ -4,6 +4,7 @@
 #include "Application/Instruments/CommandList.h"
 #include "UIController.h"
 #include "Application/Model/Table.h"
+#include "Application/Utils/HelpLegend.h"
 #include <string.h>
 #include <stdlib.h>
  
@@ -138,6 +139,7 @@ void PhraseView::updateCursorValue(ViewUpdateDirection direction,int xOffset,int
 					break ;
 			}
 			lastCmd_=*cc ;
+			//Set legend
 			break ;
 
 		case 3:
@@ -1024,7 +1026,7 @@ void PhraseView::DrawView() {
 		} else {
 			hex2char(d,buffer+1) ;
 			DrawString(pos._x,pos._y,buffer,props) ;
-   			if (j==row_) {
+   			if (j==row_ && (col_ == 0 || col_ == 1)) {
                 sprintf(buffer,"I%2.2x: ",d) ;
 				std::string instrLine=buffer ;
                 setTextProps(props,1,j,true) ;
@@ -1056,6 +1058,9 @@ void PhraseView::DrawView() {
 		DrawString(pos._x,pos._y,buffer,props) ;
         setTextProps(props,2,j,true) ;
 		pos._y++ ;
+		if (j == row_ && (col_ == 2 || col_ == 3)) {
+	    	printHelpLegend(buffer, props);
+		}
 	}
 
 
@@ -1096,6 +1101,9 @@ void PhraseView::DrawView() {
 		DrawString(pos._x,pos._y,buffer,props) ;
         setTextProps(props,4,j,true) ;
 		pos._y++ ;
+		if (j == row_ &&(col_ == 4 || col_ == 5)) {
+    		printHelpLegend(buffer, props);
+		}
 	}
 
 // Draw commands params
@@ -1205,3 +1213,10 @@ void PhraseView::OnPlayerUpdate(PlayerEventType eventType,unsigned int tick) {
     }
 */
 } ;
+
+void PhraseView::printHelpLegend(char *buffer, GUITextProperties props) {
+  auto cmdstr = getHelpLegend(buffer);
+  DrawString(10, 0, cmdstr[0].c_str(), props);
+  DrawString(10, 1, cmdstr[1].c_str(), props);
+  DrawString(10, 2, cmdstr[2].c_str(), props);
+}
