@@ -19,6 +19,7 @@
 #define PROJECT_RELEASE "o"
 #define BUILD_COUNT "-1"
 
+
 #define MAX_TAP 3
 
 class Project: public Persistent,public VariableContainer,I_Observer  {
